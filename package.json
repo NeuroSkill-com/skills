@@ -1,0 +1,48 @@
+{
+  "name": "neuroskill-skills",
+  "version": "1.0.0",
+  "description": "NeuroSkill EEG skills for NeuroLoop — contextual knowledge for the NeuroSkill API, covering status, neurological indices, sessions, sleep, search, labels, streaming, protocols, and 70+ mind-body interventions.",
+  "license": "AI100",
+  "files": [
+    "skills/",
+    "SKILL.md",
+    "METRICS.md",
+    "README.md"
+  ],
+  "keywords": [
+    "skills",
+    "agent-skills",
+    "ai-agents",
+    "neuroskill",
+    "neuroloop",
+    "eeg",
+    "muse",
+    "openBCI",
+    "brainwave",
+    "biometric",
+    "neuro",
+    "hrv",
+    "sleep",
+    "focus",
+    "meditation",
+    "cognitive-load",
+    "pi",
+    "claude-code",
+    "cursor",
+    "windsurf",
+    "cline",
+    "continue",
+    "universal"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NeuroSkill-com/skill.git"
+  },
+  "homepage": "https://github.com/NeuroSkill-com/skill#readme",
+  "bugs": {
+    "url": "https://github.com/NeuroSkill-com/skill/issues"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
