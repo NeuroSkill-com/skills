@@ -1,5 +1,5 @@
 {
-  "name": "neuroskill-skills",
+  "name": "neuroskills",
   "version": "1.0.0",
   "description": "NeuroSkill EEG skills for NeuroLoop — contextual knowledge for the NeuroSkill API, covering status, neurological indices, sessions, sleep, search, labels, streaming, protocols, and 70+ mind-body interventions.",
   "license": "AI100",
