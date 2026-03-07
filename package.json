@@ -1,8 +1,15 @@
 {
   "name": "neuroskills",
   "version": "1.0.0",
-  "description": "NeuroSkill EEG skills for NeuroLoop — contextual knowledge for the NeuroSkill API, covering status, neurological indices, sessions, sleep, search, labels, streaming, protocols, and 70+ mind-body interventions.",
+  "description": "NeuroSkill EXG skills for NeuroLoop — contextual knowledge for the NeuroSkill API, covering status, neurological indices, sessions, sleep, search, labels, streaming, protocols, and 70+ mind-body interventions.",
   "license": "AI100",
+  "author": "NeuroSkill team (https://neuroskill.com)",
+  "repository": "https://github.com/NeuroSkill-com/skills",
+  "homepage": "https://neuroskill.com",
+  "contributors": [
+    "Nataliya Kosmyna <nkosmyna@mit.edu>",
+    "Eugene Hauptmann <eugenehp@mit.edu>"
+  ],
   "files": [
     "skills/",
     "SKILL.md",
