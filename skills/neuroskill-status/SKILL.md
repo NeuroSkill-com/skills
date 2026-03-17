@@ -1,12 +1,25 @@
 ---
 name: neuroskill-status
-description: NeuroSkill `status` command — full system snapshot including device state, signal quality, EEG scores, band powers, ratios, embeddings, labels, sleep summary, and recording history. Use when checking current EEG state, device connection, or session metadata.
+description: NeuroSkill `status` command — full system snapshot including device state, signal quality, EEG scores, band powers, ratios, embeddings, labels, hooks summary, sleep summary, and recording history. Use when checking current EEG state, device connection, or session metadata.
 ---
 
 # NeuroSkill `status` Command
 
 Full snapshot: device state, session, signal quality, scores, bands, embeddings, labels,
-sleep summary, and recording history.
+hooks (with latest trigger), sleep summary, and recording history.
+
+## Supported Devices
+
+| Device | Channels | Sample Rate | Connection |
+|---|---|---|---|
+| **Muse** (S, 2, 2016) | 4 (TP9, AF7, AF8, TP10) | 256 Hz | BLE |
+| **OpenBCI Ganglion** | 4 | 200 Hz | BLE |
+| **Neurable MW75 Neuro** | 12 | 500 Hz | BLE + RFCOMM |
+| **Hermes V1** | 8 (Fp1, Fp2, AF3, AF4, F3, F4, FC1, FC2) | 250 Hz | BLE GATT |
+
+The DSP pipeline dynamically scales to the active channel count (4, 8, or 12).
+
+---
 
 ```bash
 npx neuroskill status
@@ -17,6 +30,8 @@ npx neuroskill status --json | jq '.device.battery'
 npx neuroskill status --json | jq '.signal_quality'
 npx neuroskill status --json | jq '.sleep'
 npx neuroskill status --json | jq '.history.current_streak_days'
+npx neuroskill status --json | jq '.hooks'
+npx neuroskill status --json | jq '.hooks.latest_trigger'
 
 # Poll every N seconds (keeps connection open, re-prints a fresh snapshot each time):
 npx neuroskill status --poll 5              # refresh every 5 s
@@ -40,12 +55,13 @@ curl -s -X POST http://127.0.0.1:8375/ \
   "ok": true,
   "device": {
     "state": "connected",          // "connected" | "connecting" | "disconnected"
-    "name": "Muse-A1B2",
+    "name": "Muse-A1B2",          // or "MW75-Neuro-XXXX", "Hermes-XXXX", "Ganglion-XXXX"
     "battery": 73,                 // percent
     "firmware": "1.3.4",
-    "eeg_samples": 195840,
-    "ppg_samples": 30600,
-    "imu_samples": 122400
+    "eeg_samples": 195840,         // cumulative samples this run
+    "ppg_samples": 30600,          // Muse only (PPG sensor)
+    "imu_samples": 122400,
+    "eeg_channels": 4              // 4 (Muse/Ganglion), 8 (Hermes), or 12 (MW75)
   },
   "session": {
     "start_utc": 1740412800,       // Unix seconds (UTC)
@@ -53,7 +69,9 @@ curl -s -X POST http://127.0.0.1:8375/ \
     "n_epochs": 369                // 5-second embedding epochs computed so far
   },
   "signal_quality": {
-    "tp9": 0.95,                   // 0–1; ≥0.9 = good, ≥0.7 = acceptable
+    // Keys vary by device — Muse: tp9/af7/af8/tp10; Hermes: fp1/fp2/af3/af4/f3/f4/fc1/fc2
+    // MW75: ft7/t7/tp7/cp5/p7/c5/ft8/t8/tp8/cp6/p8/c6
+    "tp9": 0.95,                   // 0–1; >=0.9 = good, >=0.7 = acceptable
     "af7": 0.88,
     "af8": 0.91,
     "tp10": 0.97
@@ -70,7 +88,7 @@ curl -s -X POST http://127.0.0.1:8375/ \
     "hr": 68.2,                    // bpm (from PPG)
     "snr": 14.3,                   // signal-to-noise ratio in dB
     "stillness": 0.88,             // 0–1; 1 = perfectly still
-    // Band powers (relative, sum ≈ 1):
+    // Band powers (relative, sum ~ 1):
     "bands": {
       "rel_delta": 0.28,
       "rel_theta": 0.18,
@@ -108,6 +126,17 @@ curl -s -X POST http://127.0.0.1:8375/ \
     "rem_epochs": 112,
     "epoch_secs": 5
   },
+  "hooks": {
+    "total": 3,                    // total configured hooks
+    "enabled": 2,                  // how many are enabled
+    "latest_trigger": {            // most recent trigger across all hooks (null if never)
+      "hook": "Deep Work Guard",   // hook name that fired
+      "triggered_at_utc": 1740413100,
+      "distance": 0.0892,          // cosine distance to matched reference
+      "label_id": 7,
+      "label_text": "focused reading session"
+    }
+  },
   "history": {
     "total_sessions": 63,
     "recording_days": 31,
@@ -125,13 +154,15 @@ curl -s -X POST http://127.0.0.1:8375/ \
 
 | Hidden field | Type | Contents |
 |---|---|---|
-| `scores.faa`, `scores.tar`, `scores.bar` … | numbers | EEG ratios and spectral indices not surfaced in the default summary |
+| `scores.faa`, `scores.tar`, `scores.bar` ... | numbers | EEG ratios and spectral indices not surfaced in the default summary |
 | `calibration.actions[]` | array | Full ordered list of calibration step objects |
 | `labels.recent[]` | array | Full label objects; summary only prints text + timestamp |
+| `hooks.latest_trigger` | object | Most recent hook trigger: hook name, timestamp, distance, label_id, label_text |
 | `history.today_vs_avg` | object | Per-metric today-vs-7-day-avg comparison table |
 
 ```bash
 npx neuroskill status --json | jq '.history.today_vs_avg'
 npx neuroskill status --json | jq '.calibration.actions'
 npx neuroskill status --json | jq '.labels.recent'
+npx neuroskill status --json | jq '.hooks.latest_trigger'
 ```
