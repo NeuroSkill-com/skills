@@ -101,7 +101,7 @@ npx neuroskill sessions --json
 npx neuroskill sessions --json | jq '.sessions | length'
 npx neuroskill sessions --json | jq '.sessions[0]'
 npx neuroskill sessions --json | jq '[.sessions[] | {day, dur: (.end_utc - .start_utc)}]'
-npx neuroskill sessions --trends              # show per-session metric trends
+npx neuroskill sessions --trends              # show per-session metric trends (focus, relax, hr, bands inline)
 ```
 
 **HTTP:**

@@ -76,10 +76,19 @@ npx neuroskill llm chat "Compare these" --image session1.png --image session2.pn
 
 | Command | Effect |
 |---|---|
-| `/clear` | Clear conversation history (system prompt is kept) |
+| `/clear` | Clear conversation history and start a new session (system prompt is kept) |
 | `/history` | Print all messages in the current conversation |
+| `/image <path>` | Stage an image file for the next message (can repeat for multiple images) |
+| `/images` | Show count of currently staged images |
 | `/help` | Show REPL command help |
 | `exit` or `quit` | End the session |
+
+Image staging example inside the REPL:
+```
+You: /image eeg_plot.png
+  ✓ image staged: eeg_plot.png (1 pending)
+You: What anomalies do you see in this EEG trace?
+```
 
 ---
 
