@@ -167,3 +167,57 @@ npx neuroskill umap --json | jq '[.result.points[] | select(.label != null)]'  #
 > **Interpreting separation score:**
 > - `> 1.5` — sessions are neurally distinct (different brain states)
 > - `< 0.5` — similar brain state across both sessions
+
+---
+
+## `sleep-schedule` — Sleep Schedule Configuration
+
+View or update the sleep schedule used for session classification and sleep staging.
+
+```bash
+# Show current schedule:
+npx neuroskill sleep-schedule
+npx neuroskill sleep-schedule --json
+
+# Update with explicit times:
+npx neuroskill sleep-schedule set --bedtime 23:00 --wake 07:00
+
+# Apply a named preset:
+npx neuroskill sleep-schedule set --preset early_bird
+npx neuroskill sleep-schedule set --preset night_owl
+```
+
+### Available Presets
+
+| Preset | Bedtime | Wake | Duration |
+|---|---|---|---|
+| `default` | 23:00 | 07:00 | 8 h |
+| `early_bird` | 21:30 | 05:30 | 8 h |
+| `night_owl` | 01:00 | 09:00 | 8 h |
+| `short_sleeper` | 00:00 | 06:00 | 6 h |
+| `long_sleeper` | 22:00 | 08:00 | 10 h |
+
+### HTTP
+
+```bash
+# Get:
+curl -s -X POST http://127.0.0.1:8375/ \
+  -H "Content-Type: application/json" \
+  -d '{"command":"sleep_schedule"}'
+
+# Set:
+curl -s -X POST http://127.0.0.1:8375/ \
+  -H "Content-Type: application/json" \
+  -d '{"command":"sleep_schedule_set","bedtime":"23:00","wake_time":"07:00","preset":"default"}'
+```
+
+### JSON Response
+
+```jsonc
+{
+  "bedtime": "23:00",
+  "wake_time": "07:00",
+  "preset": "default",
+  "duration_minutes": 480
+}
+```
