@@ -48,6 +48,7 @@ when the user's message matches the skill's domain.
 
 | Skill | Loaded when | Description |
 |---|---|---|
+| [neuroskill-evidence](skills/neuroskill-evidence/SKILL.md) | any intervention, protocol, habit tracking, or "what works for me?" question | Implicit evidence collection and personal effectiveness engine — standardised `px:` label schema, automatic before/after measurement, outcome scoring, personal protocol ranking, life-event tracking, evidence-driven selection rules, and privacy safeguards. All other skills that deliver interventions MUST follow this skill's rules. |
 | [neuroskill-protocols](skills/neuroskill-protocols/SKILL.md) | protocol/exercise/routine intent detected | Full guided-protocol repertoire — 130+ mind-body practices with built-in personalisation engine for any age, culture, profession, ability, neurodivergence, and situation. Covers breathing, meditation, stress, sleep, somatic, emotions, music, eyes, morning/workout/hydration routines, dietary guidance, social-media addiction, non-breathing alternatives, and context-specific protocols for parents/caregivers, elders, teens/students, neurodivergent users, commuters, manual workers, healthcare/shift workers, intimate/relational, accessibility-adapted, culturally diverse practices, and situational micro-protocols. Loaded on-demand when the user asks for help, exercises, routines, or specific practices. |
 
 ---
