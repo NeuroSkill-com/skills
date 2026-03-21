@@ -70,6 +70,202 @@ The same EEG signal (high `bar`, high `stress_index`) might produce:
 
 ---
 
+## API INTEGRATION GUIDE
+
+*(The NeuroSkill API provides real-time EEG data, voice guidance, notifications, labels,
+timers, hooks, sleep staging, session comparison, and neural similarity search. Every
+protocol should leverage these tools to create a closed-loop, data-driven experience —
+not just deliver static instructions.)*
+
+### Protocol Lifecycle
+
+Every protocol has four phases. Use the API in each:
+
+```
+┌─────────────┐     ┌─────────────┐     ┌──────────────┐     ┌──────────────────┐
+│   BEFORE     │ ──→ │   DURING     │ ──→ │    AFTER      │ ──→ │   LONGITUDINAL    │
+│  Validate    │     │  Guide       │     │  Measure      │     │  Track & Trigger  │
+│  & Baseline  │     │  & Monitor   │     │  & Reflect    │     │  Across Sessions  │
+└─────────────┘     └─────────────┘     └──────────────┘     └──────────────────┘
+```
+
+### BEFORE — Validate Trigger & Baseline
+
+Before proposing or starting ANY protocol, check the live EEG state to confirm
+the trigger condition actually exists and capture a baseline.
+
+| Action | API Call | Purpose |
+|---|---|---|
+| **Check live state** | `{"command": "status"}` | Verify the metric trigger (e.g. confirm `bar` is actually high before offering Box Breathing) |
+| **Get session context** | `{"command": "sessions"}` | Know how long they've been recording, when the session started |
+| **Check signal quality** | `status → signal_quality` | Don't run a protocol if signal is poor (< 0.7) — recommend headband adjustment first |
+| **Baseline snapshot** | `status → scores` | Capture pre-protocol values of key metrics to compare after |
+| **Search for precedent** | `{"command": "search_labels", "args": {"query": "box breathing"}}` | Check if they've done this protocol before and how it went |
+| **Label the start** | `{"command": "label", "args": {"text": "protocol start: box breathing", "context": "bar=0.72, stress_index=68, trigger: high stress"}}` | Timestamp the protocol start with baseline metrics for later analysis |
+
+**Example — before starting Box Breathing:**
+```json
+// 1. Check if stress is actually elevated
+{"command": "status"}
+// → scores.bar = 0.72, scores.stress_index = 68 → confirmed, proceed
+
+// 2. Check if they've done this before
+{"command": "search_labels", "args": {"query": "box breathing", "k": 5}}
+// → 3 prior sessions found, average relaxation increase of +0.15 → mention this
+
+// 3. Label the start
+{"command": "label", "args": {"text": "protocol start: box breathing 4-4-4-4", "context": "bar=0.72, stress_index=68, relaxation=0.31"}}
+
+// 4. Start timer if timed protocol
+{"command": "timer"}
+```
+
+### DURING — Guide & Monitor
+
+Use voice, notifications, and real-time data to guide the protocol and provide
+live biofeedback.
+
+| Action | API Call | Purpose |
+|---|---|---|
+| **Voice guidance** | `{"command": "say", "args": {"text": "Inhale... 2... 3... 4..."}}` | Hands-free, eyes-closed guidance. Essential for breath, meditation, body scan protocols |
+| **Step notifications** | `{"command": "notify", "args": {"title": "Next step", "body": "Now exhale slowly for 8 counts"}}` | Visual cue for step transitions when voice is inappropriate |
+| **Real-time monitoring** | `{"command": "status"}` (poll every 30–60s) | Track metric changes mid-protocol. Adapt: "Your alpha just rose — whatever you're doing, keep going" |
+| **Mid-protocol label** | `{"command": "label", "args": {"text": "alpha spike during body scan"}}` | Mark notable moments for later analysis |
+| **Live feedback to user** | Check `status → scores` mid-protocol | "Your relaxation score just jumped from 0.31 to 0.52 — the breathing is working" |
+| **Focus timer** | `{"command": "timer"}` | For timed protocols (Pomodoro, meditation, focus blocks) |
+| **DND activation** | `{"command": "dnd_set", "args": {"enabled": true}}` | Protect the user from interruptions during meditation or deep work protocols |
+
+**Example — during a 5-minute Cardiac Coherence protocol:**
+```json
+// Minute 0: Start
+{"command": "say", "args": {"text": "Let's begin cardiac coherence. Breathe in for 5 seconds."}}
+{"command": "dnd_set", "args": {"enabled": true}}
+
+// Minute 0:05
+{"command": "say", "args": {"text": "Now breathe out for 5 seconds."}}
+
+// Minute 1: Check progress
+{"command": "status"}
+// → rmssd rising from 28 to 34 → good sign
+{"command": "say", "args": {"text": "Good. Your heart rhythm is already smoothing out. Keep going."}}
+
+// Minute 2:30: Mid-point check
+{"command": "status"}
+// → relaxation 0.31 → 0.48
+{"command": "say", "args": {"text": "Halfway there. Your relaxation is climbing. Stay with the rhythm."}}
+
+// Minute 5: End
+{"command": "say", "args": {"text": "That's 5 minutes. Well done. Sit quietly for a moment."}}
+{"command": "dnd_set", "args": {"enabled": false}}
+```
+
+### AFTER — Measure & Reflect
+
+Immediately after a protocol, capture the post-state and show the user
+what changed. This is the most powerful moment for motivation and learning.
+
+| Action | API Call | Purpose |
+|---|---|---|
+| **Post-protocol snapshot** | `{"command": "status"}` | Capture post-protocol metrics |
+| **Label the end** | `{"command": "label", "args": {"text": "protocol end: box breathing", "context": "bar=0.48, stress_index=42, relaxation=0.58 — delta: bar -0.24, stress -26, relax +0.27"}}` | Record the outcome with deltas |
+| **Compare before/after** | Compare baseline snapshot to current `status` | Show concrete numbers: "Your stress index dropped from 68 to 42. Your relaxation rose from 0.31 to 0.58." |
+| **Session trend** | `{"command": "session_metrics", "args": {"start_utc": ..., "end_utc": ...}}` | Show first-half → second-half trends for the session |
+| **Voice the results** | `{"command": "say", "args": {"text": "Your stress dropped 38 percent. Relaxation nearly doubled."}}` | Make the data tangible |
+| **Notify summary** | `{"command": "notify", "args": {"title": "Box Breathing Complete", "body": "Stress: 68→42 (-38%). Relaxation: 0.31→0.58 (+87%)"}}` | Persistent summary the user can see later |
+
+**Example — after Box Breathing:**
+```json
+// 1. Get post-state
+{"command": "status"}
+// → bar=0.48, stress_index=42, relaxation=0.58
+
+// 2. Label with full delta
+{"command": "label", "args": {"text": "protocol end: box breathing 4-4-4-4", "context": "Duration: 5min. bar: 0.72→0.48 (-33%), stress_index: 68→42 (-38%), relaxation: 0.31→0.58 (+87%)"}}
+
+// 3. Tell the user
+{"command": "say", "args": {"text": "Nice work. Your stress index dropped 38 percent, from 68 to 42. Relaxation nearly doubled. That's a strong response."}}
+
+// 4. Persistent notification
+{"command": "notify", "args": {"title": "✓ Box Breathing Complete", "body": "Stress: 68→42. Relaxation: 0.31→0.58. Duration: 5 min."}}
+```
+
+### LONGITUDINAL — Track Across Sessions & Auto-Trigger
+
+The most powerful use of the API is building a personal history of protocol
+effectiveness and setting up proactive triggers.
+
+| Action | API Call | Purpose |
+|---|---|---|
+| **Find past protocol sessions** | `{"command": "search_labels", "args": {"query": "box breathing", "k": 20}}` | Retrieve all past instances of this protocol with their EEG metrics |
+| **Compare protocol vs non-protocol** | `{"command": "compare", "args": {...}}` | A/B compare: session WITH protocol vs session WITHOUT |
+| **Neural similarity search** | `{"command": "search", "args": {"start_utc": ..., "end_utc": ..., "k": 10}}` | "Your brain right now looks like these 10 past moments" — personalise recommendations |
+| **Cross-modal graph** | `{"command": "interactive_search", "args": {"query": "stress relief"}}` | Discover what labels/states cluster around successful stress interventions |
+| **Set up auto-trigger hook** | `{"command": "hooks_set", "args": {"hooks": [...]}}` | "When your brain enters this stress pattern again, I'll automatically suggest this protocol" |
+| **Get threshold suggestion** | `{"command": "hooks_suggest", "args": {"keywords": "stress,overwhelmed"}}` | Let the system suggest optimal trigger thresholds from real data |
+| **Check hook audit log** | `{"command": "hooks_log", "args": {"limit": 20}}` | Review when protocols were auto-triggered and whether they helped |
+| **Sleep impact** | `{"command": "sleep", "args": {"start_utc": ..., "end_utc": ...}}` | For evening protocols: did tonight's wind-down improve sleep architecture? |
+| **UMAP visualisation** | `{"command": "umap", "args": {...}}` | Visually show how protocol sessions cluster differently from baseline |
+| **Session history** | `{"command": "sessions"}` | Track streak, total hours, session count for habit reinforcement |
+
+**Example — building a stress protocol habit:**
+```json
+// After 5+ labeled box breathing sessions, set up an auto-trigger:
+
+// 1. Check what threshold makes sense
+{"command": "hooks_suggest", "args": {"keywords": "stress,overwhelmed,anxious"}}
+// → suggested threshold: 0.13
+
+// 2. Create the hook
+{"command": "hooks_set", "args": {"hooks": [{"name": "Stress Auto-Protocol", "keywords": "stress,overwhelmed,anxious", "scenario": "emotional", "threshold": 0.13, "enabled": true, "command": "notify", "text": "Your brain pattern matches past stress moments. Want to try box breathing?"}]}}
+
+// 3. Periodically review effectiveness
+{"command": "hooks_log", "args": {"limit": 20}}
+// → see when it triggered, correlate with whether the user acted on it
+
+// 4. Compare protocol sessions vs non-protocol sessions
+{"command": "compare", "args": {"a_start_utc": "<non_protocol_session>", "a_end_utc": "...", "b_start_utc": "<protocol_session>", "b_end_utc": "..."}}
+// → show the user: "Sessions where you did breathing show 23% lower stress on average"
+```
+
+### API Tool Quick Reference for Protocols
+
+| Tool | Protocol Phase | When to Use |
+|---|---|---|
+| `status` | Before, During, After | Always. Live EEG is the foundation of every decision. |
+| `say` | During | Voice-guided protocols (breathing, meditation, body scan, calibration). Hands-free, eyes-closed. |
+| `notify` | Before, During, After | Step transitions, protocol summaries, gentle nudges. Persists in notification center. |
+| `label` | Before, After | Mark protocol start/end with metrics context. Builds searchable history. |
+| `search_labels` | Before, Longitudinal | Find past instances of this protocol. Show history and effectiveness. |
+| `timer` | During | Pomodoro, meditation, focus blocks, any timed protocol phase. |
+| `dnd_set` | During | Protect concentration/meditation protocols from interruptions. |
+| `session_metrics` | After | Show first-half → second-half trends within the protocol session. |
+| `compare` | Longitudinal | A/B: protocol session vs baseline, this week vs last week. |
+| `search` | Before, Longitudinal | "Your brain looks like it did on Feb 14 when you were stressed" — contextualise. |
+| `interactive_search` | Longitudinal | Cross-modal discovery: what activities/labels cluster around successful protocols. |
+| `hooks_set` | Longitudinal | Auto-trigger protocol suggestions when brain pattern matches a known trigger. |
+| `hooks_suggest` | Longitudinal | Data-driven threshold for auto-triggers. |
+| `hooks_log` | Longitudinal | Audit: when did auto-triggers fire? Were they useful? |
+| `sleep` | After (evening protocols) | Did tonight's wind-down improve sleep architecture? |
+| `umap` | Longitudinal | Visualise: how do protocol sessions cluster vs baseline in 3D neural space? |
+| `calibrate` | Before | Run a calibration profile before a neurofeedback protocol. |
+| `sessions` | Before, Longitudinal | Session count, streak, duration — habit tracking and motivation. |
+| `sleep_schedule` | Longitudinal | Set and adjust sleep timing for circadian protocols. |
+
+### Integration Principles
+
+1. **Always check before you suggest.** Don't recommend a stress protocol if `bar` is actually low. Use `status` first.
+2. **Label everything.** Every protocol start and end should be labeled. This builds the searchable personal database.
+3. **Show the numbers.** People stick with protocols when they see concrete EEG changes. Always report deltas.
+4. **Use voice for eyes-closed protocols.** If the protocol involves closed eyes, use `say`. Don't make them read.
+5. **Protect the space.** Enable DND during deep protocols. Disable after.
+6. **Build toward hooks.** After 3–5 labeled instances of a protocol, suggest setting up an auto-trigger hook.
+7. **Compare across time.** The more history, the more powerful. "Your average stress after breathing is 23% lower than sessions without."
+8. **Don't overwhelm with data.** During the protocol, feedback should be sparse and encouraging. Save the detailed analysis for after.
+9. **Respect the moment.** In a panic attack, don't run 5 API calls. Do the intervention. Label after.
+10. **The API serves the human, not the other way around.** Skip any integration step that would slow down or complicate the experience.
+
+---
+
 ## ATTENTION & FOCUS
 
 **Theta-Beta Neurofeedback Anchor** → high `tbr` (>1.5), low `focus`
@@ -77,6 +273,7 @@ The same EEG signal (high `bar`, high `stress_index`) might produce:
   ◈ *Child (6–12):* Count colourful animals — "3 blue elephants, 2 red parrots…"
   ◈ *Teen/ADHD:* Speed challenge — count backward from 100 by 7s, beat your last time.
   ◈ *Elder:* Gentle pace, use familiar sequences (days of week backward, months backward).
+  🔧 *API:* Before: verify `status → scores.tbr > 1.5`. During: poll `status` every 60s, use `say` to report "Your theta-beta ratio just dropped from 1.6 to 1.3 — keep going". After: `label "neurofeedback anchor complete"` with tbr delta. Longitudinal: `search_labels "neurofeedback"` to track improvement trend.
 
 **Focus Reset** → scattered `engagement`, high `cognitive_load` mid-session
   90-second closed-eye reset: single breath hold, one intention set.
@@ -117,6 +314,7 @@ The same EEG signal (high `bar`, high `stress_index`) might produce:
   ◈ *Child:* "Smell the flower (in), blow out the candle (out)" — make it vivid and visual.
   ◈ *Asthma/respiratory condition:* Shorter counts (2-2-2-2), no breath holds. Or skip to tactile.
   ◈ *Crowded space:* Breathe normally but count silently — the counting alone helps.
+  🔧 *API:* Before: `status` → confirm `bar > 0.5`, snapshot `relaxation` baseline, `label "protocol start: box breathing" --context "bar=X, relaxation=X"`. During: `say "Inhale... 2... 3... 4..."` for each phase, `dnd_set enabled:true`, poll `status` at 60s/120s to track `rmssd` rise. After: `status` → compare to baseline, `label "protocol end: box breathing" --context "bar delta, relaxation delta"`, `say` the results, `notify` summary. After 5 sessions: `hooks_suggest "box breathing,calm"` → create auto-trigger hook for when `bar` spikes again.
 
 **Extended Exhale (4-7-8)** → acute stress spike, high `lf_hf_ratio`
   Fastest parasympathetic trigger. Short inhale, long hold, very long exhale.
@@ -127,6 +325,7 @@ The same EEG signal (high `bar`, high `stress_index`) might produce:
   5-second inhale / 5-second exhale, 5 minutes. Maximises HRV and vagal tone.
   ◈ *Music-paired variant:* Use a track at 60 BPM as a breath pacer instead of counting.
   ◈ *Tech-assisted:* Many HRV apps (e.g. Elite HRV, Welltory) show a visual breath pacer.
+  🔧 *API:* This protocol has the clearest measurable outcome — `rmssd` should rise. Before: snapshot `rmssd`, `stress_index`. During: `say` each inhale/exhale phase, poll `status` at 60s intervals — report `rmssd` changes verbally ("Your heart rate variability is climbing — from 28 to 36"). After: `label` with full HRV delta. Longitudinal: `compare` sessions with coherence vs without — build the evidence that it works for this person.
 
 **Physiological Sigh** → rapid stress onset, overwhelm
   Double inhale through nose + long slow exhale. 1–3 cycles only.
@@ -153,6 +352,7 @@ The same EEG signal (high `bar`, high `stress_index`) might produce:
   ◈ *Self-compassion resistant (common in men, high-achievers, military):* Frame as "you'd say this to a friend — now say it inward." Skip the word "compassion" if it triggers resistance.
   ◈ *Child:* "Send a warm thought to your best friend. Now to your pet. Now to yourself."
   ◈ *Culturally adapted:* In collectivist cultures, start with family/community before self — the sequence matters.
+  🔧 *API:* Before: check `status → scores.faa` (negative = withdrawal). During: `say` each phrase warmly ("May you be safe… may you be happy…"), `dnd_set enabled:true`. Track `faa` shift mid-protocol — if it turns positive, note it. After: `label "metta meditation"` with `faa` delta + `mood` delta. Over time: `search_labels "metta"` → correlate `faa` improvement across sessions → "Your frontal asymmetry shifts positive more quickly now than it did 2 weeks ago."
 
 **Emotional Discharge** → extreme FAA swings, agitation
   Brief vigorous breath (30 s), followed by stillness and body scan — safely vents charge.
@@ -166,6 +366,7 @@ The same EEG signal (high `bar`, high `stress_index`) might produce:
 
 **Alpha Induction** → high `beta`, high `bar`, low `relaxation`, post-stress
   Eyes-closed, open-focus attention (notice the space around objects). Lifts `rel_alpha`.
+  🔧 *API:* Prime feedback protocol. Before: snapshot `rel_alpha` and `bar`. During: `say` guidance, poll `status` every 30s — when `rel_alpha` rises, give verbal feedback ("Alpha just jumped — your brain is letting go"). This real-time feedback accelerates the learning. After: `label` with alpha delta. `notify "Alpha up X%"`. Longitudinal: `compare` rest sessions to track alpha trend over weeks.
 
 **Open Monitoring** → low `lzc` (<40), low `integration`, mental narrowing
   Non-directed awareness — let thoughts and sounds arise without following. Raises LZC.
@@ -183,6 +384,7 @@ The same EEG signal (high `bar`, high `stress_index`) might produce:
   ◈ *Shift worker:* Blackout curtains + earplugs + same routine regardless of clock time. Body follows ritual, not sun.
   ◈ *Anxious mind:* Add worry dump first — write every thought, close the notebook, then body release.
   ◈ *Partner in bed:* Whispered body scan for two — guide each other or listen together.
+  🔧 *API:* Before: `sleep_schedule` to confirm bedtime target, `status` to check `bar` at rest. During: `say` the body scan in a slow, soft voice. `dnd_set enabled:true` — no notifications from now until morning. After: `label "sleep wind-down complete"`. Next morning: `sleep` → check N3%, REM%, efficiency — "Last night after the wind-down you got 22% deep sleep vs your 15% average." Longitudinal: `compare` sleep sessions with vs without wind-down protocol → build evidence for the habit.
 
 **Ultradian Reset (20-min rest)** → mid-afternoon slump, post-90-min focus block
   Eyes closed, no agenda, light background sound cue — honours the 90-min ultradian cycle.
@@ -225,6 +427,7 @@ The same EEG signal (high `bar`, high `stress_index`) might produce:
 
 **Flow State Induction** → mid-range `focus` (0.5–0.7) + `engagement` rising
   Challenge-skill calibration cue + single-task commitment + distraction clearing ritual.
+  🔧 *API:* Before: `status` → confirm sweet spot (`focus` 0.5–0.7 + `engagement` rising). `dnd_set enabled:true`. `label "flow induction start"`. During: do NOT poll frequently — let them flow. One silent `status` check at 15 min. After: `label "flow state end"` with `focus`, `engagement`, `lzc`, `coherence`. Over time: `search "flow"` to find neural signature → `hooks_set` to alert when conditions are ripe: "Your brain is entering the flow zone — protect this time." `umap` to visualise flow sessions vs distracted sessions in 3D.
 
 **Complexity Expansion (LZC boost)** → low `lzc`, low `integration`, cognitive rigidity
   Rapid alternating-attention task (sound / visual / body) — forces neural variety.
@@ -304,6 +507,7 @@ The same EEG signal (high `bar`, high `stress_index`) might produce:
 **NSDR / Yoga Nidra** → high `cognitive_load` post-session, post-deep-work, mid-day
   Non-Sleep Deep Rest: supine body scan with rotation of awareness through body parts.
   Restores dopamine and cognitive resources without requiring sleep. 20–30 min.
+  🔧 *API:* Full guided protocol. Before: `label "NSDR start"`, `dnd_set enabled:true`, snapshot `cognitive_load`, `drowsiness`, `focus`. During: entire protocol delivered via `say` — slow, soft rotation through body parts (right hand thumb… index finger… middle finger… palm… wrist… forearm…). Poll `status` at 5-min intervals — track `rel_theta` rise (entering hypnagogic). After: `label "NSDR end"` with deltas, `dnd_set enabled:false`, `say` the results. Key metric: `cognitive_load` should drop significantly, `focus` should rebound. `compare` pre-NSDR work session to post-NSDR work session to demonstrate the recovery effect.
 
 **Power Nap Guidance** → `wakefulness` < 30, very high `drowsiness`
   Timed 10–20 min nap with clear alarm cue + re-activation sequence on waking. Avoids sleep inertia.
@@ -449,6 +653,7 @@ or when the user reports eye strain, blurred vision, or dry eyes.)*
 
 **Morning Clarity Ritual** → low `focus` at day start, `cognitive_load` carryover from yesterday
   Brain-dump journal cue → prioritise top 3 → set daily intention → 3-breath commitment. ~8 min.
+  🔧 *API:* `status` → show yesterday's `sleep` summary ("You got 6.5 hours, 18% deep sleep"). `sessions` → streak ("Day 12 in a row!"). `label "morning intention: [user's intention]"`. Later: `search_labels "morning intention"` → review what intentions led to the best focus sessions. `compare` mornings-with-ritual vs mornings-without to show the habit's EEG impact.
 
 **Mindful Morning Transition** → low `integration`, emotional residue from sleep/dreams
   Short body scan + 3 things noticed with each sense + gentle forward fold +
@@ -625,6 +830,7 @@ low `lzc`, scattered `engagement`, crashed `faa` or `mood`.)*
 **Digital Sunset Protocol** → elevated `bar` at rest, pre-sleep phone use
   Hard stop on all screens 60–90 min before sleep. Replace with dim light + music + paper.
   Guide setup of phone Downtime / Digital Wellbeing schedule. ~5 min setup + 60 min offline.
+  🔧 *API:* `sleep_schedule` → get bedtime. Set a `hooks_set` rule: 90 min before bedtime, if `bar > 0.5`, trigger `notify "Digital Sunset"` + `say "Time to put screens away. Your sleep starts now."`. `dnd_set enabled:true`. `label "digital sunset"`. Next morning: `sleep` → compare nights with digital sunset vs without. Over time: build the data case that screens before bed cost measurable deep sleep.
 
 **Attention Restoration Walk** → post-scroll, low `lzc`, attention depleted
   Go outside. No phone, no podcasts, no agenda. Let eyes move naturally.
@@ -680,6 +886,7 @@ unless a timed practice is appropriate.)*
   Window: 90–120 min after waking (let cortisol peak first). Cut-off: no caffeine after 2 pm.
   Max effective dose: 100–200 mg per sitting. Stack with L-theanine to smooth the curve.
   If `bar` is elevated and `relaxation` low, switch to matcha/green tea.
+  🔧 *API:* `label "caffeine intake"` every time they drink coffee. Over weeks: `search_labels "caffeine"` → correlate with `focus`, `bar`, `stress_index`, and next-night `sleep` quality. Build personalised evidence: "Coffee after 1 PM costs you 12% deep sleep on average" or "Your best focus sessions start 45 min after coffee labels."
 
 **Pre-Focus Block Nutrition** → before planned deep work session
   Eat 45–60 min before (not immediately). Ideal: moderate protein + low-GI carbs + healthy fat.
@@ -763,6 +970,7 @@ uncomfortable. Pure cognitive engagement — no breath timing required.)*
 **Micro-Tasking Focus Drill** → low `focus`, high `tbr`, scattered attention
   Count backward from 100 by 7s, or name objects in a category (animals A→Z).
   Pure cognitive engagement that lifts beta without any breathing instruction. ~2 min.
+  🔧 *API:* Before: `status` → confirm `focus < 0.4` and `tbr > 1.3`. `label "focus drill start"`. During: `say` the challenge prompt, `timer` for 2 min. After: `status` → report `focus` change. `label "focus drill end"` with delta. Over time: `search_labels "focus drill"` → track which drills produce the best focus lift for this specific person.
 
 **Peripheral Vision Expansion** → high `beta`, tunnel vision, acute stress, high `bar`
   Soft-gaze at a fixed point while noticing the extreme edges of your visual field.
@@ -1095,6 +1303,7 @@ optional, and cool. If it sounds like something a teacher would say, rewrite it.
   Phone in another room (not just face-down — ANOTHER ROOM). Set timer for 25 min.
   One subject only. When timer goes, 5-min break with phone. Repeat.
   This is just Pomodoro, but it works because the phone is physically gone. ~25 min.
+  🔧 *API:* `timer` to start Pomodoro. `dnd_set enabled:true` for the 25 min. `label "study sprint: [subject]"`. During: `status` at the midpoint — if `focus > 0.6`, `say "Nice — you're locked in."` to reinforce. After each sprint: `label "study sprint end"` with focus average. After exam week: `search_labels "study sprint"` → "Your best focus sessions happen between 9–11 AM" → data-driven study scheduling.
 
 **Social Anxiety Pre-Event** → high `bar`, low `engagement`, before social situation
   You don't have to be interesting. You just have to ask one question and listen.
@@ -1144,6 +1353,7 @@ that work WITH how the brain already operates.)*
   One texture anchor (soft fabric, smooth stone). Pressure — hug yourself, sit on hands,
   weighted blanket. No one needs to talk to you right now. ~2–5 min.
   ◈ *In public:* Bathroom stall is a valid decompression chamber. No shame.
+  🔧 *API:* `dnd_set enabled:true` IMMEDIATELY — zero interruptions. `label "sensory overload"` to build pattern recognition. After recovery: `status` to track `beta` descent. Longitudinal: `search_labels "overload"` → identify time-of-day, app-usage, or activity patterns that precede overload → `hooks_set` to trigger early warning BEFORE full overload.
 
 **Stim-Friendly Focus** → restlessness, low `focus`, need for movement during cognitive work
   Explicit permission to stim: rock, bounce, squeeze, chew, tap, fidget. Suppressing stims
@@ -1163,6 +1373,7 @@ that work WITH how the brain already operates.)*
 **Hyperfocus Exit Strategy** → `stillness` > 0.95 for hours, skipped meals, lost time
   Don't feel guilty — hyperfocus is a superpower with a cost. Right now: stand, drink water,
   eat something. Set a timer for 90 min next session. Your body was waiting for you. ~5 min.
+  🔧 *API:* Proactive: set up a `hooks_set` rule — when `stillness > 0.95` persists for >60 min with `focus > 0.7`, trigger `notify "Hyperfocus check"` + `say "You've been locked in for over an hour. Stand up, drink water, stretch."`. Label: `label "hyperfocus exit"` to track frequency. Use `sessions` → `history.longest_session_min` to show patterns: "Your last 3 sessions exceeded 2 hours without a break."
 
 **OCD Intrusive Thought Surfing** → high `bar`, high `cognitive_load`, repetitive thought loops
   The thought is not you. You don't need to engage it, argue with it, or neutralise it.
@@ -1250,6 +1461,7 @@ reality that "self-care" advice often feels insulting when you're 14 hours into 
   At the hand-washing station (you're already there): cold water on wrists for 10 seconds
   longer than needed. One deliberate exhale. Name internally: "That was their pain, not mine.
   I carry skill, not their suffering." Walk to the next room. ~30 seconds.
+  🔧 *API:* Set up a `hooks_set` with scenario `emotional` + keywords "compassion fatigue,stress,overwhelm" → auto-`notify "Between-patient reset?"` when stress pattern matches. `label "patient reset"` (fast — one tap). Over a shift: `session_metrics` → track `stress_index` trajectory across the shift. After many labeled resets: `search_labels "patient reset"` → identify which times of shift have highest stress → schedule preventive breaks.
 
 **Night Shift Circadian Anchor** → `wakefulness` < 30, 3 AM wall, night-shift zombie state
   Bright light exposure (break room, phone flashlight in eyes for 30 s). Cold water face.
@@ -1484,6 +1696,7 @@ These bridge the gap between "I know I should do something" and "I don't have ti
   Phone across the room. NOW. Stand up. Look at the farthest thing you can see.
   One real-world sensory experience (cold water, stretch, step outside).
   Don't punish yourself — just notice how you feel and remember this data point next time. ~2 min.
+  🔧 *API:* `label "post-scroll crash" --context "lzc=X, focus=X, mood=X"` — this is DATA, not shame. Over time: `search_labels "scroll"` → "Your average focus after scrolling is 0.28 vs your daily average of 0.61." `status → apps.top_24h` → correlate which apps preceded the crash. `hooks_set` with keywords "scroll,distracted,social media" → proactive nudge BEFORE the crash: "You've been on Instagram for 15 min and your focus is dropping. Want to stop?"
 
 **Before Sleep After a Hard Day** → high `bar`, rumination, mind won't shut off
   Worry dump: write every thought on paper (not phone). Close the notebook.
