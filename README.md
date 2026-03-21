@@ -26,6 +26,15 @@ A collection of NeuroSkill EXG skills for [NeuroLoop™️](https://neuroloop.io
 | [`neuroskill-streaming`](skills/neuroskill-streaming/SKILL.md) | `say`, `listen`, `notify`, `calibrate`, `calibrations`, `timer`, and `raw` commands — on-device TTS speech, real-time WebSocket event streaming (EXG, PPG, IMU, scores, labels), OS notifications, calibration profile management, focus timer, and raw JSON passthrough for unlisted commands. |
 | [`neuroskill-data-reference`](skills/neuroskill-data-reference/SKILL.md) | Complete metric field reference — EXG band powers, ratios & indices (FAA, TBR, BAR, TAR, APF, SEF95, coherence, …), core scores (focus, relaxation, engagement, meditation, mood, cognitive load, drowsiness), complexity measures (Hjorth, permutation entropy, Higuchi FD, DFA, sample entropy, PAC), PPG/HRV fields, motion & artifact markers, sleep stage codes, neurological correlate indices, and consciousness metrics. |
 | [`neuroskill-recipes`](skills/neuroskill-recipes/SKILL.md) | Use-case recipes and scripting patterns — shell snippets for focus monitoring, stress tracking, sleep quality analysis, cognitive load queries, meditation tracking, cross-modal graph search, A/B session comparison, time-range queries, and automation with cron / Python / Node.js / HTTP. |
+| [`neuroskill-hooks`](skills/neuroskill-hooks/SKILL.md) | `hooks` command — Proactive Hooks CRUD, real-time EXG pattern matching with scenario gating (cognitive/emotional/physical), threshold suggestions, WebSocket broadcast triggers, and audit logging. |
+| [`neuroskill-dnd`](skills/neuroskill-dnd/SKILL.md) | `dnd` command — EXG-driven Do Not Disturb automation, rolling focus score average, OS-level DND state, and force-override on/off. |
+| [`neuroskill-screenshots`](skills/neuroskill-screenshots/SKILL.md) | `search-images`, `screenshots-around`, `screenshots-for-eeg`, and `eeg-for-screenshots` commands — search screenshots by OCR text (semantic/substring), by visual similarity (CLIP `--by-image`), find screenshots near a timestamp or EEG session, and cross-modal EEG↔screenshot bridging. |
+
+### LLM & AI Skills
+
+| Skill | Description |
+|---|---|
+| [`neuroskill-llm`](skills/neuroskill-llm/SKILL.md) | Built-in on-device LLM inference server — model catalog management, vision support (mmproj), streaming WebSocket and HTTP chat, automatic tool calling, GenParams tuning, persistent chat history, and OpenAI-compatible API. |
 
 ### Protocol & Intervention Skills
 
