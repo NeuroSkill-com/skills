@@ -16,6 +16,17 @@ When calling these commands via the LLM `skill` tool, use `command` + `args`:
 {"command": "compare", "args": {"a_start_utc": 1740380100, "a_end_utc": 1740382665, "b_start_utc": 1740412800, "b_end_utc": 1740415510}}
 ```
 
+### Cross-Modal Follow-Ups
+
+After a `search` returns neighbor timestamps, you can bridge to other modalities:
+
+- **See what was on screen** at a neural-search hit:
+  `{"command": "screenshots_around", "args": {"timestamp": <neighbor_timestamp_unix>}}`
+- **Find labels near** a neural-search hit:
+  `{"command": "search_labels", "args": {"query": "focus"}}` filtered by time
+- **Full graph search** from a text description to EEG to labels:
+  `{"command": "interactive_search", "args": {"query": "deep focus"}}`
+
 ---
 
 ## `search` — Neural Similarity Search

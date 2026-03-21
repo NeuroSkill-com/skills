@@ -330,9 +330,40 @@ curl -s -X POST http://127.0.0.1:8375/ \
 
 ---
 
-## Cross-Modal Workflows
+## Cross-Modal Query Guide
 
-Combine the screenshot commands with EEG search for powerful cross-modal analysis:
+Choose the right command based on the direction of your query:
+
+| Question pattern | Direction | Command | Example |
+|---|---|---|---|
+| What apps did I use today? | — | `status` | Check `apps.top_24h` in the response |
+| Find screenshots showing X | Text → Screenshots | `search_screenshots` | `{"command":"search_screenshots","args":{"query":"VS Code"}}` |
+| What was on screen during my EEG session? | EEG → Screenshots | `screenshots_for_eeg` | `{"command":"screenshots_for_eeg","args":{"start_utc":T1,"end_utc":T2}}` |
+| How was my brain when I saw X? | Screenshots → EEG | `eeg_for_screenshots` | `{"command":"eeg_for_screenshots","args":{"query":"error message"}}` |
+| What was on screen at timestamp T? | Timestamp → Screenshots | `screenshots_around` | `{"command":"screenshots_around","args":{"timestamp":T}}` |
+| Find brain states similar to "focus" | Text → Labels → EEG | `interactive_search` | `{"command":"interactive_search","args":{"query":"deep focus"}}` |
+
+### Multi-Step Cross-Modal LLM Workflows
+
+Chain commands for deeper cross-modal analysis:
+
+**"What was on screen during my best focus session?"**
+1. `{"command": "sessions"}` → get session timestamps
+2. `{"command": "screenshots_for_eeg", "args": {"start_utc": <start>, "end_utc": <end>, "window_secs": 15}}`
+
+**"How did my brain react to error messages?"**
+1. `{"command": "eeg_for_screenshots", "args": {"query": "error", "window_secs": 120}}`
+   → returns screenshots with matching EEG labels and session data
+
+**"What was I looking at when I labelled 'deep focus'?"**
+1. `{"command": "search_labels", "args": {"query": "deep focus"}}` → get `created_at` timestamp
+2. `{"command": "screenshots_around", "args": {"timestamp": <created_at>, "window_secs": 30}}`
+
+**"Find similar brain states to my coding session and show what was on screen"**
+1. `{"command": "search", "args": {"start_utc": <start>, "end_utc": <end>}}` → get neighbor timestamps
+2. `{"command": "screenshots_around", "args": {"timestamp": <neighbor_ts>}}` for each result
+
+### CLI Workflows
 
 ```bash
 # ── "What was on screen during my best focus session?" ────────────────────────
@@ -351,9 +382,7 @@ LABEL_TS=$(npx neuroskill search-labels "deep focus" --json | jq '.results[0].cr
 npx neuroskill screenshots-around --at $LABEL_TS --seconds 30
 
 # ── "Full chain: OCR → screenshots → EEG → labels → neural search" ───────────
-# Step 1: Find screenshots showing code review
 npx neuroskill eeg-for-screenshots "pull request" --json | jq '.results[0].session'
-# Step 2: Use the session timestamps for a full neural search
 npx neuroskill search --start <session_start> --end <session_end> --k 5
 
 # ── "See what was on screen at a search hit timestamp" ────────────────────────
@@ -363,6 +392,5 @@ npx neuroskill screenshots-around --at $HIT_TS
 # ── "View the actual screenshot image in a browser" ──────────────────────────
 PORT=8375
 FILE=$(npx neuroskill screenshots-around --at 1740412800 --json | jq -r '.results[0].filename')
-open "http://127.0.0.1:$PORT/screenshots/$FILE"   # macOS
-xdg-open "http://127.0.0.1:$PORT/screenshots/$FILE"  # Linux
+xdg-open "http://127.0.0.1:$PORT/screenshots/$FILE"
 ```

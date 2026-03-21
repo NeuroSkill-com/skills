@@ -19,6 +19,17 @@ When calling these commands via the LLM `skill` tool, use `command` + `args`:
 {"command": "interactive_search", "args": {"query": "flow state"}}
 ```
 
+### Cross-Modal Follow-Ups
+
+After finding a label, you can bridge to other modalities:
+
+- **See what was on screen** when a label was created:
+  `{"command": "screenshots_around", "args": {"timestamp": <label_created_at>}}`
+- **Find brain-state correlates** for what was on screen:
+  `{"command": "eeg_for_screenshots", "args": {"query": "VS Code"}}`
+- **Full graph** (text → labels → EEG neighbors → more labels):
+  `{"command": "interactive_search", "args": {"query": "deep focus"}}`
+
 ---
 
 ## `label` — Create a Timestamped Annotation
