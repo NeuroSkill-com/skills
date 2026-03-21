@@ -1,6 +1,7 @@
 ---
 name: neuroskill-index
 description: Skill index and overview — lists all available NeuroSkill skills, tools, and explains how skill loading works.
+index: true
 ---
 
 # NeuroSkill Skill Index
