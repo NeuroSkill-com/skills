@@ -48,7 +48,7 @@ when the user's message matches the skill's domain.
 
 | Skill | Loaded when | Description |
 |---|---|---|
-| [neuroskill-protocols](skills/neuroskill-protocols/SKILL.md) | protocol/exercise/routine intent detected | Full guided-protocol repertoire — 70+ mind-body practices matched to EEG metric signals. Covers breathing, meditation, stress regulation, sleep, somatic work, emotions, music, neck/eye/morning exercises, workout protocols, hydration, dietary guidance, and social-media/digital-addiction interventions. Loaded on-demand when the user asks for help, exercises, routines, or specific practices. |
+| [neuroskill-protocols](skills/neuroskill-protocols/SKILL.md) | protocol/exercise/routine intent detected | Full guided-protocol repertoire — 100+ mind-body practices matched to EEG metric signals. Covers breathing, meditation, stress regulation, sleep, somatic work, emotions, music, neck/eye/morning exercises, workout protocols, hydration, dietary guidance, social-media/digital-addiction interventions, and non-breathing alternatives (cognitive reset, tactile/haptic, oculomotor/visual, micro-movement, auditory, passive physiological). Loaded on-demand when the user asks for help, exercises, routines, or specific practices. |
 
 ---
 
