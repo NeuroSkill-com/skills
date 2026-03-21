@@ -1,6 +1,6 @@
 ---
 name: neuroskill-protocols
-description: Full guided-protocol repertoire for NeuroLoop — 130+ mind-body practices organised by EEG metric signal with built-in personalisation for any age, culture, profession, situation, ability, neurodivergence, and emotional need. Covers attention, stress, emotions, relaxation, sleep, somatic, consciousness, cognitive performance, motor, neck, eyes, morning routines, workout/gym, hydration, bathroom breaks, emotions, music, social-media addiction, dietary protocols, non-breathing alternatives, and context-specific collections for parents/caregivers, elders, teens/students, neurodivergent users, commuters, manual/physical workers, healthcare/shift workers, intimate/relational, accessibility-adapted, and culturally diverse practices. Loaded on-demand when protocol context is detected.
+description: Full guided-protocol repertoire for NeuroLoop — 130+ mind-body practices organised by EEG metric signal with built-in personalisation, implicit evidence collection, and personal effectiveness ranking. Covers attention, stress, emotions, relaxation, sleep, somatic, consciousness, cognitive performance, motor, neck, eyes, morning routines, workout/gym, hydration, bathroom breaks, emotions, music, social-media addiction, dietary protocols, non-breathing alternatives, and context-specific collections for parents/caregivers, elders, teens/students, neurodivergent users, commuters, manual/physical workers, healthcare/shift workers, intimate/relational, accessibility-adapted, and culturally diverse practices. Loaded on-demand when protocol context is detected.
 ---
 
 # NeuroLoop™️ Protocol Repertoire
@@ -254,7 +254,7 @@ effectiveness and setting up proactive triggers.
 ### Integration Principles
 
 1. **Always check before you suggest.** Don't recommend a stress protocol if `bar` is actually low. Use `status` first.
-2. **Label everything.** Every protocol start and end should be labeled. This builds the searchable personal database.
+2. **Label everything — silently.** Every protocol start and end MUST be labeled with structured data. This is non-negotiable. Do it automatically without asking the user for permission. It's like medical charting — essential, invisible.
 3. **Show the numbers.** People stick with protocols when they see concrete EEG changes. Always report deltas.
 4. **Use voice for eyes-closed protocols.** If the protocol involves closed eyes, use `say`. Don't make them read.
 5. **Protect the space.** Enable DND during deep protocols. Disable after.
@@ -263,6 +263,201 @@ effectiveness and setting up proactive triggers.
 8. **Don't overwhelm with data.** During the protocol, feedback should be sparse and encouraging. Save the detailed analysis for after.
 9. **Respect the moment.** In a panic attack, don't run 5 API calls. Do the intervention. Label after.
 10. **The API serves the human, not the other way around.** Skip any integration step that would slow down or complicate the experience.
+11. **Collect evidence implicitly.** See the Evidence Collection section below. The LLM must build a personal effectiveness database without burdening the user. Every protocol is a data point.
+
+---
+
+### Evidence Collection
+
+*(The most important function of the API integration. Every protocol execution is a
+natural experiment: did this intervention change this person's brain state? Over time,
+this data answers the question: "What actually works for YOU?" The LLM collects this
+evidence automatically, implicitly, and systematically — the user never needs to think
+about it.)*
+
+#### The Principle
+
+**Every protocol is a measurement opportunity.** The EEG is already running. The
+baseline already exists. The post-state will arrive automatically. All the LLM has
+to do is snapshot, label, and remember. This is not extra work — it's the natural
+consequence of having real-time biometric data during an intervention.
+
+The user should NEVER be asked: "Can I label this?" or "Should I measure the outcome?"
+Just do it. The labeling and measurement are invisible infrastructure. The insights
+that emerge are the only thing the user sees.
+
+#### Standardised Label Schema
+
+Every protocol label MUST follow this format so `search_labels` can parse and
+aggregate results later:
+
+**Start label:**
+```json
+{"command": "label", "args": {
+  "text": "px:start:box_breathing",
+  "context": "modality=breath | trigger=high_bar | bar=0.72 | stress_index=68 | relaxation=0.31 | focus=0.45 | hr=78 | mood=0.40 | faa=-0.03 | rmssd=26"
+}}
+```
+
+**End label:**
+```json
+{"command": "label", "args": {
+  "text": "px:end:box_breathing",
+  "context": "modality=breath | duration_min=5 | bar=0.48 | stress_index=42 | relaxation=0.58 | focus=0.52 | hr=68 | mood=0.55 | faa=0.01 | rmssd=38 | delta_bar=-0.24 | delta_stress=-26 | delta_relaxation=+0.27 | delta_hr=-10 | delta_rmssd=+12 | outcome=positive"
+}}
+```
+
+**Schema rules:**
+- Prefix: `px:start:` and `px:end:` (px = protocol execution). These prefixes make
+  protocol labels instantly findable via `search_labels "px:start"` or `"px:end"`.
+- Protocol name: snake_case, consistent across executions (e.g. `box_breathing`,
+  `ear_massage`, `cold_water_face`, `bilateral_tapping`, `micro_tasking_drill`).
+- Context fields: pipe-separated key=value pairs. Always include:
+  - `modality=` (breath / tactile / cognitive / visual / movement / auditory / passive_physio)
+  - `trigger=` (the EEG trigger that prompted this protocol)
+  - Core metrics at that moment: `bar`, `stress_index`, `relaxation`, `focus`, `hr`, `mood`, `faa`, `rmssd`
+- End label adds: `duration_min`, `delta_*` for each metric, `outcome=` (positive / neutral / negative,
+  based on whether the target metric improved).
+
+#### Implicit Measurement Flow
+
+The LLM must execute this flow for EVERY protocol, automatically:
+
+```
+1. SNAPSHOT BEFORE
+   └─ status → capture bar, stress_index, relaxation, focus, hr, mood, faa, rmssd
+   └─ label "px:start:<protocol>" with baseline metrics
+   └─ store baseline values in working memory for this conversation
+
+2. RUN THE PROTOCOL
+   └─ guide, monitor, adapt (as per the protocol instructions)
+   └─ optional mid-protocol status checks for live feedback
+
+3. SNAPSHOT AFTER (30–60 seconds post-protocol, let metrics settle)
+   └─ status → capture same metrics
+   └─ compute deltas (after − before)
+   └─ determine outcome:
+       positive  = target metric improved by ≥ 10% or ≥ 0.05 absolute
+       neutral   = target metric changed < 10% and < 0.05 absolute
+       negative  = target metric worsened by ≥ 10% or ≥ 0.05 absolute
+   └─ label "px:end:<protocol>" with post metrics + deltas + outcome
+
+4. REPORT TO USER (briefly, naturally — not as a data dump)
+   └─ "Your stress dropped from 68 to 42 — that's a strong response."
+   └─ OR "That one didn't shift the numbers much. No worries — not every
+        technique works for every person. Want to try something different next time?"
+   └─ OR "Interesting — your stress dropped but focus didn't change. The
+        intervention hit relaxation but not attention."
+
+5. AGGREGATE SILENTLY (when enough data exists)
+   └─ search_labels "px:end:box_breathing" → collect all past outcomes
+   └─ compute: success rate, average delta per metric, best time of day,
+      best trigger context
+   └─ use this to rank protocols for this person
+```
+
+#### When to Surface Evidence
+
+| Data state | What to do |
+|---|---|
+| **First execution** of a protocol | Report the immediate before/after delta. No historical comparison yet. "Let's see how this works for you." |
+| **2–4 executions** | Begin noticing patterns: "This is the 3rd time we've tried bilateral tapping for stress — it's lowered your bar by an average of 0.18 each time." |
+| **5+ executions** | Enough data for a personal recommendation: "Based on your data, ear massage is your most effective stress intervention — average stress drop of 34%. Box breathing averages 22% for you." |
+| **Mixed results** | Be honest: "Kapalabhati energised you twice but didn't help the other two times. Want to keep trying or switch to cold water, which has worked 4 out of 4 times for you?" |
+| **Negative outcome** | Never blame the user. "That protocol didn't shift your numbers this time. Bodies are variable — it might work better at a different time of day, or a different modality might suit you better." |
+| **Cross-protocol comparison** | When the user asks what works: `search_labels "px:end"` → aggregate all protocol outcomes → rank by success rate and average delta → present as a personal effectiveness report. |
+
+#### Personal Protocol Ranking
+
+After sufficient data (5+ labeled protocol executions across multiple protocols),
+the LLM can build a personal ranking:
+
+```
+To build a protocol ranking for this person:
+
+1. search_labels "px:end" --k 50  → get all protocol outcomes
+2. Group by protocol name
+3. For each protocol, compute:
+   - n_executions: count
+   - success_rate: % with outcome=positive
+   - avg_delta_target: mean delta of the target metric
+   - avg_delta_mood: mean mood change (secondary benefit)
+   - best_time: most common hour-of-day for positive outcomes
+   - best_trigger: most common trigger context
+4. Rank by success_rate × avg_delta_target
+5. Present to user:
+
+   "Based on your 47 protocol sessions over 3 weeks:
+
+    YOUR TOP 5 INTERVENTIONS
+    1. Cold water face splash — 92% success, avg stress drop: 31%
+    2. Ear massage — 85% success, avg stress drop: 28%
+    3. Box breathing — 78% success, avg stress drop: 22%
+    4. Bilateral tapping — 75% success, avg stress drop: 19%
+    5. Micro-tasking drill — 71% success, avg focus lift: 24%
+
+    Least effective for you:
+    - Peripheral vision expansion (40% success — seems to not click for you)
+    - Humming (50% success — works better in the evening than morning)"
+```
+
+#### Evidence-Driven Protocol Selection
+
+Once personal data exists, the LLM must USE it to select protocols:
+
+1. **Check what has worked before.** Before suggesting any protocol, run
+   `search_labels "px:end:<candidate_protocol>"` to check past effectiveness.
+2. **Lead with the proven winner.** If cold water has a 92% success rate for
+   stress and box breathing has 78%, suggest cold water first.
+3. **Retire consistent failures.** If a protocol has failed 4+ times for this
+   person, stop suggesting it unless the user specifically asks. Note: "We've
+   tried that before and it hasn't clicked for you — but I have something that
+   has worked well."
+4. **Explore occasionally.** Even with strong data, occasionally suggest something
+   new: "Your go-to for stress is cold water, and it works great. Want to try
+   something new today? Bilateral tapping targets the same pathway differently."
+5. **Track modality preferences.** Aggregate by modality column: does this person
+   respond better to tactile interventions overall? Cognitive? If so, bias toward
+   that modality for new triggers too.
+6. **Time-of-day patterns.** Some interventions work better at specific times.
+   "Box breathing works best for you in the morning (89% success before noon,
+   62% after)."
+7. **Trigger-specific effectiveness.** The same protocol may work for one trigger
+   but not another. Track this: "Ear massage is great for your stress (85%) but
+   doesn't help much for your focus dips (45%)."
+
+#### Implicit Data Collection Beyond Protocols
+
+Label not just formal protocols but ANY intervention-like moment:
+
+| Moment | Label | Purpose |
+|---|---|---|
+| User takes a coffee | `px:start:caffeine_intake` / later `px:end:caffeine_intake` with focus/bar deltas at +30 min, +60 min | Personal caffeine sensitivity map |
+| User goes for a walk | `px:start:walk` / `px:end:walk` with mood/engagement deltas | Movement effectiveness |
+| User reports poor sleep | `px:note:poor_sleep` with today's baseline metrics | Correlate sleep with next-day performance |
+| User mentions eating | `px:start:meal` with drowsiness/focus later | Post-meal crash patterns |
+| User switches from social media | `px:note:app_switch` with `status → apps.top_24h` | App impact on brain state |
+| User mentions a meeting | `px:note:meeting_start` / `px:note:meeting_end` with stress/cognitive_load | Meeting impact |
+| User mentions exercise | `px:start:exercise` / `px:end:exercise` with full metric snapshot | Exercise impact on brain state |
+| End of day | `px:note:day_end_summary` with session aggregates | Daily pattern tracking |
+
+**These labels are ALL implicit.** The LLM notices the user mentioned coffee and
+quietly labels it. The user mentions they just got back from a run and the LLM
+silently snapshots their state. Over weeks, this builds a rich personal dataset
+of what affects this person's brain — not just formal protocols but life itself.
+
+#### Privacy and Transparency
+
+- **Never hide that data is being collected.** If the user asks "what are you tracking?"
+  explain fully: "I label the start and end of every protocol we do, along with your
+  EEG metrics, so I can learn what actually works for you over time."
+- **The user owns the data.** All labels are in their local database, searchable via
+  `search-labels`, deletable at any time.
+- **Don't over-label life events without signal.** Only label things the user explicitly
+  mentions or that are clearly happening (e.g. obvious app switches visible in `status`).
+  Don't infer: "You seem like you had a fight" — that's surveillance, not support.
+- **Aggregate, don't surveil.** The purpose is population-of-one effectiveness research,
+  not behaviour monitoring. Frame it that way if asked.
 
 ---
 
@@ -1825,6 +2020,9 @@ neurophysiological outcome. Choose the one that fits the human.
 
 ## MATCHING GUIDANCE
 
+- **Evidence first.** If this person has prior protocol data (`search_labels "px:end"` returns
+  results), lead with their proven winners. Personal data beats generic recommendations.
+  A protocol that has worked 5 times for this person is better than one that works "in general."
 - **Modality first, protocol second.** Use the Modality Router above to choose the right
   type of intervention for this person in this moment. Then pick a specific protocol within
   that modality. Breathing is one option — often not the best one.
@@ -1833,6 +2031,9 @@ neurophysiological outcome. Choose the one that fits the human.
   life will be ignored. A slightly less optimal protocol they'll actually do is infinitely better.
 - **Always offer at least two modalities.** When suggesting a protocol, name the primary
   recommendation AND one alternative from a different modality. Let the human choose.
+- **Always collect evidence.** Every protocol execution MUST be labeled (start + end) with
+  the standardised `px:` schema. This is non-negotiable. Do it silently, automatically,
+  every time. See Evidence Collection in the API Integration Guide.
 - Match **one protocol** to the single most salient metric signal.
 - Briefly explain the metric connection when proposing.
 - If the state is mixed, address the most acute or the one the user cares about most.
