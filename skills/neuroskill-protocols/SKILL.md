@@ -276,9 +276,10 @@ effectiveness and setting up proactive triggers.
   🔧 *API:* Before: verify `status → scores.tbr > 1.5`. During: poll `status` every 60s, use `say` to report "Your theta-beta ratio just dropped from 1.6 to 1.3 — keep going". After: `label "neurofeedback anchor complete"` with tbr delta. Longitudinal: `search_labels "neurofeedback"` to track improvement trend.
 
 **Focus Reset** → scattered `engagement`, high `cognitive_load` mid-session
-  90-second closed-eye reset: single breath hold, one intention set.
+  90-second reset: choose your modality — breath hold + intention, OR eyes-closed + ear massage + intention, OR isometric squeeze (fists 5s, release) + intention. All achieve the same attentional interrupt.
   ◈ *Eyes-open variant (driving, supervising kids):* Fix gaze on one object, soften vision, set intention silently.
   ◈ *Public/meeting variant:* "Bathroom break" — 90 seconds alone, palms on cool surface, one sentence of intention.
+  ◈ *No-breath:* Tongue press 10s → release → set intention. Nobody notices.
 
 **Cognitive Load Offload** → `cognitive_load` > 0.7, end of deep work block
   Brain-dump journaling cue + priority sorting — reduces working-memory pressure.
@@ -298,11 +299,14 @@ effectiveness and setting up proactive triggers.
   ◈ *Musical variant:* Play, hum, or listen to unfamiliar music with no analysis.
 
 **Pre-Performance Activation** → low `engagement` before a presentation or challenge
-  Power posture + fast breath activation + single positive-outcome visualisation.
+  Power posture + activation + single positive-outcome visualisation. Activation options:
+  fast breathing (3 sharp inhale-exhales), OR 10 rapid arm pumps, OR vigorous hand
+  clapping (5 s), OR cold water on face/wrists. Choose what fits the setting.
   ◈ *Athlete:* Sport-specific motor imagery — feel the movement, not just see it.
   ◈ *Student before exam:* "You already studied. Recall one thing you know cold. That's your anchor."
   ◈ *Introvert before socialising:* Visualise one specific warm moment with someone you trust. Carry that feeling in.
   ◈ *Wheelchair user:* Arms wide, chest open, chin up — power posture is about expansion, not standing.
+  ◈ *No breath, no movement:* Pure visualisation — vividly imagine the successful outcome for 60 seconds. Mental rehearsal alone activates motor and reward circuits.
 
 ---
 
@@ -317,9 +321,10 @@ effectiveness and setting up proactive triggers.
   🔧 *API:* Before: `status` → confirm `bar > 0.5`, snapshot `relaxation` baseline, `label "protocol start: box breathing" --context "bar=X, relaxation=X"`. During: `say "Inhale... 2... 3... 4..."` for each phase, `dnd_set enabled:true`, poll `status` at 60s/120s to track `rmssd` rise. After: `status` → compare to baseline, `label "protocol end: box breathing" --context "bar delta, relaxation delta"`, `say` the results, `notify` summary. After 5 sessions: `hooks_suggest "box breathing,calm"` → create auto-trigger hook for when `bar` spikes again.
 
 **Extended Exhale (4-7-8)** → acute stress spike, high `lf_hf_ratio`
-  Fastest parasympathetic trigger. Short inhale, long hold, very long exhale.
+  Fastest breath-based parasympathetic trigger. Short inhale, long hold, very long exhale.
   ◈ *Panic/hyperventilation risk:* Skip the hold. Just make the exhale twice as long as the inhale (3-0-6).
   ◈ *Pregnant:* No extended holds — use 4-0-8 (no hold) variant.
+  ◈ *Non-breath alternatives with equal parasympathetic speed:* Cold Water Face Splash (Dive Reflex) — fastest non-breath option, 10–15 seconds. Bilateral Tapping — 60 seconds. Gargling — 30 seconds. Any of these achieve parasympathetic activation without breath control.
 
 **Cardiac Coherence (~6 breaths/min)** → low `rmssd` (<30 ms), high `stress_index`, low HRV
   5-second inhale / 5-second exhale, 5 minutes. Maximises HRV and vagal tone.
@@ -331,6 +336,7 @@ effectiveness and setting up proactive triggers.
   Double inhale through nose + long slow exhale. 1–3 cycles only.
   ◈ *Best "stealth" breath technique:* Looks like a natural sigh. Usable in meetings, on camera, on a date.
   ◈ *Child:* "Sniff-sniff like a bunny, then blow out like you're cooling soup."
+  ◈ *If breath control feels impossible right now:* Press tongue to palate hard for 10 seconds (same vagal pathway, zero breath involvement). Or squeeze an ice cube / hold a cold can. Or press both feet into the floor as hard as you can for 10 seconds. The goal is parasympathetic activation — breath is one route, not the only route.
 
 ---
 
@@ -423,7 +429,10 @@ effectiveness and setting up proactive triggers.
 ## CONSCIOUSNESS & INTEGRATION
 
 **Coherence Building** → low `coherence` (<0.4), low `integration`
-  Synchronised attention on heartbeat + slow breath — promotes cross-region coupling.
+  Synchronised attention on heartbeat — promotes cross-region coupling. Pair with: slow
+  breathing, OR humming/toning (auditory), OR rhythmic bilateral tapping, OR slow hand
+  warming visualisation. The heartbeat attention is the active ingredient; the pairing
+  modality is flexible.
 
 **Flow State Induction** → mid-range `focus` (0.5–0.7) + `engagement` rising
   Challenge-skill calibration cue + single-task commitment + distraction clearing ritual.
@@ -453,7 +462,11 @@ effectiveness and setting up proactive triggers.
 ## HEADACHE & MIGRAINE
 
 **Cortical Quieting** → `headache_index` > 30, `migraine_index` > 20
-  Sensory withdrawal: dark/quiet room cue + very slow nasal breathing + cool compress.
+  Sensory withdrawal: dark/quiet room + cool compress on forehead or neck. Pair with:
+  very slow nasal breathing, OR just lie still with the compress (passive), OR ear massage
+  (auricular vagal), OR humming at a low pitch. The sensory reduction is the primary
+  intervention — the pairing is secondary and should match what the person can tolerate
+  when in pain.
 
 **Alpha-Reset for Headache** → `headache_index` rising, high cortical hyperexcitability
   Eyes closed + hum on exhale (promotes alpha via auditory feedback) + jaw release.
@@ -464,16 +477,20 @@ effectiveness and setting up proactive triggers.
 
 **Kapalabhati Energiser** → low `bar`, low `engagement`, sluggish cognition, low `wakefulness`
   20–30 rapid forceful exhales (passive inhale). Brief — powerful alertness lift.
+  ◈ *Non-breath energisers with equal alertness effect:* Cold water on face/wrists (fastest). 20 jumping jacks or rapid arm pumps. Vigorous hand clapping for 10 seconds. Rapid alternating nostril tapping (without breathing pattern). Chewing ice. Any of these spike cortical arousal without breath technique.
 
 **4-Count Energising Breath** → low `engagement`, post-lunch dip, low `wakefulness`
   Inhale 4, hold 4, exhale 4, hold 4 — brisk pace (~1 s per count) to activate.
+  ◈ *Non-breath alternative:* Isometric full-body clench (every muscle for 10 s, release, repeat 3×). Or: stand up, march in place for 30 seconds, sit back down. Or: 3 deliberate yawns (counterintuitively activating). Or: chew gum vigorously for 2 minutes.
 
 **Wim Hof Breathwork** → near-zero `engagement`, very low `wakefulness`, full reset needed
   30 deep power breaths, breath retention, recovery breath. Dramatic alertness + mood lift.
-  ⚠ Not for known seizure disorders or cardiovascular concerns.
+  ⚠ Not for known seizure disorders, cardiovascular concerns, or pregnancy.
+  ◈ *Non-breath full reset:* Cold water face immersion 30 s (dive reflex — equally dramatic autonomic shift). Or: bright light therapy lamp + 20 jumping jacks + cold water. The breath-free route takes slightly longer but avoids all contraindications.
 
 **Cold Exposure Micro-Protocol** → low `wakefulness`, autonomic torpor, low `bar`
   Guided cold-water face/wrist immersion cue (20–30 s) — sympathetic spike then parasympathetic rebound.
+  ◈ *This IS a non-breath protocol.* Excellent first-line alternative for anyone who can't or won't do breath-based energising. Works for all ages, abilities, and settings with a water source.
 
 ---
 
@@ -533,19 +550,25 @@ effectiveness and setting up proactive triggers.
 *(Always name the emotion you are seeing/sensing before offering; never diagnose.)*
 
 **Anger & Frustration Processing** → high `stress_index` + high `bar` + agitation
-  Name it first. Palm-press discharge (10 s). Slow exhale-extended breath (4 in / 8 out).
-  Somatic locate. Finish with one clear boundary or action statement. ~8 min.
+  Name it first. Palm-press discharge (10 s). Then regulate: slow exhale-extended breath
+  (4 in / 8 out), OR cold water on wrists, OR bilateral tapping (60 s), OR vigorous
+  shaking/stomping (30 s then stillness). Somatic locate. Finish with one clear
+  boundary or action statement. ~8 min.
 
 **Grief & Loss Holding** → low `mood` + low `engagement`
-  No resolution goal — just presence. Body scan to locate grief physically. Hand on chest.
-  Three things remembered. Closing breath and gentle return. ~10–15 min.
+  No resolution goal — just presence. Body scan to locate grief physically. Hand on chest
+  (feel your own warmth). Three things remembered. Close with: a slow exhale, OR just
+  sitting in stillness for 30 seconds, OR gently pressing both palms together. The closing
+  ritual matters — the specific modality does not. ~10–15 min.
 
 **Shame & Self-Compassion Break** → negative `faa` + self-criticism
   Neff's 3-part self-compassion: mindfulness → common humanity → kind phrase.
   Distinct from Metta (radiates inward, not outward). ~6 min.
 
 **Emotion Surfing** → high `bar` + urge to escape or avoid
-  Ride the wave rather than fight it. Map the feeling in the body. Breathe into the centre.
+  Ride the wave rather than fight it. Map the feeling in the body. Direct attention to
+  the centre of the sensation — with breath (breathe toward it), OR with touch (place
+  a hand on that area), OR with pure attention (just notice without doing anything).
   Watch it peak and subside without acting on it. ~8 min.
 
 **Fear Processing** → freeze pattern (very low `engagement`)
@@ -568,8 +591,10 @@ effectiveness and setting up proactive triggers.
   Notice chest opening, the smallness that feels good. ~8 min.
 
 **Joy Amplification** → `mood` > 0.7 + positive `faa` — savour a good state
-  Name what is good. Locate the physical felt sense. Breathe into it and let it spread.
-  Create a sensory snapshot to return to. Seal with gratitude. ~5 min.
+  Name what is good. Locate the physical felt sense. Amplify it: breathe into it and let
+  it spread, OR place a hand over the area and feel the warmth grow, OR smile broadly and
+  let the sensation expand, OR hum a note that matches the feeling. Create a sensory
+  snapshot to return to. Seal with gratitude. ~5 min.
 
 **Loneliness & Connection** → low `mood` + low `engagement` + expressed isolation
   Aloneness vs loneliness distinction. Loving-Kindness toward others in same pain.
@@ -580,8 +605,9 @@ effectiveness and setting up proactive triggers.
   Not to excuse — to release carrying it. Somatic check. ~10 min.
 
 **Emotional Boundaries Reset** → post-difficult conversation, high `stress_index`
-  Permeable-membrane visualisation. Return ownership of your feelings.
-  One breath per boundary re-established. ~5 min.
+  Permeable-membrane visualisation. Return ownership of your feelings. For each boundary
+  re-established: one slow breath, OR one deliberate hand-press on your own chest, OR one
+  spoken "That's theirs, this is mine." Any ritual that marks the boundary works. ~5 min.
 
 ---
 
@@ -1705,11 +1731,82 @@ These bridge the gap between "I know I should do something" and "I don't have ti
 
 ---
 
+## MODALITY ROUTER
+
+*(Breathing is ONE modality, not the default. Before offering any protocol, select the
+best MODALITY for the person's circumstances, then pick a protocol within that modality.
+Never default to breathwork without considering whether a different modality would be
+more accessible, effective, or welcome for this specific human in this specific moment.)*
+
+### The Rule
+
+**Do NOT assume breathing is the best intervention.** Many people find breathwork:
+- Physically uncomfortable (asthma, COPD, anxiety, panic disorder, nasal congestion)
+- Socially awkward (meetings, public transport, crowded spaces, on camera)
+- Cognitively annoying (counting feels tedious, controlling breath feels unnatural)
+- Culturally unfamiliar (not everyone grew up with yoga/meditation framing)
+- Triggering (hyperventilation history, trauma, feeling "controlled")
+- Inaccessible (speech devices, ventilators, certain disabilities)
+
+**Instead:** For every EEG trigger, there are 5–7 modalities that achieve the same
+neurophysiological outcome. Choose the one that fits the human.
+
+### Modality Selection by Trigger
+
+| EEG Trigger | 🫁 Breath | 🖐️ Tactile | 🧠 Cognitive | 👁️ Visual | 🏃 Movement | 🔊 Auditory | ⚡ Passive Physio |
+|---|---|---|---|---|---|---|---|
+| **High `bar` / stress** | Box Breathing, Physiological Sigh | Bilateral Tapping, Ear Massage, Temperature Object | Worry Parking Lot, Category Drill | Panoramic Vision, Slow Tracking | Isometric Squeeze-Release, Somatic Shaking | Humming, Sound Mapping | Cold Water Wrists/Face, Gargling |
+| **Low `focus` / high `tbr`** | Working Memory Primer (breath variant) | Structured Fidget, Texture Scanning | Micro-Tasking Drill, Mental Arithmetic, N-Back | Candle Gaze (Trataka), Colour Hunting | Micro-Walk, Cross-body Taps | Auditory Focus Anchor, Whisper Reading | Chewing Protocol, Deliberate Yawning |
+| **Low `relaxation`** | Cardiac Coherence, Extended Exhale | Hand Warming, Pressure Points | Internal Narration Silence | Peripheral Vision Expansion | Jaw Release, Gravity Drop | Toning, Environmental Sound Bath | Ear Massage, Tongue Press |
+| **Negative `faa` / low `mood`** | Loving-Kindness (breath-paired) | Havening Touch, Self-hug | Micro-Gratitude, Mental Time Travel, WOOP | Colour Hunting, Awe imagery | Mood Activation posture, Walking | Singing, Mood-Match Music | Hand Warming Visualisation |
+| **High `cognitive_load`** | Cognitive Load breath dump | Palm Press, Texture Scanning | Brain dump, Worry Parking, 3-Word Capture | 20-20-20 Reset, Near-Far Shifting | Movement Snack, Spinal Wave | Environmental Sound Bath, Whisper Reading | Deliberate Yawning |
+| **Low `wakefulness` / drowsy** | Kapalabhati, 4-Count Energising | Temperature Contrast (cold) | Novel Stimulation Burst | Near-Far Focus | Jumping jacks, Cross-body taps | Energising playlist | Cold Water Face (Dive Reflex), Chewing |
+| **Low `rmssd` / low HRV** | Cardiac Coherence, Extended Exhale | Ear Massage (auricular vagal) | — | Slow Visual Tracking | — | Humming, Gargling, Singing | Gargling, Tongue Press |
+| **High `headache_index`** | Cortical Quieting (slow nasal) | Pressure Points (LI-4), Cool compress | Distraction Counting | Palming | Jaw Release, Neck Release | Humming on exhale | Cold Water Wrists |
+| **Panic / acute distress** | Physiological Sigh (if tolerable) | Bilateral Tapping, Cold object | 5-4-3-2-1 Grounding | Panoramic Vision, Fixed-point gaze | Feet press into floor | Rhythmic Tapping | Cold Water Face (Dive Reflex) |
+| **Low `engagement` / flat** | — | Fidget Protocol | Homework Start Hack, Mental Time Travel | Colour Hunting | Movement Snack, Dance | Energising Music | Chewing, Cold Exposure |
+| **Low `lzc` / rigidity** | — | — | Category Switching, Novel Burst | Active Listening (visual tracking) | Wuqinxi, Cross-body movements | Active Listening (music), Sound Mapping | — |
+| **Pre-sleep / high `bar` at rest** | 4-7-8, Sleep Wind-Down | Ear Massage, Havening Touch | Worry dump (writing) | — (avoid screens) | Progressive Muscle Relaxation | Sleep Music, NSDR via `say` | — |
+
+### How to Use This Table
+
+1. **Identify the EEG trigger** from `status`.
+2. **Assess the person's context** (location, social setting, physical ability, preferences, history).
+3. **Pick the modality column** that best fits their circumstances:
+   - *In a meeting?* → Cognitive or Passive Physio (invisible)
+   - *Eyes-closed OK?* → Visual or Breath
+   - *With a child?* → Tactile or Movement (playful)
+   - *Breath-averse?* → Anything but Breath column
+   - *Can make noise?* → Auditory
+   - *Near water?* → Passive Physio (cold water)
+   - *Restless?* → Movement
+   - *No movement possible?* → Cognitive or Passive Physio
+4. **Offer that protocol.** If refused, offer a second from a DIFFERENT modality.
+5. **Never present breathing as the only or default option.** Present it as one choice among equals.
+
+### Phrasing Examples
+
+❌ "Let's try box breathing to lower your stress."
+✅ "Your stress is elevated. A few options: you could try box breathing, or if you'd rather skip the breath stuff — cold water on your wrists works just as fast. Or I can guide you through a quick ear massage. What sounds good?"
+
+❌ "Take 5 deep breaths."
+✅ "Quick reset: press your tongue against the roof of your mouth for 10 seconds. Or, if you'd prefer, 3 slow breaths. Both work — pick whichever feels right."
+
+❌ "Do some breathing exercises before bed."
+✅ "For winding down tonight: you could do a body scan (I'll talk you through it), write down your worries and close the notebook, put on some Max Richter, or do an ear massage in bed. What appeals to you?"
+
+---
+
 ## MATCHING GUIDANCE
 
+- **Modality first, protocol second.** Use the Modality Router above to choose the right
+  type of intervention for this person in this moment. Then pick a specific protocol within
+  that modality. Breathing is one option — often not the best one.
 - **Personalise first, then match.** Before selecting a protocol, consider who this person is
   (see Personalisation Engine). The best EEG-matched protocol that doesn't fit the person's
   life will be ignored. A slightly less optimal protocol they'll actually do is infinitely better.
+- **Always offer at least two modalities.** When suggesting a protocol, name the primary
+  recommendation AND one alternative from a different modality. Let the human choose.
 - Match **one protocol** to the single most salient metric signal.
 - Briefly explain the metric connection when proposing.
 - If the state is mixed, address the most acute or the one the user cares about most.

@@ -219,10 +219,35 @@ model can invoke built-in tools and return results within the conversation.
 | `search_output` | Navigate large tool outputs (paginated) |
 | `web_search` | Search the web |
 | `web_fetch` | Fetch a URL and return its content |
-| `skill` | Query the NeuroSkill EEG API (status, sessions, labels, search, hooks, etc.) |
+| `skill` | Query the NeuroSkill EEG API (status, sessions, labels, search, screenshots, hooks, DND, health, etc.) |
 
 Tool calls are detected in the model's output, executed server-side, and results are
 fed back automatically. The CLI `llm chat` handles this transparently.
+
+### The `skill` Tool
+
+The `skill` tool lets the LLM query and control NeuroSkill™ directly. Commands are
+sent as `{ "command": "<ws_command>", "args": { ... } }` objects. Supported commands
+include: `status`, `sessions`, `session_metrics`, `search`, `compare`, `sleep`,
+`sleep_schedule`, `sleep_schedule_set`, `label`, `search_labels`, `interactive_search`,
+`search_screenshots`, `screenshots_around`, `screenshots_for_eeg`, `eeg_for_screenshots`,
+`search_screenshots_vision`, `search_screenshots_by_image_b64`, `hooks_status`,
+`hooks_get`, `hooks_suggest`, `hooks_log`, `dnd`, `notify`, `say`, `health_summary`,
+`health_query`, `health_metric_types`, `health_sync`, and others.
+
+**Argument coercion:** If the LLM flattens arguments to the top level (e.g.
+`{"command":"search_screenshots","query":"today"}` instead of properly nesting in `args`),
+the tool system automatically wraps stray properties into the `args` object before validation.
+
+**Blocked commands:** For safety, the LLM cannot invoke self-management commands:
+`llm_start`, `llm_stop`, `llm_select_model`, `llm_select_mmproj`, `llm_add_model`,
+`llm_download`, `llm_cancel_download`, `llm_pause_download`, `llm_resume_download`,
+`llm_refresh_catalog`, `llm_logs`, `llm_delete`, `run_calibration`, `timer`.
+
+**Status formatting:** When the LLM calls the `status` command, the result is
+automatically formatted from raw JSON into a human-readable text block with clear
+section headers (Device, Session, EEG Embeddings, Labels, Most Used Apps, Screenshots,
+Signal Quality, Current Scores, Hooks, Sleep, Recording History) for easier comprehension.
 
 ---
 

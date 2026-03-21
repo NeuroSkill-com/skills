@@ -1,6 +1,6 @@
 ---
 name: neuroskill-labels
-description: NeuroSkill `label`, `search-labels`, and `interactive` commands — creating EEG text annotations, semantic vector search over labels, and cross-modal 4-layer graph search combining text and EEG similarity. Use when annotating EEG moments or searching for past states by description.
+description: NeuroSkill `label`, `search-labels`, and `interactive` commands — creating EEG text annotations, semantic vector search over labels, and cross-modal 5-layer graph search combining text, EEG similarity, and screenshot discovery with 3D visualization. Use when annotating EEG moments or searching for past states by description.
 ---
 
 # NeuroSkill Label Commands
@@ -135,10 +135,10 @@ npx neuroskill search-labels "stress" --json | jq '[.results[].eeg_metrics.tbr]'
 
 ---
 
-## `interactive` — Cross-Modal 4-Layer Graph Search
+## `interactive` — Cross-Modal 5-Layer Graph Search
 
-Combines semantic text search, EEG similarity search, and temporal label proximity
-into a single directed graph:
+Combines semantic text search, EEG similarity search, temporal label proximity,
+and screenshot discovery into a single directed graph:
 
 ```
 "deep focus"  →  text_label nodes       (semantically similar annotations)
@@ -146,6 +146,9 @@ into a single directed graph:
               eeg_point nodes           (raw EEG moments from label time windows)
                       ↓
               found_label nodes         (labels near those EEG moments in time)
+                      ↓
+              screenshot nodes          (screenshots near EEG timestamps, ranked by
+                                         window-title / OCR-text proximity to query)
 ```
 
 ### Output Formats
@@ -154,7 +157,7 @@ into a single directed graph:
 |---|---|
 | _(none)_ | Colored human-readable summary |
 | `--full` | Summary **+** colorized JSON |
-| `--json` | Raw JSON: `{ query, nodes, edges, dot }` |
+| `--json` | Raw JSON: `{ query, nodes, edges, dot, svg, svg_col, svg_3d }` |
 | `--dot` | Graphviz DOT source — pipe to `dot -Tsvg` or `dot -Tpng` |
 
 ```bash
@@ -165,10 +168,16 @@ npx neuroskill interactive "focus" --json | jq '[.nodes[] | select(.kind == "tex
 npx neuroskill interactive "low focus" --json | jq '[.nodes[] | select(.kind == "eeg_point") | .timestamp_unix]'
 npx neuroskill interactive "stress" --json | jq '[.nodes[] | select(.kind == "found_label") | .text]'
 
+# Extract discovered screenshots:
+npx neuroskill interactive "coding" --json | jq '[.nodes[] | select(.kind == "screenshot") | {file: .filename, app: .app_name, ocr_sim: .ocr_similarity}]'
+
 # Render graph (requires graphviz):
 npx neuroskill interactive "deep focus" --dot | dot -Tsvg > graph.svg
 npx neuroskill interactive "meditation" --dot | dot -Tpng > graph.png
 npx neuroskill interactive "focus" --json | jq -r '.dot' | dot -Tsvg > graph.svg
+
+# Save the 3D perspective SVG:
+npx neuroskill interactive "work" --json | jq -r '.svg_3d' > graph_3d.svg
 ```
 
 ### Pipeline Parameters
@@ -198,25 +207,38 @@ curl -s -X POST http://127.0.0.1:8375/ \
     { "id": "query",    "kind": "query",       "text": "deep focus",           "distance": 0.0    },
     { "id": "tl_0",    "kind": "text_label",   "text": "focused reading",      "distance": 0.1204 },
     { "id": "ep_...",  "kind": "eeg_point",    "text": null, "timestamp_unix": 1740413565, "distance": 0.0231 },
-    { "id": "fl_42",   "kind": "found_label",  "text": "eyes closed",          "distance": 0.133  }
+    { "id": "fl_42",   "kind": "found_label",  "text": "eyes closed",          "distance": 0.133  },
+    {
+      "id": "ss_20260224080530", "kind": "screenshot", "timestamp_unix": 1740413130,
+      "distance": 0.05, "filename": "20260224/20260224080530.webp",
+      "app_name": "VS Code", "window_title": "main.rs",
+      "ocr_text": "fn dispatch(app: &AppHandle…", "ocr_similarity": 0.42,
+      "proj_x": 0.31, "proj_y": -0.18, "proj_z": 0.72
+    }
   ],
   "edges": [
     { "from_id": "query", "to_id": "tl_0",   "kind": "text_sim",   "distance": 0.1204 },
     { "from_id": "tl_0",  "to_id": "ep_...", "kind": "eeg_bridge", "distance": 0.0231 },
-    { "from_id": "ep_...", "to_id": "fl_42", "kind": "label_prox", "distance": 0.133  }
+    { "from_id": "ep_...", "to_id": "fl_42", "kind": "label_prox", "distance": 0.133  },
+    { "from_id": "ep_...", "to_id": "ss_20260224080530", "kind": "screenshot_prox", "distance": 2.0 },
+    { "from_id": "ep_...", "to_id": "ss_20260224080530", "kind": "ocr_sim", "distance": 0.42 }
   ],
-  "dot": "digraph interactive_search { ... }"
+  "dot": "digraph interactive_search { ... }",
+  "svg": "<svg ...>...</svg>",
+  "svg_col": "<svg ...>...</svg>",
+  "svg_3d": "<svg ...>...</svg>"
 }
 ```
 
 ### Node Kinds
 
-| Kind | Layer | Description |
-|---|---|---|
-| `query` | 0 | The embedded search keyword (always exactly 1) |
-| `text_label` | 1 | Annotations semantically similar to the query |
-| `eeg_point` | 2 | Raw EEG moments from label time windows |
-| `found_label` | 3 | Annotations discovered near EEG moments in time |
+| Kind | Layer | Color | Description |
+|---|---|---|---|
+| `query` | 0 | violet | The embedded search keyword (always exactly 1) |
+| `text_label` | 1 | blue | Annotations semantically similar to the query |
+| `eeg_point` | 2 | amber | Raw EEG moments from label time windows |
+| `found_label` | 3 | emerald | Annotations discovered near EEG moments in time |
+| `screenshot` | 4 | pink | Screenshots near EEG timestamps, ranked by window-title / OCR proximity |
 
 ### Edge Kinds
 
@@ -226,6 +248,40 @@ curl -s -X POST http://127.0.0.1:8375/ \
 | `eeg_bridge` | text_label → eeg_point | Cosine distance in EEG embedding space |
 | `eeg_sim` | eeg_point → eeg_point | Cosine distance (cross-edge) |
 | `label_prox` | eeg_point → found_label | Temporal proximity (fraction of reach window) |
+| `screenshot_prox` | eeg_point → screenshot | Temporal proximity (seconds between EEG epoch and screenshot) |
+| `ocr_sim` | eeg_point → screenshot | Cosine similarity between query text and screenshot OCR text |
+
+### Screenshot Node Fields
+
+Screenshot nodes include additional fields not present on other node kinds:
+
+| Field | Type | Description |
+|---|---|---|
+| `filename` | string | Relative path to the screenshot image file |
+| `app_name` | string | Application name at capture time |
+| `window_title` | string | Window title at capture time |
+| `ocr_text` | string | OCR-extracted text from the screenshot |
+| `ocr_similarity` | number | Cosine similarity (0–1) between query text and OCR text |
+
+### 3-D Projection Fields
+
+All nodes with text embeddings include PCA projection coordinates:
+
+| Field | Type | Description |
+|---|---|---|
+| `proj_x` | number | PCA axis 1, normalised to [-1, 1] |
+| `proj_y` | number | PCA axis 2, normalised to [-1, 1] |
+| `proj_z` | number | PCA axis 3, normalised to [-1, 1] |
+
+### SVG Outputs
+
+The response includes three pre-rendered SVG visualizations:
+
+| Field | Description |
+|---|---|
+| `svg` | PCA-scatter layout for found_labels |
+| `svg_col` | Column-per-EEG-parent layout |
+| `svg_3d` | 3-D perspective-projected dark-themed SVG with depth cues (scale, opacity, drop shadows) and grid floor — includes screenshot nodes |
 
 > **Empty results:** If no labels have been embedded yet, only the query node is returned.
 > Annotate moments with `label` first, then run `search-labels` to verify, then re-run `interactive`.
