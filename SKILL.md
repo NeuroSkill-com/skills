@@ -1,3 +1,8 @@
+---
+name: neuroskill-index
+description: Skill index and overview — lists all available NeuroSkill skills, tools, and explains how skill loading works.
+---
+
 # NeuroSkill Skill Index
 
 NeuroSkill is a biometric AI companion powered by a real-time EEG device.

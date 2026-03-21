@@ -1,3 +1,8 @@
+---
+name: neuroskill-skills-readme
+description: README for the neuroskill-skills npm package — installation, skill listing, and contribution guide.
+---
+
 # neuroskill-skills
 
 [![npm](https://img.shields.io/npm/v/neuroskill-skills)](https://www.npmjs.com/package/neuroskill-skills)

@@ -1,3 +1,8 @@
+---
+name: neuroskill-metrics
+description: Metrics and indices reference — all EEG band powers, ratios, scores, complexity measures, PPG/HRV, sleep stages, and consciousness metrics with definitions and formulas.
+---
+
 # NeuroSkill — Metrics & Indices Reference
 
 > **⚠ Research Use Only.**  
