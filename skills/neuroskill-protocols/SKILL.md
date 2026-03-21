@@ -385,7 +385,10 @@ effectiveness and setting up proactive triggers.
 ## SLEEP & CIRCADIAN
 
 **Sleep Onset Wind-Down** → high `drowsiness` post-session, high `bar` at rest
-  Dim-light routine cue + 4-7-8 breathing + progressive body release.
+  Dim-light routine cue + relaxation method: 4-7-8 breathing, OR progressive body release
+  (no breath required — just scan and soften), OR ear massage in bed, OR autogenic phrases
+  ("my arms are heavy and warm"), OR sleep music (Max Richter, binaural delta). Pick the
+  method that feels least like effort — sleep protocols must not feel like work.
   ◈ *Parent of infant:* "Your wind-down IS the feed/rock routine. When baby sleeps, you sleep. No phone."
   ◈ *Shift worker:* Blackout curtains + earplugs + same routine regardless of clock time. Body follows ritual, not sun.
   ◈ *Anxious mind:* Add worry dump first — write every thought, close the notebook, then body release.
@@ -580,8 +583,9 @@ effectiveness and setting up proactive triggers.
   Write one step toward that value. ~6 min.
 
 **Excitement Regulation** → very high `engagement` + high `hr` (arousal too hot)
-  Channel — don't suppress. Name what's exciting. Slow breath to bring HR down.
-  Write one immediate concrete next action. ~5 min.
+  Channel — don't suppress. Name what's exciting. Bring HR down with: slow breathing,
+  OR cold water on wrists (instant HR drop), OR bilateral tapping, OR seated stillness
+  with eyes closed for 60 seconds. Write one immediate concrete next action. ~5 min.
 
 **Emotional Inventory (Check-In)** → unknown/mixed EEG, user seems flat, session opening
   What am I feeling? Where? Intensity 0–10? What does it need? No fixing — just naming. ~3 min.
@@ -661,7 +665,9 @@ or when the user reports eye strain, blurred vision, or dry eyes.)*
   → up-down saccades → diagonal holds → slow circles → convergence push-up → blink series. ~8 min.
 
 **Palming & Blink Recovery** → dry eyes, eye burning, `migraine_index` elevated
-  Warm hands over closed eyes, full blinks every 3–4 s, slow nasal breathing. ~3 min.
+  Warm hands over closed eyes, full blinks every 3–4 s. Pair with: slow nasal breathing,
+  OR just rest in the darkness (passive), OR gentle humming. The palming and warmth are
+  the active ingredients. ~3 min.
 
 ---
 
@@ -670,15 +676,20 @@ or when the user reports eye strain, blurred vision, or dry eyes.)*
 *(Offer at session start when `wakefulness` is low, or the user mentions just waking up.)*
 
 **Gentle Morning Wake-Up** → `wakefulness` < 50, mild grogginess
-  Supine stretches (cat-cow, knees-to-chest, spinal twist) + 5 deep breaths +
+  Supine stretches (cat-cow, knees-to-chest, spinal twist) + activation (5 deep breaths,
+  OR 3 deliberate yawns, OR cold water on face, OR vigorous palm-rubbing for warmth) +
   gratitude anchor + intention for the day. Eases cortisol-awakening response. ~10 min.
 
 **Energising Morning Activation** → `wakefulness` < 35, flat `mood`, low `engagement`
-  Sun salutation verbal guide (5 rounds) + cold water face splash + kapalabhati (30 pumps)
-  + 1-minute power posture. ~12 min.
+  Sun salutation verbal guide (5 rounds) + cold water face splash + activation (kapalabhati
+  30 pumps, OR 20 jumping jacks, OR vigorous arm pumps, OR fast march in place for 60 s)
+  + 1-minute power posture. The cold water + movement combination is equally effective
+  without any breath technique. ~12 min.
 
 **Morning Clarity Ritual** → low `focus` at day start, `cognitive_load` carryover from yesterday
-  Brain-dump journal cue → prioritise top 3 → set daily intention → 3-breath commitment. ~8 min.
+  Brain-dump journal cue → prioritise top 3 → set daily intention → commitment seal
+  (3 slow breaths, OR speak the intention aloud once, OR write it on a sticky note and
+  place it visible, OR clap once decisively). The seal is a ritual close — any form works. ~8 min.
   🔧 *API:* `status` → show yesterday's `sleep` summary ("You got 6.5 hours, 18% deep sleep"). `sessions` → streak ("Day 12 in a row!"). `label "morning intention: [user's intention]"`. Later: `search_labels "morning intention"` → review what intentions led to the best focus sessions. `compare` mornings-with-ritual vs mornings-without to show the habit's EEG impact.
 
 **Mindful Morning Transition** → low `integration`, emotional residue from sleep/dreams
@@ -692,21 +703,27 @@ or when the user reports eye strain, blurred vision, or dry eyes.)*
 *(Offer when the user mentions gym/training. Also relevant post-workout when `hr` or `stress_index` is elevated.)*
 
 **Pre-Workout Neural Primer** → before training; low `engagement` or `wakefulness`
-  Diaphragmatic breath (10 breaths) + dynamic mobility (arm swings, hip circles, leg swings, ankle rolls)
-  + CNS excitation burst (10 jumping jacks or rapid foot taps) + session intention. ~8 min.
+  Activation (10 diaphragmatic breaths, OR cold water face splash, OR 3 deliberate yawns) +
+  dynamic mobility (arm swings, hip circles, leg swings, ankle rolls) + CNS excitation burst
+  (10 jumping jacks or rapid foot taps) + session intention. The mobility and excitation
+  burst are the core — the opening activation modality is flexible. ~8 min.
 
 **Pre-Workout Focus Lock** → before skill/heavy session; needs calm precision
-  Box breathing (5 rounds) → single-lift visualisation → arousal calibration breath
-  (sharp inhale, hold 2 s, explosive exhale). ~6 min.
+  Calming phase: box breathing (5 rounds), OR ear massage (60 s per ear), OR slow bilateral
+  tapping (90 s). Then: single-lift visualisation (feel the movement). Then: arousal spike
+  — sharp inhale + explosive exhale, OR palm clap, OR cold water on face, OR isometric
+  full-body clench (10 s) + release. ~6 min.
 
 **Intra-Workout Recovery Micro-Set** → between heavy sets; `hr` elevated, high `stress_index`
-  3–5 slow exhale-dominant breaths (4 in / 8 out) → brief body scan → shake out hands
-  and shoulders → re-set intention for next set. ~90 seconds.
+  Quick recovery: slow exhale-dominant breaths (4 in / 8 out), OR cold water sip + cold
+  wrist splash, OR just walk slowly for 60 s + shake out hands and shoulders. Re-set
+  intention for next set. The shake-out + intention is the core. ~90 seconds.
 
 **Post-Workout Cool-Down & Integration** → after training; `hr` still elevated, high `lf_hf_ratio`
   5 min slow walk cue + static stretch sequence (quads, hamstrings, hip flexors, chest,
-  lats, calves) + cardiac coherence breathing (6 breaths/min, 5 min) + hydration +
-  gratitude note. ~15 min.
+  lats, calves) + parasympathetic activation: cardiac coherence breathing (6 breaths/min,
+  5 min), OR humming through each stretch (vagal toning), OR just slow walking + cold
+  water on wrists (passive recovery). Hydration + gratitude note. ~15 min.
 
 **Post-Workout Recovery Reset** → after intense training; high `stress_index` + fatigue
   PMR targeting trained muscle groups → NSDR short version (10 min) →
@@ -742,7 +759,8 @@ or when the user hasn't mentioned drinking in a while.)*
   "Good time for a bathroom break — stand, walk, come back fresh."
 
 **Break + Reset on Return** → after any bathroom or movement break
-  2 standing breaths → full-body shake → re-read today's intention → sit back down. <60 s.
+  Quick reset: 2 standing breaths, OR full-body shake (5 s), OR cold water on wrists, OR
+  squeeze fists and release. Then re-read today's intention → sit back down. <60 s.
 
 **Movement Snack** → `stillness` > 0.9 for >45 min, low `engagement`
   Walk to another room and back (30 s), refill water, 10 calf raises. ~2 min.
@@ -822,16 +840,19 @@ specific artists/playlists, and how to listen. Always offer a specific recommend
 low `lzc`, scattered `engagement`, crashed `faa` or `mood`.)*
 
 **Pre-Scroll Intention Check** → before opening any social media app
-  3-breath pause. Ask: why am I opening this? Set a time limit (10 min) and exit cue. ~1 min.
-  The highest-leverage single intervention.
+  Pause (3 breaths, OR tongue press 10 s, OR just close your eyes for 5 seconds).
+  Ask: why am I opening this? Set a time limit (10 min) and exit cue. ~1 min.
+  The pause is the intervention — the modality of the pause doesn't matter.
 
 **Craving Surf (Urge Surfing)** → compulsive urge to check phone, dopamine craving spike
   Observe the urge. Locate in body. Rate 0–10. Watch it rise and fall without acting.
   Most urges peak in 90 seconds if not fed. ~3 min.
 
 **Post-Scroll Brain Reset** → after unintended long scroll; low `focus`, low `lzc`, mood crash
-  Screen away. 5 slow breaths. Body scan — notice quality of mind. 2-min outdoor/window gaze.
-  One deliberate re-engagement with something meaningful. ~8 min.
+  Screen away. Reset: 5 slow breaths, OR stand up and shake your whole body for 10 seconds,
+  OR cold water on face, OR just look at the farthest thing you can see for 30 seconds.
+  Body scan — notice quality of mind. 2-min outdoor/window gaze. One deliberate
+  re-engagement with something meaningful. ~8 min.
 
 **Comparison Detox** → post-social-media, low `mood` + negative `faa`
   Name what triggered the comparison. Envy Alchemy reframe. Write one real, unperformable
@@ -881,8 +902,9 @@ unless a timed practice is appropriate.)*
 ### Mindful Eating & Awareness
 
 **Pre-Meal Pause** → any meal; `stress_index` elevated before eating, autopilot eating
-  Three slow breaths before the first bite. Check: physically or emotionally hungry?
-  Rate hunger 0–10. Phone down. One sensory observation of the food. ~60 seconds.
+  Pause before the first bite: three slow breaths, OR put both hands flat on the table
+  for 5 seconds, OR just look at the food and name one colour and one texture.
+  Check: physically or emotionally hungry? Rate hunger 0–10. Phone down. ~60 seconds.
 
 **Mindful Meal Protocol** → rushed eating, high `cognitive_load` before meal
   Utensils down between bites. Chew 15–20 times. Pause halfway to re-check hunger.
@@ -1247,8 +1269,10 @@ disabled family members. Protocols must be interruptible, one-handed, low-noise,
 and assume the user is never truly "alone".)*
 
 **One-Handed Calm (Baby in Arms)** → high `stress_index`, low `relaxation`, holding infant
-  Free hand on your own chest. Feel your heartbeat. Slow your breathing naturally —
-  the baby will co-regulate with you. You don't need to "do" a technique. ~2 min.
+  Free hand on your own chest. Feel your heartbeat. Let your body settle — breathing will
+  slow on its own, or don't think about breath at all. Just feel your hand's warmth and
+  your heartbeat. The baby will co-regulate with your nervous system, not your breathing
+  technique. You don't need to "do" anything. ~2 min.
   ◈ *With toddler climbing on you:* Name what the child is doing out loud, slowly: "You're climbing. You're strong." Narration slows your own nervous system.
 
 **Parental Rage Reset** → high `bar`, high `stress_index`, anger toward child, overwhelm
@@ -1513,9 +1537,11 @@ reality that "self-care" advice often feels insulting when you're 14 hours into 
 more powerful than solo techniques. Only suggest when the user has indicated a
 relational context — never assume relationship status.)*
 
-**Co-Regulation Breathing** → both partners stressed, high `stress_index` in relational context
-  Sit facing each other or side by side. One person breathes audibly; the other matches.
-  No words needed. Nervous systems synchronise within 2–3 minutes. ~5 min.
+**Co-Regulation (Relational Sync)** → both partners stressed, high `stress_index` in relational context
+  Sit facing each other or side by side. Synchronise through: audible breathing (one leads,
+  other matches), OR mutual hand-holding (feel each other's pulse), OR gentle rocking
+  together at the same pace, OR humming the same note. No words needed. Nervous systems
+  synchronise within 2–3 minutes through ANY shared rhythmic input. ~5 min.
   ◈ *Works with friends, parent-child, or any trusted person.* Not exclusive to romantic partners.
 
 **Conflict Pause Protocol** → argument escalation, high `bar` + high `stress_index`
