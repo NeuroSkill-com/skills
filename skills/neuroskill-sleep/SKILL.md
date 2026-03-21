@@ -7,6 +7,18 @@ description: NeuroSkill `sleep` and `umap` commands — EEG-based sleep stage cl
 
 ---
 
+## LLM Tool Calls
+
+When calling these commands via the LLM `skill` tool, use `command` + `args`:
+
+```json
+{"command": "sleep", "args": {"start_utc": 1740380100, "end_utc": 1740412800}}
+{"command": "umap", "args": {"a_start_utc": 1740380100, "a_end_utc": 1740382665, "b_start_utc": 1740412800, "b_end_utc": 1740415510}}
+{"command": "umap_poll", "args": {"job_id": 5}}
+```
+
+---
+
 ## `sleep` — Sleep Stage Classification
 
 Classify EEG epochs into sleep stages (Wake / N1 / N2 / N3 / REM) using

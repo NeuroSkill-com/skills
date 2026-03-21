@@ -7,6 +7,22 @@ description: NeuroSkill `say`, `listen`, `notify`, `calibrate`, `calibrations`, 
 
 ---
 
+## LLM Tool Calls
+
+When calling these commands via the LLM `skill` tool, use `command` + `args`:
+
+```json
+{"command": "say", "args": {"text": "Hello, how are you feeling?"}}
+{"command": "notify", "args": {"title": "Focus Alert", "body": "Your focus dropped"}}
+{"command": "label", "args": {"text": "meditation start"}}
+{"command": "calibrate"}
+{"command": "timer"}
+{"command": "list_calibrations"}
+{"command": "run_calibration", "args": {"id": 3}}
+```
+
+---
+
 ## `say` — Text-to-Speech (On-Device TTS)
 
 Speak text aloud through the Skill app's built-in TTS engine (espeak-ng). Fire-and-forget —

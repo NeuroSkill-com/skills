@@ -7,6 +7,17 @@ description: NeuroSkill `session` and `sessions` commands — per-session metric
 
 ---
 
+## LLM Tool Calls
+
+When calling these commands via the LLM `skill` tool, use `command` + `args`:
+
+```json
+{"command": "sessions"}
+{"command": "session_metrics", "args": {"start_utc": 1740412800, "end_utc": 1740415500}}
+```
+
+---
+
 ## `session` — Single Session Breakdown
 
 Full metric breakdown for a single recording session, with first-half → second-half trend arrows.

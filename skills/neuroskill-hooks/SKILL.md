@@ -5,6 +5,22 @@ description: NeuroSkill Proactive Hooks — real-time EEG pattern matching with 
 
 # NeuroSkill Proactive Hooks
 
+---
+
+## LLM Tool Calls
+
+When calling these commands via the LLM `skill` tool, use `command` + `args`:
+
+```json
+{"command": "hooks_status"}
+{"command": "hooks_get"}
+{"command": "hooks_set", "args": {"hooks": [...]}}
+{"command": "hooks_suggest", "args": {"keywords": "focus,stress"}}
+{"command": "hooks_log", "args": {"limit": 20}}
+```
+
+---
+
 Proactive Hooks are a **real-time pattern matching system** that runs inside the
 EEG embedding pipeline. Every 5 seconds, when a new EEG embedding epoch is
 computed, the server checks all enabled hooks against the live brain state.

@@ -5,6 +5,19 @@ description: NeuroSkill Do Not Disturb automation — EEG-driven focus detection
 
 # NeuroSkill DND (Do Not Disturb) Automation
 
+---
+
+## LLM Tool Calls
+
+When calling these commands via the LLM `skill` tool, use `command` + `args`:
+
+```json
+{"command": "dnd"}
+{"command": "dnd_set", "args": {"enabled": true}}
+```
+
+---
+
 Show Do Not Disturb automation status, or force-override it.
 
 With no subcommand, shows the full DND config and live state: automation enabled/disabled,

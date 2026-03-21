@@ -7,6 +7,17 @@ description: NeuroSkill `search` and `compare` commands — ANN search for neura
 
 ---
 
+## LLM Tool Calls
+
+When calling these commands via the LLM `skill` tool, use `command` + `args`:
+
+```json
+{"command": "search", "args": {"start_utc": 1740412800, "end_utc": 1740415500, "k": 5}}
+{"command": "compare", "args": {"a_start_utc": 1740380100, "a_end_utc": 1740382665, "b_start_utc": 1740412800, "b_end_utc": 1740415510}}
+```
+
+---
+
 ## `search` — Neural Similarity Search
 
 Find EEG moments from your entire history that are neurally similar to a query range.

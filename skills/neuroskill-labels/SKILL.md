@@ -7,6 +7,20 @@ description: NeuroSkill `label`, `search-labels`, and `interactive` commands —
 
 ---
 
+## LLM Tool Calls
+
+When calling these commands via the LLM `skill` tool, use `command` + `args`:
+
+```json
+{"command": "label", "args": {"text": "meditation start"}}
+{"command": "label", "args": {"text": "breathwork", "context": "box breathing 4-4-4-4"}}
+{"command": "search_labels", "args": {"query": "deep focus", "k": 10}}
+{"command": "search_labels", "args": {"query": "stress", "mode": "context"}}
+{"command": "interactive_search", "args": {"query": "flow state"}}
+```
+
+---
+
 ## `label` — Create a Timestamped Annotation
 
 Create a timestamped text annotation on the current EEG moment.

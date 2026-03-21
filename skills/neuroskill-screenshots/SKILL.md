@@ -15,6 +15,20 @@ separate HNSW indices for similarity search.
 
 ---
 
+## LLM Tool Calls
+
+When calling these commands via the LLM `skill` tool, use `command` + `args`:
+
+```json
+{"command": "search_screenshots", "args": {"query": "browser", "k": 10}}
+{"command": "search_screenshots", "args": {"query": "TODO", "mode": "substring"}}
+{"command": "screenshots_around", "args": {"timestamp": 1740412800, "window_secs": 60}}
+{"command": "screenshots_for_eeg", "args": {"start_utc": 1740412800, "end_utc": 1740415500}}
+{"command": "eeg_for_screenshots", "args": {"query": "compiler error", "k": 5}}
+```
+
+---
+
 ## Command Overview
 
 | Command | Direction | Description |
