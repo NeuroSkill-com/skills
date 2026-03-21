@@ -1,12 +1,27 @@
 ---
 name: neuroskill-status
-description: NeuroSkill `status` command — full system snapshot including device state, signal quality, EEG scores, band powers, ratios, embeddings, labels, hooks summary, sleep summary, and recording history. Use when checking current EEG state, device connection, or session metadata.
+description: NeuroSkill `status` command — full system snapshot including device state, signal quality, EEG scores, band powers, ratios, embeddings, labels (with top texts), app usage (top apps by time), screenshots (OCR counts + top apps), hooks summary, sleep summary, and recording history. Use when checking current EEG state, device connection, session metadata, what apps were used, or screenshot statistics.
 ---
 
 # NeuroSkill `status` Command
 
-Full snapshot: device state, session, signal quality, scores, bands, embeddings, labels,
-hooks (with latest trigger), sleep summary, and recording history.
+Full snapshot: device state, session, signal quality, scores, bands, embeddings, labels
+(with top texts all-time/24h/7d), app usage (top apps all-time/24h/7d), screenshots
+(counts + top OCR apps), hooks (with latest trigger), sleep summary, and recording history.
+
+---
+
+## LLM Tool Calls
+
+When calling this command via the LLM `skill` tool:
+
+```json
+{"command": "status"}
+```
+
+The `status` response includes top apps and labels, so use it to answer questions
+like "what apps did I use today?" (check `apps.top_24h`) or "what labels did I
+create recently?" (check `labels.recent` and `labels.top_24h`).
 
 ## Supported Devices
 
@@ -112,9 +127,26 @@ curl -s -X POST http://127.0.0.1:8375/ \
   },
   "labels": {
     "total": 58,
+    "embedded": 55,
     "recent": [
       { "id": 42, "text": "meditation start", "created_at": 1740413100 }
-    ]
+    ],
+    "top_all_time": [{ "text": "meditation start", "count": 12, "last_used": 1740413100 }],
+    "top_24h":      [{ "text": "focus block", "count": 3, "last_used": 1740413050 }],
+    "top_7d":       [{ "text": "meditation start", "count": 8, "last_used": 1740413100 }]
+  },
+  "apps": {
+    "top_all_time": [{ "app_name": "VS Code", "switches": 142, "last_seen": 1740413050 }],
+    "top_24h":      [{ "app_name": "Firefox", "switches": 23, "last_seen": 1740413000 }],
+    "top_7d":       [{ "app_name": "VS Code", "switches": 87, "last_seen": 1740413050 }]
+  },
+  "screenshots": {
+    "total": 2400,
+    "with_embedding": 2100,
+    "with_ocr": 2350,
+    "with_ocr_embedding": 1800,
+    "top_apps_all_time": [{ "app_name": "VS Code", "count": 800, "last_seen": 1740413050 }],
+    "top_apps_24h":      [{ "app_name": "Firefox", "count": 45, "last_seen": 1740413000 }]
   },
   "sleep": {
     // Last 48 h sleep staging summary:
@@ -157,6 +189,9 @@ curl -s -X POST http://127.0.0.1:8375/ \
 | `scores.faa`, `scores.tar`, `scores.bar` ... | numbers | EEG ratios and spectral indices not surfaced in the default summary |
 | `calibration.actions[]` | array | Full ordered list of calibration step objects |
 | `labels.recent[]` | array | Full label objects; summary only prints text + timestamp |
+| `labels.top_all_time`, `top_24h`, `top_7d` | array | Most frequent label texts with counts and last-used timestamps |
+| `apps.top_all_time`, `top_24h`, `top_7d` | array | Most-used apps by window switches with counts and last-seen timestamps |
+| `screenshots.top_apps_all_time`, `top_apps_24h` | array | Most-captured apps in screenshots with counts |
 | `hooks.latest_trigger` | object | Most recent hook trigger: hook name, timestamp, distance, label_id, label_text |
 | `history.today_vs_avg` | object | Per-metric today-vs-7-day-avg comparison table |
 
@@ -164,5 +199,9 @@ curl -s -X POST http://127.0.0.1:8375/ \
 npx neuroskill status --json | jq '.history.today_vs_avg'
 npx neuroskill status --json | jq '.calibration.actions'
 npx neuroskill status --json | jq '.labels.recent'
+npx neuroskill status --json | jq '.labels.top_24h'
+npx neuroskill status --json | jq '.apps.top_24h'
+npx neuroskill status --json | jq '.apps.top_7d'
+npx neuroskill status --json | jq '.screenshots'
 npx neuroskill status --json | jq '.hooks.latest_trigger'
 ```
