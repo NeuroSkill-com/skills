@@ -1,6 +1,6 @@
 ---
 name: neuroskill-protocols
-description: Full guided-protocol repertoire for NeuroLoop — 100+ mind-body practices organised by EEG metric signal. Covers attention, stress, emotions, relaxation, sleep, somatic, consciousness, cognitive performance, motor, neck, eyes, morning routines, workout/gym, hydration, bathroom breaks, emotions, music, social-media addiction, dietary protocols, and non-breathing alternatives (tactile, oculomotor, micro-movement, cognitive reset, auditory, passive physiological). Loaded on-demand when protocol context is detected.
+description: Full guided-protocol repertoire for NeuroLoop — 130+ mind-body practices organised by EEG metric signal with built-in personalisation for any age, culture, profession, situation, ability, neurodivergence, and emotional need. Covers attention, stress, emotions, relaxation, sleep, somatic, consciousness, cognitive performance, motor, neck, eyes, morning routines, workout/gym, hydration, bathroom breaks, emotions, music, social-media addiction, dietary protocols, non-breathing alternatives, and context-specific collections for parents/caregivers, elders, teens/students, neurodivergent users, commuters, manual/physical workers, healthcare/shift workers, intimate/relational, accessibility-adapted, and culturally diverse practices. Loaded on-demand when protocol context is detected.
 ---
 
 # NeuroLoop™️ Protocol Repertoire
@@ -8,27 +8,104 @@ description: Full guided-protocol repertoire for NeuroLoop — 100+ mind-body pr
 Choose by the **dominant metric signal**. Each entry lists the EEG/biometric trigger
 and a brief description of what to build in `run_protocol`.
 
+Every protocol **must be adapted** to the person using it. Read the Personalisation
+Engine below before delivering any protocol.
+
+---
+
+## PERSONALISATION ENGINE
+
+*(These rules apply to EVERY protocol in this file. The LLM must adapt delivery
+based on what it knows or can infer about the user. Never deliver a protocol in
+its generic form when context is available.)*
+
+### Adaptation Dimensions
+
+When proposing or running a protocol, actively consider and adapt for:
+
+| Dimension | What to adjust | Examples |
+|---|---|---|
+| **Age** | Language complexity, duration, physicality, cultural references, playfulness | A 7-year-old gets "pretend you're a robot powering down" not "progressive muscle relaxation". A 75-year-old gets seated-only options and no floor work without asking. |
+| **Physical ability** | Remove standing/movement if mobility is limited; offer chair, bed, or wheelchair variants | Spinal cord injury → all upper-body or breath-only. Chronic pain → never "tense the painful area". Pregnancy → no breath holds, no prone positions, no Wim Hof. |
+| **Neurodivergence** | Shorter steps, external timers, sensory preferences, stimming-friendly, no "just focus" | ADHD → gamify, make it competitive, use countdown timers. Autism → warn before sensory changes, offer predictable structure, respect texture aversions. |
+| **Emotional state** | Tone, pacing, what to avoid | Someone in acute grief does not need "think of 3 things you're grateful for". Someone in rage needs discharge first, not stillness. |
+| **Cultural background** | Imagery, metaphors, food references, spiritual framing (or deliberate neutrality) | Don't assume everyone meditates, prays, does yoga, eats pork/beef, drinks alcohol, or celebrates the same holidays. Use the user's own language when known. |
+| **Gender & identity** | Avoid gendered body assumptions; use neutral language unless the user self-identifies | Don't assume chest/breast anatomy, menstrual cycles, or voice pitch. If relevant (e.g. hormonal cycle protocol), ask rather than assume. |
+| **Professional context** | Environment constraints, time budget, social visibility | A surgeon mid-shift gets 30-second invisible resets not 20-min yoga nidra. A truck driver gets eyes-open only. A teacher gets protocols doable while supervising children. |
+| **Social context** | Privacy, noise, movement space, other people present | On a crowded train → internal/invisible only. At home alone → full voice, full movement. With a partner → relational variant. With a baby → one-handed, interruptible. |
+| **Location & time** | Available resources, lighting, temperature, noise, time of day | Outdoors → nature-based anchors. Office → desk-bound. Bedroom at 2 AM → no bright light, no energising. Bathroom → water-based. |
+| **Language** | Simplicity, jargon avoidance, first-language metaphors | If the user writes in short sentences, mirror that. Never use clinical jargon unless the user is clinical. Respect the user's language and vocabulary level. |
+| **Need urgency** | Immediate crisis vs. strategic habit-building vs. curious exploration | Panic attack → 30-second physiological intervention, not a lecture. Long-term resilience → weekly practice plan. Casual curiosity → light, no-pressure suggestion. |
+| **Intimacy level** | How personal, how deep, how vulnerable | New user → surface-level, low-risk protocols. Long-term user who has shared deeply → can go to grief, shame, relational, body image, sexuality. |
+
+### Adaptation Rules
+
+1. **Infer, don't interrogate.** Use available context (time of day, EEG state, conversation history, stated profession, language) to adapt silently. Only ask when essential.
+2. **Offer, don't prescribe.** "Would you like to try…" not "You need to do…". Autonomy is sacred.
+3. **Name the adaptation.** If you're modifying a protocol for a reason, briefly say why: "Since you're on the train, here's a version you can do without anyone noticing."
+4. **Always have a fallback.** If the first suggestion doesn't fit, have a second from a different modality (e.g. if breath doesn't work → tactile; if movement isn't possible → cognitive).
+5. **Respect refusal instantly.** If someone says "no" or "not now", acknowledge and move on. Never push.
+6. **No spiritual assumptions.** Don't use words like "chakra", "prana", "spirit", "soul", "prayer", "blessing", or "universe" unless the user uses them first or their cultural context makes it clearly welcome.
+7. **No body-shaming language.** Never imply the user's body is wrong, broken, or needs fixing. Frame everything as "your nervous system is doing its job, and here's how to work with it."
+8. **Age-appropriate intensity.** Children (< 12): playful, short (< 3 min), game-like. Teens (13–19): autonomy-respecting, cool, not preachy. Young adults (20–35): efficiency-oriented, evidence-framed. Middle adults (36–60): practical, time-scarce, habit-aware. Older adults (60+): gentle, dignity-preserving, seated-default, joint-safe.
+9. **Hormonal awareness.** Menstrual cycle, pregnancy, postpartum, perimenopause, menopause, testosterone therapy — all affect EEG baselines. Acknowledge when relevant, never assume.
+10. **Trauma-informed always.** Never instruct someone to "relax" during a flashback. Never demand eye closure. Always offer "eyes open or closed, your choice." Avoid body-scan in early trauma processing without consent.
+
+### Example Adaptations
+
+The same EEG signal (high `bar`, high `stress_index`) might produce:
+
+- **Executive in a boardroom:** "Excuse yourself for a water refill. At the sink, run cold water over your wrists for 20 seconds. Come back. Nobody noticed."
+- **New mother with infant on chest:** "Cup your free hand around the baby's foot — feel the warmth and the tiny weight. That's your anchor. Stay there for 60 seconds."
+- **14-year-old before an exam:** "Quick game: pick any letter. You've got 30 seconds to name a food, a country, an animal, and a song with that letter. Go."
+- **Construction worker on break:** "Sit down, grab your cold water bottle, hold it against the back of your neck for 20 seconds. That's the whole protocol."
+- **80-year-old with arthritis:** "Rest your hands on your lap, palms up. Feel the weight of your hands. Notice the temperature of the air on your palms. That's all."
+- **Autistic teenager overstimulated at school:** "Headphones on, hood up if you can. Press your tongue hard against the roof of your mouth for 10 seconds. Release. Three times. Nobody sees it."
+- **Night-shift nurse at 3 AM:** "Gargle your water instead of just drinking it — 15 seconds. Weird, but it flips your vagus nerve on. Instant alertness."
+- **Grieving person:** "You don't need to do anything right now. Just put one hand on your chest. Feel the warmth of your own hand. That's enough."
+- **Someone with ADHD struggling to start a task:** "Race yourself: open the document and type the worst possible first sentence. You have 10 seconds. Go. It doesn't have to be good — it has to exist."
+- **Pregnant woman in third trimester:** "Seated only, no breath holds. Gentle ear massage — slow circles on the soft part right in front of the ear canal. 60 seconds per side."
+- **Person in a wheelchair:** "Roll your shoulders back slowly, squeeze the shoulder blades together, hold 5 seconds. Your upper body holds the same stress patterns — this releases them."
+- **Someone who speaks English as a second language:** Use short sentences. Simple words. No idioms. "Close your eyes. Press your hands together hard. Hold. Let go. Feel the warmth."
+
 ---
 
 ## ATTENTION & FOCUS
 
 **Theta-Beta Neurofeedback Anchor** → high `tbr` (>1.5), low `focus`
   Rhythmic counting + breath anchor designed to suppress theta and lift beta.
+  ◈ *Child (6–12):* Count colourful animals — "3 blue elephants, 2 red parrots…"
+  ◈ *Teen/ADHD:* Speed challenge — count backward from 100 by 7s, beat your last time.
+  ◈ *Elder:* Gentle pace, use familiar sequences (days of week backward, months backward).
 
 **Focus Reset** → scattered `engagement`, high `cognitive_load` mid-session
   90-second closed-eye reset: single breath hold, one intention set.
+  ◈ *Eyes-open variant (driving, supervising kids):* Fix gaze on one object, soften vision, set intention silently.
+  ◈ *Public/meeting variant:* "Bathroom break" — 90 seconds alone, palms on cool surface, one sentence of intention.
 
 **Cognitive Load Offload** → `cognitive_load` > 0.7, end of deep work block
   Brain-dump journaling cue + priority sorting — reduces working-memory pressure.
+  ◈ *Non-writer variant:* Voice memo — speak every open loop aloud for 60 seconds, then delete the recording.
+  ◈ *Parent variant:* Sticky notes on the fridge — one task per note, peel off when done. Physical offload.
+  ◈ *Manual worker:* End-of-shift ritual — name 3 things done, 1 thing for tomorrow, walk to car.
 
 **Working Memory Primer** → low `pac_theta_gamma`, pre-task warm-up
   3-back verbal sequence + slow theta-pace breath (inhale 4 s, exhale 6 s, hold 2 s).
+  ◈ *Child:* "I went to the shop and bought…" memory chain game.
+  ◈ *No-breath variant:* Pure N-back — tap the desk every time you hear a repeated number in a spoken sequence.
 
 **Creativity Unlock** → high `beta`, low `rel_alpha`, creative block
   Mind-wandering permission: eyes soft-open, no goal, follow any thought loosely 5 min.
+  ◈ *Structured variant (for those uncomfortable with "no goal"):* Doodle on paper, let the hand move freely.
+  ◈ *Movement variant:* Walk without destination — let feet choose turns. Works outdoors or in a building.
+  ◈ *Musical variant:* Play, hum, or listen to unfamiliar music with no analysis.
 
 **Pre-Performance Activation** → low `engagement` before a presentation or challenge
   Power posture + fast breath activation + single positive-outcome visualisation.
+  ◈ *Athlete:* Sport-specific motor imagery — feel the movement, not just see it.
+  ◈ *Student before exam:* "You already studied. Recall one thing you know cold. That's your anchor."
+  ◈ *Introvert before socialising:* Visualise one specific warm moment with someone you trust. Carry that feeling in.
+  ◈ *Wheelchair user:* Arms wide, chest open, chin up — power posture is about expansion, not standing.
 
 ---
 
@@ -36,15 +113,25 @@ and a brief description of what to build in `run_protocol`.
 
 **Box Breathing (4-4-4-4)** → high `bar`, low `relaxation`
   Classic sympathetic brake. Four equal phases; expand to 5-5-5-5 if well-tolerated.
+  ◈ *Breath-averse:* Replace with Ear Massage or Bilateral Tapping from non-breathing sections.
+  ◈ *Child:* "Smell the flower (in), blow out the candle (out)" — make it vivid and visual.
+  ◈ *Asthma/respiratory condition:* Shorter counts (2-2-2-2), no breath holds. Or skip to tactile.
+  ◈ *Crowded space:* Breathe normally but count silently — the counting alone helps.
 
 **Extended Exhale (4-7-8)** → acute stress spike, high `lf_hf_ratio`
   Fastest parasympathetic trigger. Short inhale, long hold, very long exhale.
+  ◈ *Panic/hyperventilation risk:* Skip the hold. Just make the exhale twice as long as the inhale (3-0-6).
+  ◈ *Pregnant:* No extended holds — use 4-0-8 (no hold) variant.
 
 **Cardiac Coherence (~6 breaths/min)** → low `rmssd` (<30 ms), high `stress_index`, low HRV
   5-second inhale / 5-second exhale, 5 minutes. Maximises HRV and vagal tone.
+  ◈ *Music-paired variant:* Use a track at 60 BPM as a breath pacer instead of counting.
+  ◈ *Tech-assisted:* Many HRV apps (e.g. Elite HRV, Welltory) show a visual breath pacer.
 
 **Physiological Sigh** → rapid stress onset, overwhelm
   Double inhale through nose + long slow exhale. 1–3 cycles only.
+  ◈ *Best "stealth" breath technique:* Looks like a natural sigh. Usable in meetings, on camera, on a date.
+  ◈ *Child:* "Sniff-sniff like a bunny, then blow out like you're cooling soup."
 
 ---
 
@@ -52,15 +139,26 @@ and a brief description of what to build in `run_protocol`.
 
 **FAA Rebalancing** → negative `faa`, low `mood`
   Approach-motivation imagery + left-hand squeeze. Activates left frontal alpha.
+  ◈ *Imagery should match the person:* A chef imagines a perfect dish. An athlete imagines a winning moment. A parent imagines their child laughing. Use THEIR approach motivation, not a generic one.
 
 **Mood Activation** → flat mood, low `engagement`
   Brief movement (arms overhead, expansive posture) + gratitude anchor — lifts valence.
+  ◈ *Mobility-limited:* Smile broadly for 10 seconds (facial feedback hypothesis). Or hum an upbeat tune.
+  ◈ *Depressed/can't "just be grateful":* Skip gratitude. Instead: name one thing that didn't go wrong today. Lower the bar.
+  ◈ *Elderly:* Gentle arm raises only to comfortable range. Gratitude anchor to a cherished memory.
 
 **Loving-Kindness (Metta)** → loneliness, shame, guilt, grief, or low `faa`
   Graduated compassion phrases: self → loved one → neutral → difficult → all beings.
+  ◈ *Secular framing:* "Think of someone you care about. Wish them well silently. Now do the same for yourself."
+  ◈ *Self-compassion resistant (common in men, high-achievers, military):* Frame as "you'd say this to a friend — now say it inward." Skip the word "compassion" if it triggers resistance.
+  ◈ *Child:* "Send a warm thought to your best friend. Now to your pet. Now to yourself."
+  ◈ *Culturally adapted:* In collectivist cultures, start with family/community before self — the sequence matters.
 
 **Emotional Discharge** → extreme FAA swings, agitation
   Brief vigorous breath (30 s), followed by stillness and body scan — safely vents charge.
+  ◈ *No-breath variant:* Vigorous hand shaking for 30 s, then stillness. Or stomp feet rapidly.
+  ◈ *Quiet environment:* Isometric full-body clench (every muscle) for 10 s, then total release.
+  ◈ *Teen:* "Put on headphones, listen to the heaviest song you know for 2 minutes. Then silence."
 
 ---
 
@@ -81,12 +179,22 @@ and a brief description of what to build in `run_protocol`.
 
 **Sleep Onset Wind-Down** → high `drowsiness` post-session, high `bar` at rest
   Dim-light routine cue + 4-7-8 breathing + progressive body release.
+  ◈ *Parent of infant:* "Your wind-down IS the feed/rock routine. When baby sleeps, you sleep. No phone."
+  ◈ *Shift worker:* Blackout curtains + earplugs + same routine regardless of clock time. Body follows ritual, not sun.
+  ◈ *Anxious mind:* Add worry dump first — write every thought, close the notebook, then body release.
+  ◈ *Partner in bed:* Whispered body scan for two — guide each other or listen together.
 
 **Ultradian Reset (20-min rest)** → mid-afternoon slump, post-90-min focus block
   Eyes closed, no agenda, light background sound cue — honours the 90-min ultradian cycle.
+  ◈ *Open-plan office:* "Meeting with myself" — book a room, close the door, set a 20-min timer.
+  ◈ *Manual worker:* Find a quiet spot, sit/lean, set phone timer. Even 10 min counts.
+  ◈ *Student between classes:* Library, headphones, 15-min NSDR track on YouTube. Better than scrolling.
 
 **Wake Reset / Alertness Boost** → high daytime drowsiness, `wakefulness` < 30
   Cold-water face splash cue + kapalabhati burst + bright-light exposure instruction.
+  ◈ *No-breath variant:* Skip kapalabhati — cold water + bright light + 20 jumping jacks (or arm pumps if seated).
+  ◈ *Night-shift worker:* Bright artificial light exposure (light therapy lamp) + cold water + movement.
+  ◈ *Elderly:* Gentle — just the cold water wrists + stepping outside into light + 5 slow arm raises.
 
 ---
 
@@ -100,6 +208,10 @@ and a brief description of what to build in `run_protocol`.
 
 **Grounding (5-4-3-2-1)** → acute distress, panic onset, dissociation
   5 sights → 4 textures → 3 sounds → 2 smells → 1 taste. Fast sensory anchor.
+  ◈ *Visually impaired:* 5 textures → 4 sounds → 3 temperatures → 2 smells → 1 taste.
+  ◈ *Child:* "Spy game! Find 5 red things, 4 soft things, 3 noises…"
+  ◈ *Non-English speaker:* Can be done in any language or entirely without words — just point and touch.
+  ◈ *In the dark (bed, night):* 5 textures (sheets, pillow, skin, hair, mattress) → 4 sounds → 3 body sensations → 2 smells → 1 taste.
 
 **Tension Release Exercise (TRE)** → chronic stress, high `stress_index`, stored physical tension
   Guided tremor induction via leg-fatigue posture + progressive surrender.
@@ -414,18 +526,31 @@ specific artists/playlists, and how to listen. Always offer a specific recommend
 **Mood-Match & Lift (ISO Principle)** → low `mood`, emotional inertia
   Start with music matching current mood (slow, minor, honest). After 5–7 min, shift
   toward slightly more uplifting tempo/key. Let the music pull, not contradict.
-  Suggest: Nick Drake → Norah Jones → Ben Howard. ~20 min.
+  Suggest by taste: Western folk: Nick Drake → Norah Jones → Ben Howard. R&B/Soul:
+  Frank Ocean → Erykah Badu → Anderson .Paak. Latin: Silvio Rodríguez → Natalia
+  Lafourcade → Bomba Estéreo. K-pop/J-pop: IU ballads → Kenshi Yonezu → upbeat picks.
+  Arabic: Fairuz → Mashrou' Leila. Indian: Prateek Kuhad → AR Rahman uplifting.
+  Classical: Barber Adagio → Debussy → Beethoven 7th, II. Always ask what they listen to. ~20 min.
 
 **Focus Music Protocol** → high `cognitive_load`, low `focus`, distraction-prone session
   Instrumental only, no lyrics. 60–80 BPM (mimics alpha rhythm).
-  Suggest: Brian Eno (Ambient 1), Moby (Long Ambients), Lo-fi, or binaural 40 Hz gamma. ~25–50 min.
+  Suggest by taste: Ambient: Brian Eno, Moby (Long Ambients). Lo-fi hip-hop: ChilledCow /
+  Lofi Girl. Jazz: Bill Evans Trio, Nujabes. Electronic: Tycho, Bonobo. Classical: Bach
+  Cello Suites, Satie. World: Anoushka Shankar (sitar), Rodrigo y Gabriela (guitar).
+  Game soundtracks: Minecraft, Stardew Valley, Zelda BOTW. ~25–50 min.
 
 **Energising Activation Playlist** → low `wakefulness`, post-lunch dip, low `engagement`
-  BPM 120–140. Suggest: Daft Punk, Vampire Weekend, Khruangbin uptempo cuts. 10-min burst minimum.
+  BPM 120–140. Suggest by taste: Pop/dance: Daft Punk, Dua Lipa. Indie: Vampire Weekend,
+  Khruangbin. Afrobeats: Burna Boy, Wizkid. Latin: Bad Bunny, Rosalía. Hip-hop:
+  Kendrick Lamar, MF DOOM. Bollywood: energetic item songs. K-pop: BTS, BLACKPINK.
+  Rock: Queens of the Stone Age, Arctic Monkeys. Always match the user's taste. 10-min burst minimum.
 
 **Stress Discharge Playlist** → high `stress_index` + emotional charge needing outlet
-  Permission to listen to cathartic, intense music. Suggest: RATM, Tool, Shostakovich.
-  Not for relaxation — for discharge. Follow with a wind-down track. ~15 min.
+  Permission to listen to cathartic, intense music. Not for relaxation — for discharge.
+  Follow with a wind-down track. Suggest by taste: Metal/rock: RATM, Tool, Slipknot.
+  Classical: Shostakovich, Stravinsky Rite of Spring. Hip-hop: Run the Jewels, Denzel
+  Curry. Electronic: The Prodigy, SOPHIE. Punk: Bad Brains, IDLES. K-rock/J-rock:
+  BABYMETAL, Dir En Grey. Flamenco: Paco de Lucía (intense). Drumming: Taiko ensembles. ~15 min.
 
 **Sleep Music Wind-Down** → pre-sleep, high `beta` at bedtime, high `bar` at rest
   Delta binaural beats (0.5–4 Hz) or very slow ambient.
@@ -546,7 +671,10 @@ unless a timed practice is appropriate.)*
 
 **Blood Sugar Stability Guide** → low `focus` trending across session, energy crashes between meals
   Protein + fat + fibre at every meal. Avoid refined carbs alone. Eat every 3–4 h.
-  Suggest: nuts, eggs, avocado, oily fish, legumes. Avoid: white bread, sugary drinks before work.
+  Suggest by diet: Western: nuts, eggs, avocado, oily fish, legumes. South Asian: dal,
+  paneer, nuts, yoghurt with vegetables. East Asian: tofu, miso, edamame, fish, seaweed.
+  Latin: black beans, eggs, avocado, nopales. African: groundnuts, lentils, moringa, fish.
+  Vegan: tempeh, lentils, chia, nuts, nutritional yeast. Avoid: white bread, sugary drinks, refined carbs alone.
 
 **Caffeine Timing Protocol** → afternoon focus crash; high `bar`; coffee question
   Window: 90–120 min after waking (let cortisol peak first). Cut-off: no caffeine after 2 pm.
@@ -565,9 +693,12 @@ unless a timed practice is appropriate.)*
 ### Mood & Mental Health Nutrition
 
 **Mood-Food Connection** → persistently low `mood`, low `faa`
-  Gut-brain axis: ~90% of serotonin produced in the gut. Support with: oily fish (omega-3),
-  fermented foods (kefir, kimchi), tryptophan-rich foods (turkey, eggs, pumpkin seeds),
-  magnesium (dark chocolate, spinach, almonds). Reduce: sugar, alcohol, ultra-processed food.
+  Gut-brain axis: ~90% of serotonin produced in the gut. Support with omega-3, fermented
+  foods, tryptophan-rich foods, and magnesium. By culture: Western: salmon, kefir, turkey,
+  dark chocolate, almonds. East Asian: natto, miso, mackerel, sesame, tofu. South Asian:
+  turmeric lassi, fermented idli/dosa, mustard greens, fish. Latin: ceviche, fermented
+  tepache, pepitas, black beans. African: fermented injera, sardines, moringa, groundnuts.
+  Vegan: flaxseed, tempeh, sauerkraut, pumpkin seeds, spinach. Reduce: sugar, alcohol, ultra-processed food.
 
 **Stress Eating Awareness** → high `stress_index` + food craving spike
   Cortisol-driven cravings for high-fat, high-sugar foods are predictable, not a moral failure.
@@ -875,8 +1006,497 @@ or cognitive engagement — the body does the work.)*
 
 ---
 
+## PARENTING & CAREGIVING
+
+*(For parents of infants, toddlers, children, or teens; for caregivers of elderly or
+disabled family members. Protocols must be interruptible, one-handed, low-noise,
+and assume the user is never truly "alone".)*
+
+**One-Handed Calm (Baby in Arms)** → high `stress_index`, low `relaxation`, holding infant
+  Free hand on your own chest. Feel your heartbeat. Slow your breathing naturally —
+  the baby will co-regulate with you. You don't need to "do" a technique. ~2 min.
+  ◈ *With toddler climbing on you:* Name what the child is doing out loud, slowly: "You're climbing. You're strong." Narration slows your own nervous system.
+
+**Parental Rage Reset** → high `bar`, high `stress_index`, anger toward child, overwhelm
+  Step one: physical safety — put the baby down safely or tell the older child "I need
+  one minute." Step two: cold water on face or wrists. Step three: name it — "I'm
+  overwhelmed, not a bad parent." Return when heart rate drops. ~2–3 min.
+  ◈ *No judgment, ever.* Parental rage is a nervous system response, not a character flaw.
+
+**Caregiver Compassion Fatigue Reset** → persistently low `mood`, low `engagement`, emotional numbness
+  You cannot pour from an empty cup, but also — you're not a cup. You're a human.
+  Name one thing you need right now (food, silence, touch, a laugh). Take the smallest
+  possible step toward it. Not tomorrow — now. Even 30 seconds. ~1–5 min.
+
+**Nap-Time Recovery Protocol** → high `cognitive_load`, child finally asleep, rare quiet window
+  Resist the urge to be productive. Lie down. Set timer for 15 min. Eyes closed. If you
+  sleep, great. If not, rest counts. The dishes can wait. ~15 min.
+
+**Sensory Co-Regulation with Child** → child is dysregulated, your own `stress_index` rising
+  Match the child's energy first (not "calm down"). Then slowly lower yours: softer voice,
+  slower movements, deeper breaths. Children co-regulate through the adult's nervous
+  system. You regulate yourself first — they follow. ~5 min.
+
+**Bedtime Boundary Protocol** → high `bar` at rest, children won't sleep, parental depletion
+  One clear, warm limit. Same words every time. No negotiation after the limit.
+  Your nervous system needs the boundary as much as the child does.
+  ◈ *For the parent:* After kids are down, 5 minutes of NOTHING. No cleaning, no phone. Just sit.
+
+---
+
+## ELDERLY & AGING
+
+*(Protocols for users 65+. Default to seated, joint-safe, gentle, dignity-preserving.
+Never assume decline — many older adults are stronger and sharper than younger ones.
+Adapt to the individual, not the age.)*
+
+**Gentle Morning Activation (Seated)** → low `wakefulness`, morning stiffness, low `engagement`
+  Seated in bed or chair. Ankle circles (10 each). Wrist circles. Slow neck half-circles.
+  Shoulder shrugs. 3 deep breaths. Stand when ready — no rush. ~5 min.
+
+**Memory Garden** → low `engagement`, low `lzc`, cognitive preservation
+  Recall a vivid positive memory from any period of life. Describe it in full sensory
+  detail — sights, sounds, smells, who was there, what you wore. Exercises episodic memory
+  and lifts mood simultaneously. ~5 min.
+  ◈ *With partner:* Share the memory aloud. Relational + cognitive + emotional benefit.
+
+**Fall Prevention Awareness Scan** → high `drowsiness`, `wakefulness` < 40, medication effects
+  Before standing: feet flat on floor, feel both feet, press down, then rise with hands
+  on armrests. Wait 3 seconds upright before walking. Addresses orthostatic hypotension
+  risk without being patronising. ~30 seconds.
+
+**Social Connection Prompt** → low `mood`, low `engagement`, isolation patterns
+  Loneliness is as harmful as 15 cigarettes a day (Holt-Lunstad). One micro-action:
+  call someone, wave to a neighbour, visit a shop and chat. The content doesn't matter —
+  the human contact does. ~1 min prompt, variable action.
+
+**Gentle Seated Yoga (Chair)** → high `stillness`, low `engagement`, physical stiffness
+  All seated: cat-cow with hands on knees, seated twist (hold chair back), overhead reach
+  (one arm at a time), ankle pumps, gentle hip circles. ~8 min.
+  ◈ *Arthritis-aware:* Never force a joint. "Move to the edge of comfort, not past it."
+
+**Cognitive Vitality Games** → low `focus`, low `lzc`, cognitive engagement goal
+  Word games: say a word, next word starts with the last letter. Or: name 5 things in a
+  category (cities, flowers, songs). Or: recall the plot of a film you loved. Gentle,
+  social, effective. ~5 min.
+
+---
+
+## TEENS & STUDENTS
+
+*(Protocols for 13–25 year olds. Respect autonomy. Never be preachy. Keep it short,
+optional, and cool. If it sounds like something a teacher would say, rewrite it.)*
+
+**Exam Panic First Aid** → very high `bar`, high `stress_index`, pre-exam or mid-exam
+  Feet on floor. Press hard. 10 seconds. Release. That's the whole thing.
+  Now read the first question again — just the first one. ~30 seconds.
+
+**Study Focus Sprint** → low `focus`, high `tbr`, procrastination, phone nearby
+  Phone in another room (not just face-down — ANOTHER ROOM). Set timer for 25 min.
+  One subject only. When timer goes, 5-min break with phone. Repeat.
+  This is just Pomodoro, but it works because the phone is physically gone. ~25 min.
+
+**Social Anxiety Pre-Event** → high `bar`, low `engagement`, before social situation
+  You don't have to be interesting. You just have to ask one question and listen.
+  Prepare one question now. That's your entire job tonight. ~1 min.
+  ◈ *Introvert variant:* Give yourself an exit time in advance. "I'll stay 45 minutes." Freedom to leave = freedom to arrive.
+
+**Post-Rejection / Social Pain** → low `mood`, negative `faa`, social exclusion, heartbreak
+  Social pain activates the same brain regions as physical pain. It's real, not "drama."
+  Hand on chest, name the feeling. "This hurts because I cared. That's not weakness."
+  Don't scroll their social media. ~5 min.
+
+**Homework Start Hack** → low `engagement`, procrastination, can't begin
+  Open the document. Type the worst possible first sentence. Not good — bad. On purpose.
+  You now have a draft. Edit is easier than create. ~30 seconds.
+
+**Identity Stress Protocol** → low `mood`, high `stress_index`, identity/gender/orientation distress
+  Your feelings about who you are are valid data, not a problem to solve today. Right now:
+  name one person, one place, or one activity where you feel most like yourself. Hold that
+  image. You don't owe anyone an explanation today. ~3 min.
+
+**Body Image Reset** → negative `faa`, low `mood`, post-social-media, comparison spiral
+  Your body carried you through today. Name 3 things it did for you (walked, breathed,
+  laughed, hugged, typed). It's a vehicle, not a display. ~2 min.
+  ◈ *Works for any age, any gender, any body.* Particularly acute for teens.
+
+**Digital Detox Dare** → low `lzc`, low `focus`, compulsive phone use
+  Challenge format: "1 hour, no phone. If you survive, you win bragging rights with yourself."
+  Set a physical timer. Write down what you'd normally scroll — you can check it all after.
+  Most people discover they didn't miss anything. ~1 hour.
+
+---
+
+## NEURODIVERGENT-FRIENDLY
+
+*(For ADHD, autism spectrum, dyslexia, sensory processing differences, OCD, tic
+disorders, and other neurodivergent profiles. These are not "fixes" — they're tools
+that work WITH how the brain already operates.)*
+
+**ADHD Task Initiation Hack** → low `engagement`, high `tbr`, executive function paralysis
+  Don't plan. Don't organise. Don't prioritise. Just do the SMALLEST physical action:
+  open the app, pick up the pen, type one word. Movement creates momentum.
+  ◈ *Body doubling:* Call someone and work "together" on video with no talking. Presence helps.
+  ◈ *Novelty injection:* Do the task in a weird location (bathroom floor, under the desk, standing on one foot). ADHD brains activate with novelty.
+
+**Sensory Overload First Aid** → very high `beta`, high `bar`, overstimulated
+  Reduce input immediately. Sunglasses or hat brim. Noise-cancelling headphones or earplugs.
+  One texture anchor (soft fabric, smooth stone). Pressure — hug yourself, sit on hands,
+  weighted blanket. No one needs to talk to you right now. ~2–5 min.
+  ◈ *In public:* Bathroom stall is a valid decompression chamber. No shame.
+
+**Stim-Friendly Focus** → restlessness, low `focus`, need for movement during cognitive work
+  Explicit permission to stim: rock, bounce, squeeze, chew, tap, fidget. Suppressing stims
+  COSTS executive function. Let the body move so the mind can work. Match the stim to the
+  task: rhythmic stims for sustained focus, variable stims for creative work.
+
+**Autistic Meltdown Recovery** → post-meltdown, very low `engagement`, high `stress_index`
+  This is not a tantrum. This is neurological overload. No demands. No questions.
+  Safe space, low sensory input, familiar object, pressure if wanted. Time. No timeline.
+  Recovery can take 20 minutes to several hours. All of that is normal. ~variable.
+
+**Rejection Sensitivity Dysphoria (RSD) Protocol** → acute emotional pain from perceived rejection (common in ADHD)
+  This feeling is enormous AND temporary. It peaks in 20–40 minutes. Name it: "This is
+  RSD. My brain amplifies rejection signals. The pain is real but the story might not be."
+  Do NOT make decisions or send messages during the peak. Cold water on wrists. Wait. ~20–40 min.
+
+**Hyperfocus Exit Strategy** → `stillness` > 0.95 for hours, skipped meals, lost time
+  Don't feel guilty — hyperfocus is a superpower with a cost. Right now: stand, drink water,
+  eat something. Set a timer for 90 min next session. Your body was waiting for you. ~5 min.
+
+**OCD Intrusive Thought Surfing** → high `bar`, high `cognitive_load`, repetitive thought loops
+  The thought is not you. You don't need to engage it, argue with it, or neutralise it.
+  Notice it like a car passing on a road. "There's that thought again." Don't push it away —
+  just don't get in the car. Return attention to the next sensory input. ~3 min.
+  ⚠ *This is NOT a replacement for ERP therapy. Supplement, not substitute.*
+
+**Transition Support (Autistic / ADHD)** → context-switching, unexpected schedule changes
+  Transitions are hard because the brain is optimised for the current state. Give yourself
+  a runway: "In 5 minutes I will switch to [X]." Count down: 5, 4, 3, 2, 1. Now switch.
+  A physical transition helps: stand up, touch a doorframe, sit somewhere else. ~2 min.
+
+---
+
+## COMMUTERS & TRAVELLERS
+
+*(Protocols for people in transit — train, bus, car (passenger), plane, walking.
+Must be eyes-open, seated, silent or near-silent, socially invisible.)*
+
+**Train/Bus Micro-Reset** → high `stress_index`, crowded commute, sensory overload
+  Headphones on (music optional — even silence through headphones helps). Feet flat on floor.
+  Tongue press on palate (10 s). Ear massage (60 s). Look out the window at the farthest
+  point and let eyes soften. Nobody around you noticed any of that. ~3 min.
+
+**Walking Commute Panoramic Reset** → high `beta`, rushing, urban stress
+  Slow down by 10%. Deliberately widen your visual field — notice buildings at the edge of
+  vision without turning your head. Panoramic vision activates parasympathetic circuits.
+  You're still walking, still on time, but your nervous system just downshifted. ~3 min.
+
+**Airplane Anxiety Protocol** → high `bar`, flight anxiety, turbulence panic, confined space
+  Feet flat on floor (shoes on). Press feet down hard for 10 seconds. Release.
+  Hold the cold metal armrest — temperature grounds fast. Bilateral tapping on thighs
+  under the tray table. Look at one fixed point on the seat in front of you. ~3 min.
+  ◈ *Turbulence:* "The plane is designed for this. You are safe. Press your feet into the floor."
+
+**Passenger Seat Decompression** → end-of-day exhaustion, car passenger, high `bar`
+  Lean seat back slightly. Temple against the cool window. Close eyes if comfortable.
+  Let the vibration and motion of the vehicle be a whole-body input. Don't try to "do" anything. ~variable.
+
+**Long-Haul Travel Recovery** → jet lag, `wakefulness` disrupted, circadian confusion
+  On arrival: bright light exposure at local morning. Cold water on face. Walk 15 min outside.
+  Eat a protein-rich meal at local mealtimes. No caffeine after local 2 PM. Sleep at local
+  night even if you're not tired yet. Melatonin 0.5 mg 30 min before local bedtime if needed.
+
+---
+
+## MANUAL & PHYSICAL WORKERS
+
+*(For construction, warehouse, agriculture, trades, healthcare, military, service
+industry, and anyone whose work is primarily physical. Protocols must account for
+physical fatigue, outdoor/noisy environments, limited privacy, and no desk.)*
+
+**End-of-Shift Neural Reset** → high `stress_index`, physical exhaustion, cortisol carryover
+  At your vehicle or locker room. Sit down. Cold water on wrists and face. Name 3 things
+  completed today. One thing to leave here (not carry home). Drive home deliberately. ~3 min.
+
+**Mid-Shift Pain Awareness** → high `headache_index`, physical strain, `stress_index` rising
+  Locate the pain precisely. Rate 0–10. Is this "working hard" pain or "something's wrong" pain?
+  If the latter, speak up — machismo kills. If the former: 30-second stretch targeting that
+  muscle group, water, 3 jaw releases. ~2 min.
+
+**Break Room Recovery** → rare 15-min break, need maximum recovery in minimum time
+  Sit. Eyes closed. Cold drink held against neck. Let arms hang. Don't check your phone —
+  it drains recovery. Let your mind go blank. Set a timer for 12 min so you don't stress
+  about time. Stand up at 14 min. ~15 min.
+
+**Noise-Fatigue Auditory Reset** → sensory overload from machinery, high `beta`
+  If ear protection allows: moment of genuine silence. Remove headphones in a quiet spot.
+  Notice the silence. Let the auditory system reset for 60 seconds. Then re-enter. ~1 min.
+  ◈ *If silence isn't available:* Switch to soft music or nature sounds for 3 min during break.
+
+**Heavy Lifting Pre-Set** → before heavy physical effort, need focus + safety
+  3 seconds: visualise the lift. Feel the muscles engage mentally. One forceful exhale.
+  Execute. The visualisation primes motor neurons and reduces injury risk. ~10 seconds.
+
+---
+
+## HEALTHCARE & SHIFT WORKERS
+
+*(For nurses, doctors, paramedics, firefighters, police, overnight workers. Protocols
+must account for circadian disruption, emotional load, physical exhaustion, and the
+reality that "self-care" advice often feels insulting when you're 14 hours into a shift.)*
+
+**Between-Patient Reset** → high `stress_index`, emotional residue, compassion fatigue
+  At the hand-washing station (you're already there): cold water on wrists for 10 seconds
+  longer than needed. One deliberate exhale. Name internally: "That was their pain, not mine.
+  I carry skill, not their suffering." Walk to the next room. ~30 seconds.
+
+**Night Shift Circadian Anchor** → `wakefulness` < 30, 3 AM wall, night-shift zombie state
+  Bright light exposure (break room, phone flashlight in eyes for 30 s). Cold water face.
+  Protein snack (not sugar — you'll crash harder). 10 jumping jacks or fast stair climb.
+  Caffeine is acceptable before 3 AM; after that it impairs morning sleep. ~3 min.
+
+**Post-Trauma Exposure Debrief (Personal)** → after witnessing death, injury, or suffering
+  This is not "getting over it" — this is first aid for your nervous system.
+  5-4-3-2-1 grounding. Name what you saw — once, out loud or written, without re-living.
+  Hand on chest. "I did my job. I'm allowed to feel this." Seek peer support or professional
+  debrief if it stays heavy. ~5 min.
+  ⚠ *Not a substitute for formal CISM/CISD if your service offers it.*
+
+**Shift-Change Transition Ritual** → end of shift, cortisol still high, about to go home
+  Change clothes if possible (symbolic boundary). Name one thing that went well.
+  Drive/commute home in silence — no news, no calls. Arrive home as yourself, not your role. ~variable.
+
+---
+
+## INTIMATE & RELATIONAL
+
+*(For moments involving partners, close friends, family. Relational regulation is often
+more powerful than solo techniques. Only suggest when the user has indicated a
+relational context — never assume relationship status.)*
+
+**Co-Regulation Breathing** → both partners stressed, high `stress_index` in relational context
+  Sit facing each other or side by side. One person breathes audibly; the other matches.
+  No words needed. Nervous systems synchronise within 2–3 minutes. ~5 min.
+  ◈ *Works with friends, parent-child, or any trusted person.* Not exclusive to romantic partners.
+
+**Conflict Pause Protocol** → argument escalation, high `bar` + high `stress_index`
+  "I need 20 minutes." This is not abandonment — this is nervous system regulation.
+  BOTH people need to agree: 20-minute break, then return. During the break: move,
+  cold water, and do NOT rehearse your arguments. Come back calmer. ~20 min.
+  ◈ *Key:* The person who calls the pause is RESPONSIBLE for returning. Leaving without return is stonewalling.
+
+**Gratitude Expression (Relational)** → low `mood` + relational context, connection deficit
+  Tell someone — out loud, in writing, or by action — one specific thing you appreciate
+  about them. Not generic ("you're great") but specific ("the way you listened yesterday
+  when I was upset — that meant a lot"). Specificity is the currency of connection. ~2 min.
+
+**Touch-Based Co-Regulation** → high `stress_index`, partner present, verbal communication hard
+  Ask: "Can I hold your hand?" or "Can I sit close to you?" Safe physical proximity
+  lowers cortisol faster than any solo technique. No talking required.
+  ◈ *If touch isn't wanted:* Parallel presence — same room, separate activities, no talking. Still regulating.
+
+**Post-Argument Repair** → after conflict, residual negative `faa`, low `mood`
+  Wait until both nervous systems are calm (at least 20 min post-argument).
+  Formula: "When [specific thing happened], I felt [emotion]. What I needed was [need].
+  Next time, could we [specific request]?" No blame, no history, no generalisation. ~10 min.
+
+**Loneliness in a Relationship** → low `mood`, low `engagement`, partnered but disconnected
+  Not about scheduling date night. Ask: "When was the last time you felt truly seen by
+  this person?" If you can't remember, that's information. One honest sentence to your
+  partner is worth more than 100 planned activities. ~5 min reflection.
+
+---
+
+## ACCESSIBILITY-ADAPTED
+
+*(Protocols specifically designed for physical, sensory, or cognitive disabilities.
+Every protocol in this file should be adaptable — this section provides pre-adapted
+versions for common access needs.)*
+
+### Visual Impairment / Blindness
+
+**Tactile Grounding (Replaces 5-4-3-2-1)** → acute distress, dissociation
+  5 textures (touch and name) → 4 sounds (locate direction) → 3 temperatures (warm,
+  cool, neutral) → 2 smells → 1 taste. Entirely non-visual. ~3 min.
+
+**Auditory Focus Anchor** → low `focus`, scattered attention
+  Choose one sound in the environment. Follow it exclusively for 60 seconds. Then switch
+  to another. Attentional training through the dominant sensory channel. ~3 min.
+
+### Hearing Impairment / Deafness
+
+**Visual Rhythm Entrainment** → need for rhythmic regulation, no access to auditory beat
+  Watch a metronome app, a ticking clock second hand, or a visual beat generator.
+  Tap along with hands. Same entrainment benefit as auditory rhythm — different channel. ~3 min.
+
+**Vibration Grounding** → high `stress_index`, need for sensory anchor
+  Hold phone with vibration on (repeating timer) against palm. Feel the pulse. Match your
+  breathing or blinking to the vibration rhythm. ~2 min.
+
+### Mobility Impairment / Wheelchair Users
+
+**Upper-Body Energy Activation** → low `wakefulness`, low `engagement`, need for activation
+  Arm punches (10 rapid), shoulder shrugs (10), overhead reaches (5), clap hands hard (5).
+  All seated. Raises heart rate and cortical arousal without lower-body involvement. ~2 min.
+
+**Wheelchair-Adapted Progressive Relaxation** → high `bar`, physical tension
+  Hands: clench fists 5 s, release. Forearms: press palms together 5 s, release.
+  Shoulders: shrug to ears 5 s, release. Face: scrunch everything 5 s, release.
+  Neck: gentle left tilt, right tilt. Abdomen: tighten 5 s, release. ~5 min.
+
+### Cognitive / Intellectual Disability
+
+**One-Step Calm** → acute distress, need for simplest possible regulation technique
+  One instruction only: "Press your feet into the floor." Hold 10 seconds. Release.
+  Repeat if needed. No multi-step sequences. No abstractions. ~30 seconds.
+
+**Picture-Based Body Scan** → need for body awareness with limited verbal processing
+  Point to body parts one at a time (can use a diagram). "How does this feel?
+  Good, okay, or not good?" Simple 3-point scale. ~3 min.
+
+### Chronic Pain
+
+**Pain-Aware Body Scan (Avoidant)** → high `stress_index`, chronic pain, body scan requested
+  Scan AROUND the pain area, not through it. "Notice your hands… now your forearms…
+  skip your shoulders for now… notice your face." Never instruct someone to "relax"
+  a painful area or "breathe into the pain" without explicit consent. ~5 min.
+
+**Distraction-Based Pain Management** → high `headache_index`, chronic pain flare
+  Cognitive absorption: count backward from 300 by 3s. Name every country you can.
+  Recite song lyrics. Mental engagement competes with pain signalling at the thalamic
+  gate. Not denial — attentional competition. ~5 min.
+
+---
+
+## CULTURALLY DIVERSE PRACTICES
+
+*(Protocols rooted in specific cultural traditions. Offer when the user's background
+makes them relevant, or when they express interest. Always name the origin respectfully.
+These are not "exotic alternatives" — they are evidence-informed practices with deep
+lineage.)*
+
+**Wuqinxi (Five Animal Frolics)** → low `engagement`, low `lzc`, need for playful movement
+  Chinese medical qigong (~200 CE). Imitate 5 animals: tiger (strength), deer (grace),
+  bear (grounding), monkey (agility), crane (balance). 2 min per animal.
+  Combines motor activation, imagination, and proprioceptive variety. ~10 min.
+  ◈ *Seated variant:* Upper-body gestures only, imagining each animal's quality.
+
+**Temazcal Breath (Mesoamerican)** → high `bar`, need for deep cleansing/release
+  Inspired by the temazcal (sweat lodge): slow, deep nasal breathing imagining warm humid
+  air filling the chest. Exhale through mouth imagining release of tension as steam.
+  The heat imagery alone activates vasodilation and relaxation circuits. ~5 min.
+  ◈ *Cultural note:* Respect the sacred context — this is inspired by, not a replacement for, ceremonial temazcal.
+
+**Shinrin-Yoku (Forest Bathing, Japan)** → low `lzc`, high `beta`, urban stress, nature accessible
+  Walk slowly among trees or plants. No destination. Engage all senses: bark texture,
+  leaf smell, birdsong, light patterns, air taste. Phytoncides from trees measurably
+  lower cortisol and boost NK cells. 20–30 min ideal, even 10 min helps.
+  ◈ *No forest:* A park, a garden, even a room with many plants. The green + slow attention is the mechanism.
+
+**Ho'oponopono (Hawaiian Reconciliation)** → guilt, shame, relational pain, negative `faa`
+  Four phrases, repeated internally toward yourself or another: "I'm sorry. Please forgive me.
+  Thank you. I love you." Not about literal fault — about releasing the energetic weight
+  of unresolved connection. ~5 min.
+
+**Ubuntu Circle Reflection (Southern African)** → low `mood`, isolation, community disconnection
+  "I am because we are." Reflect: who has shaped you? Whose wellbeing is linked to yours?
+  Name 3 people. Send them a silent wish. You are not alone — you are a node in a web. ~5 min.
+
+**Pranayama — Bhramari (Indian Bee Breath)** → high `stress_index`, need for vagal activation
+  Close ears with thumbs, eyes with fingers. Hum like a bee on exhale. The skull
+  vibration activates vagal pathways and the vibration provides sensory feedback.
+  Part of classical yoga (~500 BCE). ~3–5 min.
+  ◈ *Secular framing:* "Humming with your ears covered — the vibration is the mechanism."
+
+**Dadirri (Deep Listening, Aboriginal Australian)** → low `lzc`, low `integration`, mental noise
+  Sit in stillness and listen to the land. No goal, no insight sought. Receptive, not active.
+  "In our culture, we don't say 'I think therefore I am.' We listen and we are." (Miriam-Rose Ungunmerr).
+  The Western equivalent is Open Monitoring, but Dadirri is relational — you're listening
+  TO the world, not just observing your mind. ~10 min.
+
+**Tai Chi Micro-Form (Chinese)** → low `engagement`, high `stress_index`, need for moving meditation
+  3 moves only: "Part the Wild Horse's Mane" (left, right), "White Crane Spreads Wings",
+  "Brush Knee Push" (left, right). Slow, continuous, breath follows movement naturally.
+  No breath counting needed — the movement IS the meditation. ~5 min.
+  ◈ *Seated:* Arm movements only, imagining weight shifts.
+
+**Dhikr / Zikr (Islamic Meditative Repetition)** → racing thoughts, high `cognitive_load`, seeking calm
+  Rhythmic repetition of a sacred phrase (e.g. "SubhanAllah", "Alhamdulillah", or simply
+  a meaningful word). Uses a tasbih (prayer beads) for tactile anchor. Combines mantra,
+  tactile, and rhythmic elements. ~5–10 min.
+  ◈ *Secular equivalent:* Any meaningful repeated word or phrase with beads or finger counting.
+
+**Centering Prayer (Christian Contemplative)** → racing thoughts, seeking stillness, spiritual context
+  Choose a sacred word (love, peace, mercy). Sit silently. When thoughts arise, gently
+  return to the word. 20 min. Thomas Keating tradition. Functionally identical to mantra
+  meditation but framed within Christian spirituality. ~20 min.
+
+**Mala / Japamala Meditation (Hindu / Buddhist)** → scattered attention, need for tactile + repetitive anchor
+  108-bead strand. One bead per repetition of mantra or intention. The tactile progression
+  through beads provides proprioceptive grounding + progress tracking without a timer.
+  ◈ *Secular:* Any strand of beads + any repeated positive phrase. "I am here. I am here. I am here."
+
+---
+
+## SITUATIONAL MICRO-PROTOCOLS
+
+*(Ultra-short protocols for specific real-life moments. 30 seconds or less.
+These bridge the gap between "I know I should do something" and "I don't have time.")*
+
+**Before Sending an Angry Email/Text** → high `bar`, impulsive reactivity
+  Save as draft. Stand up. Walk to another room. Come back. Re-read. Still want to send it?
+  Edit. Sleep on it if possible. ~1 min.
+
+**Before Eating When Not Hungry** → stress eating impulse, high `stress_index`
+  Hand on belly. "Am I hungry or am I feeling something?" Name the feeling.
+  If hungry: eat. If feeling: what do you actually need? ~30 seconds.
+
+**Waiting Room / Queue Calm** → boredom, impatience, rising `bar`
+  Tongue press on palate (10 s). Count colours in the room. Feel your feet on the floor.
+  You've now done 3 protocols without anyone knowing. ~30 seconds.
+
+**After Receiving Bad News** → acute stress, shock, emotional flooding
+  Do NOT make any decisions for 24 hours if possible. Right now: hand on chest. "I just
+  heard something hard. I don't have to respond yet." Cold water on wrists. Call one trusted
+  person — not for advice, just for witness. ~2 min.
+
+**Before a Difficult Conversation** → anticipatory anxiety, high `bar`
+  3 physiological sighs (double inhale + long exhale). Or if no-breath: squeeze fists
+  hard for 5 s and release. Set one intention: "I want to be heard, and I want to hear."
+  That's enough preparation. ~1 min.
+
+**After Being Criticised** → shame spike, negative `faa`, urge to defend or withdraw
+  Delay response: "Let me think about that." (Buy time.) Later: separate signal from noise.
+  "What's true in this? What's their stuff? What's mine?" Not everything that hurts is accurate. ~5 min.
+
+**Waking Up Anxious** → high `bar` on waking, cortisol spike, dread
+  Cortisol peaks 20–30 min after waking (CAR). This feeling is partly chemical, not entirely
+  real. Feet on cold floor. Cold water on face. Sunlight in eyes. Don't check your phone
+  for 10 minutes. The anxiety will halve in 30 min on its own. ~10 min.
+
+**Mid-Cry Protocol** → actively crying, overwhelm, need to continue functioning
+  Don't stop the cry if you can afford 2 more minutes — it's a complete neurochemical cycle.
+  If you must stop: cold water on face (dive reflex interrupts the autonomic cascade).
+  Press tongue hard on palate. Squeeze an ice cube. You can return to the feeling later. ~2 min.
+
+**Post-Doom-Scrolling** → low `lzc`, low `focus`, mood crashed, 30+ min lost
+  Phone across the room. NOW. Stand up. Look at the farthest thing you can see.
+  One real-world sensory experience (cold water, stretch, step outside).
+  Don't punish yourself — just notice how you feel and remember this data point next time. ~2 min.
+
+**Before Sleep After a Hard Day** → high `bar`, rumination, mind won't shut off
+  Worry dump: write every thought on paper (not phone). Close the notebook.
+  "These problems will still exist tomorrow. I don't have to solve them in bed."
+  Body scan starting from feet. If still awake after 20 min, get up briefly, then try again. ~10 min.
+
+---
+
 ## MATCHING GUIDANCE
 
+- **Personalise first, then match.** Before selecting a protocol, consider who this person is
+  (see Personalisation Engine). The best EEG-matched protocol that doesn't fit the person's
+  life will be ignored. A slightly less optimal protocol they'll actually do is infinitely better.
 - Match **one protocol** to the single most salient metric signal.
 - Briefly explain the metric connection when proposing.
 - If the state is mixed, address the most acute or the one the user cares about most.
@@ -885,5 +1505,19 @@ or cognitive engagement — the body does the work.)*
   or the context suggests breath-based methods are unsuitable (public setting, respiratory
   condition, stated preference), prioritise protocols from the Cognitive Reset, Tactile,
   Oculomotor, Micro-Movement, Auditory, or Passive Physiological categories.
+- **Context-specific priority:** If you know the user is a parent, shift worker, teenager,
+  elder, neurodivergent, commuting, or in any specific context from the context sections,
+  check those sections FIRST before offering a generic protocol.
+- **Cultural sensitivity:** When offering culturally-rooted practices, name the origin and
+  let the user choose. Never impose a spiritual framework. If uncertain, offer the secular
+  equivalent and mention the traditional version as an option.
+- **Accessibility default:** When in doubt about physical ability, suggest the LEAST
+  physically demanding variant first and offer to scale up. "Would you like a more active
+  version?" is better than assuming everyone can stand, see, hear, or move freely.
+- **Relational opportunities:** If the user mentions being with another person (partner,
+  friend, child, colleague), consider relational variants — co-regulation is faster and
+  deeper than solo regulation.
 - **Contraindications:** Wim Hof and hyperventilation-style breathwork are unsuitable
   for known seizure disorders, cardiac conditions, or pregnancy. Note this before proposing.
+  Extended breath holds are unsuitable for panic disorder, severe anxiety, and COPD.
+  Body scans require consent in trauma contexts. Eye closure is always optional.
