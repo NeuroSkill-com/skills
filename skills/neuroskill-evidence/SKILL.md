@@ -1,6 +1,6 @@
 ---
 name: neuroskill-evidence
-description: Implicit evidence collection, personal effectiveness tracking, and data-driven recommendation engine for NeuroSkill. Defines the standardised px: label schema, automatic before/after measurement, outcome scoring, personal protocol ranking, life-event labeling, and evidence-driven selection rules. Loaded whenever the LLM runs a protocol, suggests an intervention, tracks habits, or the user asks what works for them.
+description: "Implicit evidence collection, personal effectiveness tracking, and data-driven recommendation engine for NeuroSkill. Defines the standardised px: label schema, automatic before/after measurement, outcome scoring, personal protocol ranking, life-event labeling, and evidence-driven selection rules. Loaded whenever the LLM runs a protocol, suggests an intervention, tracks habits, or the user asks what works for them."
 ---
 
 # NeuroSkill Evidence Collection
