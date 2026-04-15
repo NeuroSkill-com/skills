@@ -148,6 +148,8 @@ npx neuroskill search-labels "stress" --json | jq '[.results[].eeg_metrics.tbr]'
 
 ## `interactive` — Cross-Modal 5-Layer Graph Search
 
+> The interactive search is handled by the daemon HTTP API (`POST /v1/search/eeg`). It embeds the query text, searches the label HNSW index, finds nearby EEG epochs, and discovers temporal neighbor labels.
+
 Combines semantic text search, EEG similarity search, temporal label proximity,
 and screenshot discovery into a single directed graph:
 

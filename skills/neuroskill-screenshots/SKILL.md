@@ -10,7 +10,7 @@ with CLIP vision (ONNX), run OCR text extraction, and index both modalities in
 separate HNSW indices for similarity search.
 
 > **Note:** Screenshot capture must be enabled in Settings → Screenshots.
-> Screenshots are served via `GET /screenshots/<day>/<filename>` on the API server
+> Screenshots are served via `GET /screenshots/<filename>?token=<token>` on the daemon API (auth required)
 > and appear as indicators on the History day-view heatmap grid.
 
 ---
@@ -392,5 +392,5 @@ npx neuroskill screenshots-around --at $HIT_TS
 # ── "View the actual screenshot image in a browser" ──────────────────────────
 PORT=8375
 FILE=$(npx neuroskill screenshots-around --at 1740412800 --json | jq -r '.results[0].filename')
-xdg-open "http://127.0.0.1:$PORT/screenshots/$FILE"
+xdg-open "http://127.0.0.1:$PORT/screenshots/$FILE?token=$TOKEN"
 ```

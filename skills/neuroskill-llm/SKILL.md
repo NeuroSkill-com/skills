@@ -14,7 +14,7 @@ All subcommands route to the WebSocket/HTTP API.
 
 | Subcommand | Description |
 |---|---|
-| `llm status` | Server state (stopped/loading/running), model name, context window |
+| `llm status` | Server state (stopped/loading/running), model name, context window. Context size is auto-recommended based on model size and available GPU/RAM (minimum 8192 tokens, configurable in Settings → LLM → Context Size) |
 | `llm start` | Load the active model and start the inference server |
 | `llm stop` | Stop the server and free GPU/CPU memory |
 | `llm catalog` | List all GGUF models with download states and active selections |
@@ -124,7 +124,7 @@ ws.send(JSON.stringify({ command: "llm_chat", message: "Hello!" }));
 {
   "command": "llm_chat", "ok": true, "type": "done",
   "finish_reason": "stop", "prompt_tokens": 42,
-  "completion_tokens": 87, "n_ctx": 4096, "session_id": 42
+  "completion_tokens": 87, "n_ctx": 16384, "session_id": 42
 }
 ```
 

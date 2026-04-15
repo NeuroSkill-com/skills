@@ -46,11 +46,12 @@ npx neuroskill search --json | jq '.result.results | length'
 npx neuroskill search --json | jq '.result.results[0].neighbors[0]'
 ```
 
-**HTTP:**
+**HTTP (daemon API):**
 ```bash
-curl -s -X POST http://127.0.0.1:8375/ \
+curl -s -X POST http://127.0.0.1:$PORT/v1/search/eeg \
+  -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{"command":"search","start_utc":1740412800,"end_utc":1740415500,"k":5}'
+  -d '{"startUtc":1740412800,"endUtc":1740415500,"k":5}'
 ```
 
 ### JSON Response
@@ -103,6 +104,8 @@ npx neuroskill search --json | jq '[.result.results[].neighbors[]] | sort_by(.di
 npx neuroskill search --json | jq '.result.analysis.temporal_distribution'
 ```
 
+> **Note:** Only epochs with computed EEG embeddings are searched. Use `embedding-count` to check coverage. Background re-embedding runs automatically when the device is idle (configurable in Settings → EEG Model).
+
 ---
 
 ## `compare` — A/B Session Comparison
@@ -123,14 +126,14 @@ npx neuroskill compare --json | jq '.insights.improved'
 npx neuroskill compare --json | jq '.insights.declined'
 ```
 
-**HTTP:**
+**HTTP (daemon API):**
 ```bash
-curl -s -X POST http://127.0.0.1:8375/ \
+curl -s -X POST http://127.0.0.1:$PORT/v1/analysis/compare \
+  -H "Authorization: Bearer $TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
-    "command": "compare",
-    "a_start_utc": 1740380100, "a_end_utc": 1740382665,
-    "b_start_utc": 1740412800, "b_end_utc": 1740415510
+    "aStartUtc": 1740380100, "aEndUtc": 1740382665,
+    "bStartUtc": 1740412800, "bEndUtc": 1740415510
   }' | jq '{a_focus: .a.focus, b_focus: .b.focus}'
 ```
 
