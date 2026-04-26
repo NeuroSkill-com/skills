@@ -1,6 +1,6 @@
 ---
 name: neuroskill-dnd
-description: NeuroSkill Do Not Disturb automation — EEG-driven focus detection that activates OS-level DND when sustained attention exceeds a threshold. Shows rolling average, sample window, and OS state. Supports force-override on/off. Use when managing focus-based DND automation or checking DND status.
+description: NeuroSkill Do Not Disturb automation — EEG-driven focus detection that activates OS-level DND and optional grayscale display when sustained attention exceeds a threshold. Shows rolling average, sample window, and OS state. Supports force-override on/off. Use when managing focus-based DND automation, grayscale mode, or checking DND status.
 ---
 
 # NeuroSkill DND (Do Not Disturb) Automation
@@ -24,6 +24,10 @@ With no subcommand, shows the full DND config and live state: automation enabled
 focus threshold, rolling average score, sample window fill, and OS-level Focus state.
 
 With `on` or `off`, immediately activates or deactivates DND, bypassing the EEG threshold.
+
+Optional **grayscale display** mode switches the screen to grayscale when DND activates
+and restores color when it deactivates (macOS only, off by default). Reduces visual
+distraction during deep work.
 
 ---
 
@@ -109,3 +113,4 @@ curl -s -X POST http://127.0.0.1:8375/ \
 | `mode_identifier` | string | DND automation mode identifier |
 | `dnd_active` | boolean | Whether this app activated DND |
 | `os_active` | boolean | Whether the OS reports DND as active |
+| `grayscale` | boolean | Whether grayscale display is enabled alongside DND (macOS only) |
