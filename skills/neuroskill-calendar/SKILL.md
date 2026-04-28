@@ -91,29 +91,6 @@ Show the macOS system permission dialog. No-op on Linux/Windows (always authoriz
 
 ---
 
-## CLI Examples
-
-```bash
-npx neuroskill calendar                            # events: next 7 days
-npx neuroskill calendar --start 1774396800 --end 1774483200
-npx neuroskill calendar --json
-npx neuroskill calendar --json | jq '.events[] | {title, start_utc, calendar}'
-npx neuroskill calendar status                     # auth status + platform
-npx neuroskill calendar permission                 # macOS: request system dialog
-```
-
----
-
-## HTTP API
-
-```
-POST /v1/calendar/events      { "start_utc": 1774396800, "end_utc": 1774483200 }
-GET  /v1/calendar/status
-POST /v1/calendar/permission
-```
-
----
-
 ## Common Queries
 
 **"What do I have today?"**

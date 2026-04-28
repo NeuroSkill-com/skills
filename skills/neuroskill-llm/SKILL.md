@@ -8,6 +8,14 @@ description: NeuroSkill built-in LLM inference server — on-device OpenAI-compa
 Control the built-in on-device LLM inference server (OpenAI-compatible, powered by llama.cpp).
 All subcommands route to the WebSocket/HTTP API.
 
+## Quick Start Workflow
+
+1. `llm status` → check server state (`stopped` / `loading` / `running`)
+2. `llm catalog` → list available models; if none downloaded, `llm add <repo> <filename>` then poll `llm downloads` until complete
+3. `llm select <filename>` → set the active model (verify with `llm catalog --json | jq '.entries[] | select(.active)'`)
+4. `llm start` → load the model; poll `llm status` until state is `running`
+5. `llm chat "your question"` → single-shot chat, or `llm chat` for interactive REPL
+
 ---
 
 ## Subcommands
@@ -166,28 +174,6 @@ curl -s http://127.0.0.1:8375/llm/logs | jq '.logs[-10:]'
 ```
 
 ---
-
-## WebSocket Commands
-
-| Command | Required | Optional | Description |
-|---|---|---|---|
-| `llm_status` | — | — | Server state + model info |
-| `llm_start` | — | — | Start inference server |
-| `llm_stop` | — | — | Stop server + free resources |
-| `llm_catalog` | — | — | Full model catalog |
-| `llm_add_model` | `repo`, `filename` | `download`, `mmproj` | Add external HF model |
-| `llm_select_model` | `filename` | — | Set active text model |
-| `llm_select_mmproj` | `filename` | — | Set active vision projector |
-| `llm_download` | `filename` | — | Start model download |
-| `llm_pause_download` | `filename` | — | Pause download |
-| `llm_resume_download` | `filename` | — | Resume download |
-| `llm_cancel_download` | `filename` | — | Cancel download |
-| `llm_delete` | `filename` | — | Delete cached model |
-| `llm_downloads` | — | — | List downloads with progress |
-| `llm_refresh_catalog` | — | — | Re-probe HF cache |
-| `llm_hardware_fit` | — | — | Check model fit in RAM/VRAM |
-| `llm_logs` | — | — | Last 500 log entries |
-| `llm_chat` | `messages` or `message` | GenParams | Streaming chat |
 
 ## GenParams Reference
 

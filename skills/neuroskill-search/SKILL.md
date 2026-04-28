@@ -1,9 +1,17 @@
 ---
 name: neuroskill-search
-description: NeuroSkill `search` and `compare` commands — ANN search for neurally similar EEG moments across all history, and A/B session comparison with metric deltas, trend directions, and UMAP enqueuing. Use when finding similar past brain states or comparing two recording sessions.
+description: "NeuroSkill search and compare commands — find similar past brain states via ANN search over EEG embeddings, match brain activity patterns across all recording history, and run A/B session comparisons with metric deltas, trend directions, and 3D UMAP visualization. Use when the user wants to find similar patterns, compare recordings, match brain activity, see session differences, or search their EEG history."
 ---
 
 # NeuroSkill `search` and `compare` Commands
+
+## Quick Start Workflow
+
+1. Check embedding coverage: `embedding-count` → verify embeddings exist for the target period
+2. **Search**: `search --start <start> --end <end>` → find neurally similar moments across history
+3. Inspect results: review `distance` (lower = more similar), `metrics`, and `labels` on each neighbor
+4. **Follow up**: bridge to other modalities — `screenshots_around` for screen context, `search_labels` for text annotations, `interactive_search` for full graph exploration
+5. **Compare**: `compare --a-start ... --b-start ...` → get metric deltas, improved/declined lists, and auto-enqueued UMAP
 
 ---
 

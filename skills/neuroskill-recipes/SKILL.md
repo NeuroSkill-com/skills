@@ -1,6 +1,6 @@
 ---
 name: neuroskill-recipes
-description: NeuroSkill use-case recipes and scripting patterns — shell snippets for focus and productivity monitoring, stress tracking, sleep quality analysis, cognitive load queries, meditation tracking, cross-modal graph search, A/B session comparison, time-range queries, and automation with cron/Python/Node.js/HTTP. Use when looking for practical examples or building automation pipelines.
+description: "NeuroSkill use-case recipes and scripting patterns — copy-paste shell snippets, Python scripts, and Node.js examples for focus monitoring, stress tracking, sleep quality analysis, cognitive load queries, meditation tracking, cross-modal graph search, A/B session comparison, time-range queries, and scheduled automation with cron. Use when the user asks for NeuroSkill code examples, how-to snippets, neuro-data automation scripts, or wants to build pipelines for brain and wellness monitoring."
 ---
 
 # NeuroSkill Use-Case Recipes
@@ -329,40 +329,6 @@ setInterval(async () => {
   const { scores } = await neuroskill({ command: "status" });
   console.log(`focus=${scores.focus.toFixed(2)} relax=${scores.relaxation.toFixed(2)} hr=${scores.hr.toFixed(1)}`);
 }, 5000);
-```
-
----
-
----
-
-### Cross-Modal Graph Search
-
-```bash
-# Basic: find concepts related to "deep focus" across all data layers:
-npx neuroskill interactive "deep focus"
-
-# Increase reach to capture labels up to 30 minutes from each EEG point:
-npx neuroskill interactive "deep focus" --reach 30
-
-# More neighbors at each layer for a richer graph:
-npx neuroskill interactive "meditation" --k-text 8 --k-eeg 8 --k-labels 5 --reach 20
-
-# What text labels are semantically closest to "anxiety"?
-npx neuroskill interactive "anxiety" --json | jq '[.nodes[] | select(.kind == "text_label") | {text, sim: (1 - .distance | . * 100 | round)}]'
-
-# What nearby labels cluster around EEG moments found via "stress"?
-npx neuroskill interactive "stress" --json | jq '[.nodes[] | select(.kind == "found_label") | .text]'
-
-# Count total discovered nodes by layer:
-npx neuroskill interactive "flow state" --json | jq '[.nodes | group_by(.kind)[] | {(.[0].kind): length}] | add'
-
-# Visualize the graph (requires graphviz):
-npx neuroskill interactive "deep focus" --dot | dot -Tsvg -o focus_graph.svg
-npx neuroskill interactive "meditation" --dot | dot -Tpng -o meditation_graph.png
-
-# Chain with search-labels to verify what's in the text index first:
-npx neuroskill search-labels "deep focus" --k 5 --json | jq '.results[].text'
-npx neuroskill interactive "deep focus" --k-text 5 --k-eeg 5
 ```
 
 ---

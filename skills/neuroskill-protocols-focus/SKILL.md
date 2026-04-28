@@ -1,14 +1,19 @@
 ---
 name: neuroskill-protocols-focus
-description: Focus, attention, cognition, consciousness, deep meditation, and energy/alertness protocols — EEG-triggered interventions for tbr, focus, engagement, cognitive_load, lzc, wakefulness, apf, and pac_theta_gamma.
+description: "Designs and triggers EEG-based neurofeedback protocols for focus, attention, cognitive performance, consciousness, deep meditation, and energy. Monitors theta-beta ratio (tbr), focus, engagement, cognitive_load, Lempel-Ziv complexity (lzc), wakefulness, alpha peak frequency (apf), and theta-gamma coupling (pac_theta_gamma) to select and deliver real-time interventions — breath exercises, attentional resets, brain-training warm-ups, flow state induction, and alertness boosters. Use when the user asks about neurofeedback protocols, brainwave training, improving focus or attention, boosting energy or alertness, meditation guidance, cognitive warm-ups, or EEG-triggered interventions."
 ---
 
 # Focus Protocols
 
-*(This is a domain sub-skill of the neuroskill-protocols repertoire. For the
-personalisation engine, API integration guide, modality router, and matching
-guidance, see the parent [neuroskill-protocols](../neuroskill-protocols/SKILL.md) skill.
-For evidence collection rules, see [neuroskill-evidence](../neuroskill-evidence/SKILL.md).)*
+*(Sub-skill of [neuroskill-protocols](../neuroskill-protocols/SKILL.md). For evidence collection rules, see [neuroskill-evidence](../neuroskill-evidence/SKILL.md).)*
+
+## Quick Start
+
+1. Check current scores: `status` → inspect `scores.tbr`, `scores.focus`, `scores.engagement`
+2. Match a protocol below using the trigger condition (e.g. high `tbr` → Theta-Beta Neurofeedback Anchor)
+3. Deliver the intervention, polling `status` every 60 s to track changes
+4. Label the session: `label "protocol-name complete"` with metric deltas
+5. Over time: `search_labels "neurofeedback"` to track improvement trends
 
 ## ATTENTION & FOCUS
 
@@ -54,9 +59,6 @@ For evidence collection rules, see [neuroskill-evidence](../neuroskill-evidence/
 
 ---
 
-
----
-
 ## COGNITIVE PERFORMANCE & MOTIVATION
 
 **WOOP / Mental Contrasting** → low engagement before a task, pre-challenge motivation dip
@@ -70,9 +72,6 @@ For evidence collection rules, see [neuroskill-evidence](../neuroskill-evidence/
 
 **Novel Stimulation Burst** → low `apf` (<9 Hz), cortical slowing
   Name 5 unusual objects, recall an unexpected memory, solve a riddle. Combats cortical slowing.
-
----
-
 
 ---
 
@@ -93,9 +92,6 @@ For evidence collection rules, see [neuroskill-evidence](../neuroskill-evidence/
 
 ---
 
-
----
-
 ## DEEP MEDITATION
 
 **Alpha-Theta Drift** → low `lzc` + moderate `drowsiness`, trauma integration, deep creativity
@@ -107,9 +103,6 @@ For evidence collection rules, see [neuroskill-evidence](../neuroskill-evidence/
 
 **Gamma Entrainment (40 Hz)** → low `integration`, low `rel_gamma`
   Sustained 40 Hz humming or audiovisual cue. Promotes gamma synchrony. 3–5 min sessions.
-
----
-
 
 ---
 
