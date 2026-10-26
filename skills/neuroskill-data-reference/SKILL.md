@@ -1,6 +1,6 @@
 ---
 name: neuroskill-data-reference
-description: NeuroSkill EEG data reference — all metric fields including band powers, EEG ratios and indices, core scores, complexity measures, PPG/HRV fields, motion and artifact markers, sleep stage codes, headache/migraine correlate indices, and consciousness metrics. Use when looking up what a specific metric means or its value range.
+description: NeuroSkill EEG data reference — all metric fields including band powers, EEG ratios and indices, core scores, complexity measures, PPG/HRV fields, motion and artifact markers, sleep stage codes, migraine correlate index, and consciousness metrics. Use when looking up what a specific metric means or its value range.
 ---
 
 # NeuroSkill Data Reference
@@ -130,7 +130,6 @@ From `neurological`. All 0–100. **Research use only — not diagnostic.**
 
 | Index | Mechanism | Reference (verified DOI) |
 |---|---|---|
-| `headache_index` | Cortical hyperexcitability (beta) | Bjørk et al. (2009) · doi:[10.1007/s10194-009-0140-4](https://doi.org/10.1007/s10194-009-0140-4) |
 | `migraine_index` | Delta + alpha suppression | Bjørk et al. (2009) · doi:[10.1007/s10194-009-0140-4](https://doi.org/10.1007/s10194-009-0140-4) |
 
 > **Score colour coding:** < 30 = green (low), 30–60 = yellow (moderate), > 60 = red (elevated).

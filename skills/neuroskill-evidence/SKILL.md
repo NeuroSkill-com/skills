@@ -122,7 +122,6 @@ Outcome is based on the **target metric** for the intervention's trigger:
 | `high_cognitive_load` | `cognitive_load` | Dropped ≥ 10% or ≥ 0.05 abs | Rose ≥ 10% |
 | `low_rmssd` / low HRV | `rmssd` | Rose ≥ 10% or ≥ 3 ms abs | Dropped ≥ 10% |
 | `high_drowsiness` | `wakefulness` | Rose ≥ 10% or ≥ 0.05 abs | Dropped ≥ 10% |
-| `high_headache` | `headache_index` | Dropped ≥ 10% or ≥ 5 abs | Rose ≥ 10% |
 | `user_request` | User's stated goal | Ask user or infer from context | — |
 | All other | Neutral unless clear change | — | — |
 

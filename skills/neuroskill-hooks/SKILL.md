@@ -130,7 +130,7 @@ EEG stream → 5 s epoch → embedding vector → cosine distance to hook refere
                                               scenario gate passes?
                                                        ↓
                                        broadcast { event: "hook", payload: {...} }
-                                              + audit log in hooks.sqlite
+                                              + audit log in hooks.duckdb
                                               + OS toast notification
 ```
 
@@ -150,14 +150,14 @@ EEG stream → 5 s epoch → embedding vector → cosine distance to hook refere
    - `any` — always passes
    - `cognitive` — requires elevated theta/beta ratio or cognitive load ≥ 55
    - `emotional` — requires stress index ≥ 55, mood ≤ 45, or relaxation ≤ 35
-   - `physical` — requires drowsiness ≥ 55, headache/migraine index ≥ 45, or extreme HR
+   - `physical` — requires drowsiness ≥ 55, migraine index ≥ 45, or extreme HR
 
 4. **Cooldown** — A hook cannot fire more than once every 10 seconds.
 
 5. **Broadcast** — The server pushes `{ "event": "hook" }` over WebSocket to all
    connected clients.
 
-6. **Audit log** — Every trigger is persisted to `hooks.sqlite` for review via `hooks log`.
+6. **Audit log** — Every trigger is persisted to `hooks.duckdb` for review via `hooks log`.
 
 ---
 

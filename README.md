@@ -46,7 +46,7 @@ A collection of NeuroSkill EXG skills for [NeuroLoop™️](https://neuroloop.io
 | [`neuroskill-protocols-stress`](skills/neuroskill-protocols-stress/SKILL.md) | Stress, relaxation, autonomic regulation, HRV, hemispheric balance, and deep relaxation protocols. |
 | [`neuroskill-protocols-emotions`](skills/neuroskill-protocols-emotions/SKILL.md) | Emotional regulation, mood, and extended emotional processing protocols (12 specific emotions). |
 | [`neuroskill-protocols-sleep`](skills/neuroskill-protocols-sleep/SKILL.md) | Sleep, circadian, recovery, NSDR/yoga nidra, and power nap protocols. |
-| [`neuroskill-protocols-body`](skills/neuroskill-protocols-body/SKILL.md) | Body, somatic, neck/cervical, eye exercise, headache/migraine, and motor protocols. |
+| [`neuroskill-protocols-body`](skills/neuroskill-protocols-body/SKILL.md) | Body, somatic, neck/cervical, eye exercise, migraine, and motor protocols. |
 | [`neuroskill-protocols-routines`](skills/neuroskill-protocols-routines/SKILL.md) | Morning routines, workout/gym, hydration, and movement break protocols. |
 | [`neuroskill-protocols-nutrition`](skills/neuroskill-protocols-nutrition/SKILL.md) | Dietary, nutrition, caffeine, fasting, eating, and gut-brain protocols. |
 | [`neuroskill-protocols-music`](skills/neuroskill-protocols-music/SKILL.md) | Music protocols — genre/BPM/artist suggestions for mood, focus, stress, sleep, and emotional release. |

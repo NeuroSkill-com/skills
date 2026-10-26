@@ -64,8 +64,7 @@ description: Metrics and indices reference — all EEG band powers, ratios, scor
     - 10.2 [Jaw Clench Detection](#102-jaw-clench-detection)
     - 10.3 [Head Pose (Pitch / Roll / Stillness / Nods / Shakes)](#103-head-pose-pitch--roll--stillness--nods--shakes)
 11. [Neurological EEG Correlates](#11-neurological-eeg-correlates)
-    - 11.1 [Headache Index](#111-headache-index)
-    - 11.2 [Migraine Index](#112-migraine-index)
+    - 11.1 [Migraine Index](#111-migraine-index)
 12. [Sleep Staging Hypnogram](#12-sleep-staging-hypnogram)
 13. [ZUNA Embeddings & HNSW Search](#13-zuna-embeddings--hnsw-search)
 14. [Validated Reference List](#14-validated-reference-list)
@@ -690,7 +689,7 @@ Alpha power is **inversely related** to cortical activity (alpha decreases when 
 - **FAA < 0** (left alpha > right alpha → right hemisphere more active → withdrawal motivation / negative affect tendency)
 - **FAA ≈ 0** → hemispheric balance
 
-FAA is a relatively stable **trait marker** (individual differences in resting FAA predict dispositional affect), but also shows **state-level** fluctuations in response to emotional stimuli, stress, and mindfulness practice. It is stored in the `eeg.sqlite` database alongside every 5-second embedding epoch.
+FAA is a relatively stable **trait marker** (individual differences in resting FAA predict dispositional affect), but also shows **state-level** fluctuations in response to emotional stimuli, stress, and mindfulness practice. It is stored in the `eeg.duckdb` database alongside every 5-second embedding epoch.
 
 **Electrode sites:** AF7 (left frontal) ↔ AF8 (right frontal).
 
@@ -1082,27 +1081,7 @@ Each index is derived from a **weighted combination of raw EEG indices** (band p
 
 ---
 
-### 11.1 Headache Index
-
-**EEG correlate:** Cortical **hyperexcitability**: elevated beta + suppressed alpha + high BAR.
-
-**Formula:**
-
-```
-Headache_index ≈ f(P_β_high, P_α_low, BAR_high, Laterality_asymmetry)    [0–100]
-```
-
-**Mechanism:** Between headache episodes (interictal), EEG research shows patterns of cortical hyperexcitability — elevated beta, suppressed alpha, and hemispheric asymmetry. These reflect altered sensory gating thresholds and central sensitization. During headache episodes, additional delta can appear.
-
-**Electrode sites:** AF7, AF8 (beta/alpha balance); TP9, TP10 (temporal asymmetry).
-
-**Reference:**
-
-> Bjørk, M. H. et al. (2009). Interictal quantitative EEG in migraine: a blinded controlled study. *The Journal of Headache and Pain*, 10(5), 331–339. [doi:10.1007/s10194-009-0140-4](https://doi.org/10.1007/s10194-009-0140-4)
-
----
-
-### 11.2 Migraine Index
+### 11.1 Migraine Index
 
 **EEG correlate:** Cortical spreading depression proxy: elevated **delta** + **alpha suppression** + **hemispheric lateralization**.
 
@@ -1118,7 +1097,7 @@ Migraine_index ≈ f(P_δ_high, P_α_low, Laterality_abs_high, DTR_elevated)    
 
 **Reference:**
 
-> Bjørk, M. H. et al. (2009). [doi:10.1007/s10194-009-0140-4](https://doi.org/10.1007/s10194-009-0140-4)
+> Bjørk, M. H. et al. (2009). Interictal quantitative EEG in migraine: a blinded controlled study. *The Journal of Headache and Pain*, 10(5), 331–339. [doi:10.1007/s10194-009-0140-4](https://doi.org/10.1007/s10194-009-0140-4)
 
 ---
 
@@ -1160,7 +1139,7 @@ The embedding captures the holistic spatiotemporal pattern of the EEG epoch — 
 
 ### HNSW Similarity Search
 
-Embeddings are indexed in a **Hierarchical Navigable Small World (HNSW)** graph (fast-hnsw library) for approximate nearest-neighbor search. HNSW enables sub-millisecond search over millions of embeddings with high recall. Each daily `eeg.sqlite` database stores the raw embeddings; the HNSW index is rebuilt from them.
+Embeddings are indexed in a **Hierarchical Navigable Small World (HNSW)** graph (fast-hnsw library) for approximate nearest-neighbor search. HNSW enables sub-millisecond search over millions of embeddings with high recall. Each daily `eeg.duckdb` database stores the raw embeddings; the HNSW index is rebuilt from them.
 
 Distances are computed as **cosine distances** (1 − cosine similarity): 0 = identical, 1 = orthogonal, 2 = antipodal. Nearby points in the HNSW graph represent similar brain states.
 

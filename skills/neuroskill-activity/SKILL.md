@@ -237,6 +237,6 @@ npx neuroskill brain optimal           # best hours to code
 
 - Clipboard monitoring records **metadata only** (source app, type, size) — content is never stored
 - File content is never stored — only paths, line counts, and content hashes for diff detection
-- All data stored locally in `~/.skill/activity.sqlite`
+- All data stored locally in `~/.skill/activity.duckdb`
 - Configurable retention period (default: 90 days)
 - Tracking can be independently toggled: active window, input activity, file tracking, clipboard

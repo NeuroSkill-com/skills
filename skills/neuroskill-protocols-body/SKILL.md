@@ -1,6 +1,6 @@
 ---
 name: neuroskill-protocols-body
-description: Body, somatic, neck, eye, headache, and motor protocols — interventions for physical tension, headache_index, migraine_index, stillness, mu_suppression, eye strain, and spectral_centroid.
+description: Body, somatic, neck, eye, migraine, and motor protocols — interventions for physical tension, migraine_index, stillness, mu_suppression, eye strain, and spectral_centroid.
 ---
 
 # Body Protocols
@@ -49,10 +49,9 @@ For evidence collection rules, see [neuroskill-evidence](../neuroskill-evidence/
 
 ## NECK & CERVICAL RELIEF
 
-*(Offer whenever the user mentions neck tension, headache radiating from neck,
-prolonged screen time, or when `headache_index` > 20 + high `stillness`.)*
+*(Offer whenever the user mentions neck tension, prolonged screen time, or when `stillness` stays high (> 0.85).)*
 
-**Neck Release Sequence** → `headache_index` elevated, `stillness` > 0.85, neck tension
+**Neck Release Sequence** → `stillness` > 0.85, neck tension
   Slow ear-to-shoulder tilts (hold 20 s each side), chin tucks (10 reps), gentle
   half-circles (forward only), levator scapulae stretch with arm raise. ~5 min.
 
@@ -90,16 +89,16 @@ or when the user reports eye strain, blurred vision, or dry eyes.)*
 
 ---
 
-## HEADACHE & MIGRAINE
+## MIGRAINE
 
-**Cortical Quieting** → `headache_index` > 30, `migraine_index` > 20
+**Cortical Quieting** → `migraine_index` > 20, or the user reports a migraine
   Sensory withdrawal: dark/quiet room + cool compress on forehead or neck. Pair with:
   very slow nasal breathing, OR just lie still with the compress (passive), OR ear massage
   (auricular vagal), OR humming at a low pitch. The sensory reduction is the primary
   intervention — the pairing is secondary and should match what the person can tolerate
   when in pain.
 
-**Alpha-Reset for Headache** → `headache_index` rising, high cortical hyperexcitability
+**Alpha-Reset** → user reports a migraine, high `bar` (cortical hyperexcitability)
   Eyes closed + hum on exhale (promotes alpha via auditory feedback) + jaw release.
 
 ---

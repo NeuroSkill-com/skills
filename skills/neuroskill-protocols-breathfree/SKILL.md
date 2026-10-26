@@ -71,7 +71,7 @@ stimulation through touch rather than breath.)*
   forearm. Full attention on micro-texture. Activates somatosensory cortex, anchors
   attention to the present moment. Completely discreet in meetings. ~2–3 min.
 
-**Pressure Point Self-Massage (LI-4)** → high `stress_index`, tension headache, high `bar`
+**Pressure Point Self-Massage (LI-4)** → high `stress_index`, neck/shoulder tension, high `bar`
   Squeeze the fleshy web between thumb and index finger (acupoint LI-4) firmly for
   30 seconds per hand. Or press the bony ridge behind the ear (mastoid process).
   Vagal stimulation and pain-gate distraction without any breathing cue. ~2 min.
@@ -156,7 +156,7 @@ and re-engage the motor cortex — no mat, no standing, no attention from collea
   contrast. Repeat with quads (press feet into floor), glutes (squeeze), shoulders
   (shrug and hold). Progressive muscle relaxation — seated, silent, invisible. ~3 min.
 
-**Jaw Release Protocol** → high `stress_index`, teeth clenching, TMJ tension, headache
+**Jaw Release Protocol** → high `stress_index`, teeth clenching, TMJ tension
   Place tongue tip on the roof of mouth behind front teeth. Let jaw drop open under
   its own weight. Hold 30 seconds. Gently move jaw side to side. The jaw is the body's
   primary stress-holding muscle — releasing it cascades relaxation downward. ~1–2 min.

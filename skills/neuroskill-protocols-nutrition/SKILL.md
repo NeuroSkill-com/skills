@@ -76,7 +76,7 @@ unless a timed practice is appropriate.)*
   Cortisol-driven cravings for high-fat, high-sugar foods are predictable, not a moral failure.
   Use Intuitive Eating Check-In first. If physically hungry — protein-rich. If emotional — Emotions protocol.
 
-**Anti-Inflammatory Eating Guide** → `headache_index` > 25, chronic stress, cognitive fog
+**Anti-Inflammatory Eating Guide** → recurring migraines, chronic stress, cognitive fog
   Omega-3, polyphenols, turmeric + black pepper, zinc, Vit D.
   Avoid: vegetable seed oils, refined sugar, processed meat, excess alcohol.
   EEG changes visible in 2–4 weeks — suggest logging meals alongside sessions.

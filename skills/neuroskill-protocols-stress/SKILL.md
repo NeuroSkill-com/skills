@@ -52,7 +52,7 @@ For evidence collection rules, see [neuroskill-evidence](../neuroskill-evidence/
 **Open Monitoring** → low `lzc` (<40), low `integration`, mental narrowing
   Non-directed awareness — let thoughts and sounds arise without following. Raises LZC.
 
-**Relaxation Scan** → high cortical arousal, `headache_index` > 30
+**Relaxation Scan** → high cortical arousal, high `bar`
   Slow progressive softening: scalp → jaw → shoulders → hands → belly.
 
 ---

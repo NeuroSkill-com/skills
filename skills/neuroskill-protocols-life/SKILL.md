@@ -243,7 +243,7 @@ physical fatigue, outdoor/noisy environments, limited privacy, and no desk.)*
   At your vehicle or locker room. Sit down. Cold water on wrists and face. Name 3 things
   completed today. One thing to leave here (not carry home). Drive home deliberately. ~3 min.
 
-**Mid-Shift Pain Awareness** → high `headache_index`, physical strain, `stress_index` rising
+**Mid-Shift Pain Awareness** → reported head pain, physical strain, `stress_index` rising
   Locate the pain precisely. Rate 0–10. Is this "working hard" pain or "something's wrong" pain?
   If the latter, speak up — machismo kills. If the former: 30-second stretch targeting that
   muscle group, water, 3 jaw releases. ~2 min.
@@ -398,7 +398,7 @@ versions for common access needs.)*
   skip your shoulders for now… notice your face." Never instruct someone to "relax"
   a painful area or "breathe into the pain" without explicit consent. ~5 min.
 
-**Distraction-Based Pain Management** → high `headache_index`, chronic pain flare
+**Distraction-Based Pain Management** → reported migraine or chronic pain flare
   Cognitive absorption: count backward from 300 by 3s. Name every country you can.
   Recite song lyrics. Mental engagement competes with pain signalling at the thalamic
   gate. Not denial — attentional competition. ~5 min.

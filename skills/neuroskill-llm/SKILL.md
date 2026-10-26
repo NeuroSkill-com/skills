@@ -253,8 +253,8 @@ Signal Quality, Current Scores, Hooks, Sleep, Recording History) for easier comp
 
 ## Chat Persistence
 
-All conversations are **automatically persisted** to SQLite
-(`~/.skill/chats/chat_history.sqlite`):
+All conversations are **automatically persisted** to DuckDB
+(`~/.skill/chats/chat_history.duckdb`):
 
 - WebSocket / HTTP chats appear in the Chat window sidebar.
 - The server returns a `session_id` for multi-turn persistence across connections.

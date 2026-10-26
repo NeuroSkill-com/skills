@@ -266,7 +266,7 @@ Use this for commands not yet exposed as named CLI subcommands.
 npx neuroskill raw '{"command":"status"}'
 npx neuroskill raw '{"command":"sessions"}' --json
 npx neuroskill raw '{"command":"search","start_utc":1740412800,"end_utc":1740415500,"k":3}'
-npx neuroskill raw '{"command":"neurological"}' --json | jq '.neurological.headache_index'
+npx neuroskill raw '{"command":"neurological"}' --json | jq '.neurological.migraine_index'
 npx neuroskill raw '{"command":"label","text":"retrospective note","label_start_utc":1740412800}'
 ```
 
